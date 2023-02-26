@@ -1,0 +1,34 @@
+name: 'frontend-pull-request-checks'
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "apps/frontend/**"
+      - ".github/workflows/frontend-pull-request-checks.yml"
+
+defaults:
+  run:
+    working-directory: ./apps/frontend
+
+jobs:
+  pull-request-checks:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        cache: 'yarn'
+        cache-dependency-path: ./yarn.lock
+
+    - name: Install dependencies
+      run: yarn install --silent --production=true --frozen-lockfile
+
+    - name: Run tests
+      run: yarn test
