@@ -1,0 +1,9 @@
+{
+  "extends": "tsconfig/frontend-react.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "dist"
+  },
+  "include": ["src", "test", "vite.config.ts"],
+  "exclude": ["node_modules", "dist", "src/**/*.test.ts"],
+}

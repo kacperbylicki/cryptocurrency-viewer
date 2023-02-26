@@ -1,0 +1,8 @@
+{
+    "name": "eslint-config-frontend-linter",
+    "version": "0.0.0",
+    "main": "index.js",
+    "dependencies": {
+        "eslint-config-base-linter": "*"
+    }
+}

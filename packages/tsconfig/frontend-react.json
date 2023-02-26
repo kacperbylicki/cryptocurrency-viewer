@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "frontend-react",
+  "extends": "./base.json",
+  "compilerOptions": {
+    "composite": true,
+    "useDefineForClassFields": true,
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
+    "allowJs": false,
+    "esModuleInterop": false,
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
+  }
+}
