@@ -12,7 +12,7 @@
         "dist/**"
       ]
     },
-    "test": {
+    "test:unit": {
       "dependsOn": [
         "^build"
       ],
