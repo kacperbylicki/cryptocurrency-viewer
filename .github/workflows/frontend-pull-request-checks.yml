@@ -25,10 +25,10 @@ jobs:
       with:
         node-version: '18.x'
         cache: 'yarn'
-        cache-dependency-path: ./yarn.lock
+        cache-dependency-path: yarn.lock
 
     - name: Install dependencies
-      run: yarn install --silent --production=true --frozen-lockfile
+      run: yarn install --silent --frozen-lockfile
 
     - name: Run tests
       run: yarn test:unit
