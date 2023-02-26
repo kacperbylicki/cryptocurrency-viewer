@@ -44,4 +44,3 @@ RUN apk update
 WORKDIR /app
 COPY --from=sourcer /app/ .
 WORKDIR /app/apps/frontend/
-ENTRYPOINT ["yarn", "start:dev"]
