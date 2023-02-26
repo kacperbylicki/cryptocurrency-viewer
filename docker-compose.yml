@@ -7,7 +7,7 @@ services:
     volumes:
       - cryptocurrency-viewer-mongodb:/data/db
     ports:
-      - ${MONGODB_PORT:-27010}:${MONGODB_PORT:-27017}
+      - ${MONGODB_PORT:-27017}:${MONGODB_PORT:-27017}
     restart: unless-stopped
 
   backend:
@@ -19,9 +19,10 @@ services:
     volumes:
       - ./:/app
       - /app/node_modules
+    env_file: .env
     ports:
-      - ${BACKEND_PORT:-3010}:${BACKEND_PORT:-3000}
-      - ${BACKEND_DEBUGGER_PORT:-9210}:${BACKEND_DEBUGGER_PORT:-9229}
+      - ${BACKEND_PORT:-3000}:${BACKEND_PORT:-3000}
+      - ${BACKEND_DEBUGGER_PORT:-9229}:${BACKEND_DEBUGGER_PORT:-9229}
     restart: unless-stopped
 
   frontend:
