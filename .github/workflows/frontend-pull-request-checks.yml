@@ -28,7 +28,7 @@ jobs:
         cache-dependency-path: ./yarn.lock
 
     - name: Install dependencies
-      run: yarn install --silent --production=true --frozen-lockfile
+      run: yarn install --silent --frozen-lockfile
 
     - name: Run tests
       run: yarn test:unit
