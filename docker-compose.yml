@@ -1,0 +1,41 @@
+services:
+  mongodb:
+    container_name: cryptocurrency-viewer-mongodb
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGODB_DATABASE}
+    volumes:
+      - cryptocurrency-viewer-mongodb:/data/db
+    ports:
+      - ${MONGODB_PORT:-27010}:${MONGODB_PORT:-27017}
+    restart: unless-stopped
+
+  backend:
+    container_name: cryptocurrency-viewer-backend
+    build:
+      context: .
+      dockerfile: ./apps/backend/Dockerfile
+      target: development
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - ${BACKEND_PORT:-3010}:${BACKEND_PORT:-3000}
+      - ${BACKEND_DEBUGGER_PORT:-9210}:${BACKEND_DEBUGGER_PORT:-9229}
+    restart: unless-stopped
+
+  frontend:
+    container_name: cryptocurrency-viewer-frontend
+    build:
+      context: .
+      dockerfile: ./apps/frontend/Dockerfile
+      target: development
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - ${FRONTEND_PORT:-8010}:${FRONTEND_PORT:-5173}
+    restart: unless-stopped
+
+volumes:
+  cryptocurrency-viewer-mongodb:
