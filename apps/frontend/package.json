@@ -7,7 +7,9 @@
     "start:dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test:unit": "vitest"
+    "test:unit": "vitest run",
+    "test:watch": "vitest",
+    "test:cov": "vitest --coverage"
   },
   "dependencies": {
     "react": "^18.2.0",
