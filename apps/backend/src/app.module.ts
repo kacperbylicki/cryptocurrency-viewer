@@ -1,12 +1,9 @@
 import { AppConfig } from './config/app.config';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule } from '@unifig/nest';
+import { HealthModule } from './modules/health/health.module';
 import { Module } from '@nestjs/common';
 
 @Module({
-  imports: [ConfigModule.forRoot({ default: AppConfig })],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [ConfigModule.forRoot({ default: AppConfig }), HealthModule],
 })
 export class AppModule {}
