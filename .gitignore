@@ -23,6 +23,7 @@ yarn-error.log*
 
 # turbo
 .turbo
+**/*/.turbo
 
 # yarn v2
 .yarn/cache

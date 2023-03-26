@@ -1,4 +1,4 @@
 module.exports = {
   root: true,
-  extends: ['base-linter'],
+  extends: ['base'],
 };

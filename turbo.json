@@ -1,6 +1,7 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": [
+    ".env",
     "**/.env"
   ],
   "pipeline": {
@@ -13,12 +14,28 @@
       ]
     },
     "test:unit": {
+      "outputs": [
+        "coverage/**"
+      ],
       "dependsOn": [
         "^build"
       ],
+      "inputs": [
+        "test/unit/**/*.ts"
+      ],
+      "outputMode": "full"
+    },
+    "test:integration": {
       "outputs": [
         "coverage/**"
-      ]
+      ],
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "test/integration/**/*.ts"
+      ],
+      "outputMode": "full"
     },
     "test:ci": {
       "cache": false
