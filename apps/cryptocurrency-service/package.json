@@ -13,9 +13,9 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test:unit": "jest --config=test/unit/jest.config.js",
-    "test:integration": "jest --config=test/integration/jest.config.js",
-    "test:ci": "jest --config=test/unit/jest.config.js --ci --runInBand",
+    "test:unit": "jest --config=test/unit/jest.config.js --passWithNoTests",
+    "test:integration": "jest --config=test/integration/jest.config.js --passWithNoTests",
+    "test:ci": "jest --config=test/unit/jest.config.js --ci --runInBand --passWithNoTests",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand"
