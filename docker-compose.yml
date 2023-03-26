@@ -1,28 +1,75 @@
 services:
-  mongodb:
-    container_name: cryptocurrency-viewer-mongodb
+  accounts-mongodb:
+    container_name: cryptocurrency-viewer-accounts-mongodb
     image: mongo:latest
     environment:
-      MONGO_INITDB_DATABASE: ${MONGODB_DATABASE}
+      MONGO_INITDB_DATABASE: ${MONGODB_ACCOUNTS_DATABASE}
     volumes:
-      - cryptocurrency-viewer-mongodb:/data/db
+      - cryptocurrency-viewer-accounts-mongodb:/data/db
     ports:
-      - ${MONGODB_PORT:-27017}:${MONGODB_PORT:-27017}
+      - ${MONGODB_ACCOUNTS_PORT:-27017}:${MONGODB_ACCOUNTS_PORT:-27017}
+    command: mongod --port ${MONGODB_ACCOUNTS_PORT}
     restart: unless-stopped
 
-  backend:
-    container_name: cryptocurrency-viewer-backend
+  cryptocurrencies-mongodb:
+    container_name: cryptocurrency-viewer-cryptocurrencies-mongodb
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGODB_CRYPTOCURRENCIES_DATABASE}
+    volumes:
+      - cryptocurrency-viewer-cryptocurrencies-mongodb:/data/db
+    ports:
+      - ${MONGODB_CRYPTOCURRENCIES_PORT:-27018}:${MONGODB_CRYPTOCURRENCIES_PORT:-27018}
+    command: mongod --port ${MONGODB_CRYPTOCURRENCIES_PORT}
+    restart: unless-stopped
+
+  api-gateway:
+    container_name: cryptocurrency-viewer-api-gateway
     build:
       context: .
-      dockerfile: ./apps/backend/Dockerfile
+      dockerfile: ./apps/api-gateway/Dockerfile
       target: development
     volumes:
       - ./:/app
       - /app/node_modules
     env_file: .env
     ports:
-      - ${BACKEND_PORT:-3000}:${BACKEND_PORT:-3000}
-      - ${BACKEND_DEBUGGER_PORT:-9229}:${BACKEND_DEBUGGER_PORT:-9229}
+      - ${API_GATEWAY_PORT:-50000}:${API_GATEWAY_PORT:-50000}
+      - ${API_GATEWAY_DEBUGGER_PORT:-9229}:${API_GATEWAY_DEBUGGER_PORT:-9229}
+    restart: unless-stopped
+
+  accounts-service:
+    container_name: cryptocurrency-viewer-accounts-service
+    build:
+      context: .
+      dockerfile: ./apps/account-service/Dockerfile
+      target: development
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    env_file: .env
+    ports:
+      - ${ACCOUNTS_SERVICE_PORT:-50050}:${ACCOUNTS_SERVICE_PORT:-50050}
+      - ${ACCOUNTS_SERVICE_DEBUGGER_PORT:-9230}:${ACCOUNTS_SERVICE_DEBUGGER_PORT:-9230}
+    depends_on:
+      - accounts-mongodb
+    restart: unless-stopped
+
+  cryptocurrencies-service:
+    container_name: cryptocurrency-viewer-cryptocurrencies-service
+    build:
+      context: .
+      dockerfile: ./apps/cryptocurrency-service/Dockerfile
+      target: development
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    env_file: .env
+    ports:
+      - ${CRYPTOCURRENCIES_SERVICE_PORT:-50051}:${CRYPTOCURRENCIES_SERVICE_PORT:-50051}
+      - ${CRYPTOCURRENCIES_SERVICE_DEBUGGER_PORT:-9231}:${CRYPTOCURRENCIES_SERVICE_DEBUGGER_PORT:-9231}
+    depends_on:
+      - cryptocurrencies-mongodb
     restart: unless-stopped
 
   frontend:
@@ -40,4 +87,5 @@ services:
     restart: unless-stopped
 
 volumes:
-  cryptocurrency-viewer-mongodb:
+  cryptocurrency-viewer-accounts-mongodb:
+  cryptocurrency-viewer-cryptocurrencies-mongodb:

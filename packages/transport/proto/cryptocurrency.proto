@@ -1,0 +1,149 @@
+syntax = "proto3";
+
+package cryptocurrency;
+
+service CryptocurrencyService {
+    rpc GetFavoriteCryptocurrencies (GetFavoriteCryptocurrenciesRequest) returns (GetFavoriteCryptocurrenciesResponse) {}
+    rpc UpsertFavoriteCryptocurrency (UpsertFavoriteCryptocurrencyRequest) returns (UpsertFavoriteCryptocurrencyResponse) {}
+    rpc GetCryptocurrencyNews (GetCryptocurrencyNewsRequest) returns (GetCryptocurrencyNewsResponse) {}
+    rpc GetCryptocurrencyHistory (GetCryptocurrencyHistoryRequest) returns (GetCryptocurrencyHistoryResponse) {}
+    rpc GetCryptocurrencies (GetCryptocurrenciesRequest) returns (GetCryptocurrenciesResponse) {}
+    rpc GetCryptocurrency (GetCryptocurrencyRequest) returns (GetCryptocurrencyResponse) {}
+    rpc GetCryptocurrencyTimeline (GetCryptocurrencyTimelineRequest) returns (GetCryptocurrencyTimelineResponse) {}
+}
+
+message Cryptocurrency {
+    string uuid = 1;
+    string change = 2;
+    string iconUrl = 3;
+    string name = 4;
+    string price = 5;
+    int32 rank = 6;
+    string symbol = 7;
+    string dailyVolume = 8;
+    string marketCap = 9;
+    repeated string sparkline = 10;
+}
+
+message FavoriteCryptocurrency {
+    Cryptocurrency cryptocurrency = 1;
+    bool isFavorite = 2;
+}
+
+message CryptocurrencyNews {
+    message Image {
+        string contentUrl = 1;
+        int32 width = 2;
+        int32 height = 3;
+    }
+
+    enum Category {
+        Business = 0;
+        Entertainment = 1;
+    }
+
+    string name = 1;
+    string url = 2;
+    Image image = 3;
+    string description = 4;
+    string datePublished = 5;
+    Category category = 6;
+}
+
+message CryptocurrencyHistory {
+    message History {
+        string price = 1;
+        int64 timestamp = 2;
+    }
+
+    string change = 1;
+    repeated History history = 2;
+}
+
+// GetFavoriteCryptocurrencies
+message GetFavoriteCryptocurrenciesRequest {
+    string userId = 1;
+}
+
+message GetFavoriteCryptocurrenciesResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    repeated FavoriteCryptocurrency data = 3;
+}
+
+// UpsertFavoriteCryptocurrency
+message UpsertFavoriteCryptocurrencyRequest {
+    string userId = 1;
+    Cryptocurrency cryptocurrency = 2;
+    bool isFavorite = 3;
+}
+
+message UpsertFavoriteCryptocurrencyResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    optional FavoriteCryptocurrency data = 3;
+}
+
+// GetCryptocurrencyNews
+message GetCryptocurrencyNewsRequest {
+    string category = 1;
+    int32 limit = 2;
+}
+
+message GetCryptocurrencyNewsResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    repeated CryptocurrencyNews data = 3;
+}
+
+// GetCryptocurrencyHistory
+message GetCryptocurrencyHistoryRequest {
+    string cryptocurrencyId = 1;
+    string timePeriod = 2;
+}
+
+message GetCryptocurrencyHistoryResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    optional CryptocurrencyHistory data = 3;
+}
+
+// GetCryptocurrencies
+message GetCryptocurrenciesRequest {
+    string timePeriod = 1;
+    int32 tiers = 2;
+    string orderBy = 3;
+    string orderDirection = 4;
+    int32 limit = 5;
+    int32 offset = 6;
+}
+
+message GetCryptocurrenciesResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    repeated Cryptocurrency data = 3;
+}
+
+// GetCryptocurrency
+message GetCryptocurrencyRequest {
+    string cryptocurrencyId = 1;
+    string timePeriod = 2;
+}
+
+message GetCryptocurrencyResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    optional Cryptocurrency data = 3;
+}
+
+// GetCryptocurrencyTimeline
+message GetCryptocurrencyTimelineRequest {
+    string cryptocurrencyId = 1;
+    string timePeriod = 2;
+}
+
+message GetCryptocurrencyTimelineResponse {
+    int32 status = 1;
+    repeated string error = 2;
+    optional Cryptocurrency data = 3;
+}
