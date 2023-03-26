@@ -412,4 +412,4 @@
 //     });
 //   });
 // });
-export {};
+export default {};

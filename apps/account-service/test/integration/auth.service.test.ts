@@ -126,4 +126,4 @@
 //     });
 //   });
 // });
-export {};
+export default {};

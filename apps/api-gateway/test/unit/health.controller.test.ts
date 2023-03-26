@@ -26,4 +26,4 @@
 //     expect(health.status).toEqual('ok');
 //   });
 // });
-export {};
+export default {};

@@ -90,4 +90,4 @@
 //     });
 //   });
 // });
-export {};
+export default {};
