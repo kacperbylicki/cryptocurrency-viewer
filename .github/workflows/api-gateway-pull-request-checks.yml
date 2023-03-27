@@ -31,5 +31,8 @@ jobs:
     - name: Install dependencies
       run: yarn install --silent --frozen-lockfile
 
+    - name: Build packages
+      run: yarn build
+
     - name: Run tests
       run: yarn turbo run --scope=@cryptocurrency-viewer/api-gateway test:ci
