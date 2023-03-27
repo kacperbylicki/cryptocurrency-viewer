@@ -31,5 +31,8 @@ jobs:
     - name: Install dependencies
       run: yarn install --silent --frozen-lockfile
 
+    - name: Build @cryptocurrency-viewer/testing
+      run: cd packages/testing && yarn install --silent --frozen-lockfile && yarn build
+
     - name: Run tests
       run: yarn test:ci
