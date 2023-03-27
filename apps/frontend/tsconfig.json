@@ -1,5 +1,5 @@
 {
-  "extends": "tsconfig/frontend-react.json",
+  "extends": "@cryptocurrency-viewer/tsconfig/frontend-react.json",
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "dist"
