@@ -32,7 +32,7 @@ jobs:
       run: yarn install --silent --frozen-lockfile
 
     - name: Build packages
-      run: yarn build
+      run: yarn turbo run build
 
     - name: Run tests
       run: yarn turbo run --scope=@cryptocurrency-viewer/account-service test:ci
