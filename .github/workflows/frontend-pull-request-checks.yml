@@ -32,4 +32,4 @@ jobs:
       run: yarn install --silent --frozen-lockfile
 
     - name: Run tests
-      run: yarn test:ci
+      run: yarn turbo run --scope=@cryptocurrency-viewer/frontend test:ci
