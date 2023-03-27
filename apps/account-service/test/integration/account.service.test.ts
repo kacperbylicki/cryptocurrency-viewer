@@ -25,7 +25,7 @@ import { RegisterRequestDto } from '../../src/modules/account/dtos/register-requ
 import { Test, TestingModule } from '@nestjs/testing';
 import { v4 as uuidv4 } from 'uuid';
 
-describe.skip('AccountService', () => {
+describe('AccountService', () => {
   const mongooseTestModule = new MongooseTestModule();
 
   let moduleRef: TestingModule;

@@ -7,7 +7,7 @@ import { HttpStatus } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 
-describe.skip('AuthService', () => {
+describe('AuthService', () => {
   let moduleRef: TestingModule;
 
   let authService: AuthService;

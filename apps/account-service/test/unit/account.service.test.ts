@@ -7,7 +7,7 @@ import { Test } from '@nestjs/testing';
 import { createMock } from '@golevelup/ts-jest';
 // import { AuthService } from 'src/modules/account/service/auth.service';
 
-describe.skip('AccountService', () => {
+describe('AccountService', () => {
   let accountService: AccountService;
   //   let authService: AuthService;
   let accountRepository: AccountRepository;
