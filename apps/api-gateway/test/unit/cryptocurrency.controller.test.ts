@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 import { Test, TestingModule } from '@nestjs/testing';
 import { createMock } from '@golevelup/ts-jest';
 
-describe.skip('CryptocurrencyController', () => {
+describe('CryptocurrencyController', () => {
   let controller: CryptocurrencyController;
   let client: CryptocurrencyServiceClient;
 
@@ -45,6 +45,9 @@ describe.skip('CryptocurrencyController', () => {
           price: '123.45',
           rank: 1,
           iconUrl: 'https://example.com/icon.png',
+          sparkline: [],
+          marketCap: '123.45',
+          dailyVolume: '123.45',
         },
         isFavorite: true,
       };

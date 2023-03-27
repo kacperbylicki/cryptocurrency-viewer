@@ -7,7 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { createMock as autoMocker } from '@golevelup/ts-jest';
 
-describe.skip('AuthService', () => {
+describe('AuthService', () => {
   let moduleRef: TestingModule;
 
   let authService: AuthService;
