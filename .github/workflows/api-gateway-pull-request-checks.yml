@@ -1,16 +1,16 @@
-name: 'backend-pull-request-checks'
+name: 'api-gateway-pull-request-checks'
 
 on:
   pull_request:
     branches:
       - main
     paths:
-      - "apps/backend/**"
-      - ".github/workflows/backend-pull-request-checks.yml"
+      - "apps/api-gateway/**"
+      - ".github/workflows/api-gateway-pull-request-checks.yml"
 
 defaults:
   run:
-    working-directory: ./apps/backend
+    working-directory: ./apps/api-gateway
 
 jobs:
   pull-request-checks:
