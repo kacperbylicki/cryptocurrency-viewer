@@ -31,4 +31,4 @@ jobs:
       run: yarn install --silent --frozen-lockfile
 
     - name: Run tests
-      run: yarn test:unit
+      run: yarn test:ci
