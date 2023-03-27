@@ -1,4 +1,7 @@
-export default {
+import { baseConfig } from './base';
+
+export const backendConfig = {
+  ...baseConfig,
   rootDir: '.',
   testMatch: ['**/?(*.)+(spec|test).[jt]s?(x)'],
   transform: {

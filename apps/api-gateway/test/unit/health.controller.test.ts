@@ -2,7 +2,7 @@ import { HealthController, HealthModule } from '@/modules';
 import { MemoryHealthIndicator } from '@nestjs/terminus';
 import { Test, TestingModule } from '@nestjs/testing';
 
-describe.skip('HealthController', () => {
+describe('HealthController', () => {
   let controller: HealthController;
 
   beforeEach(async () => {

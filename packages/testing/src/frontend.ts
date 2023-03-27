@@ -1,1 +1,5 @@
-export default {};
+import { baseConfig } from './base';
+
+export const frontendConfig = {
+  ...baseConfig,
+};

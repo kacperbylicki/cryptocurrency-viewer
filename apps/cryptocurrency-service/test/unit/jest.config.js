@@ -1,5 +1,5 @@
 module.exports = {
-  ...require('@cryptocurrency-viewer/testing').backendJestConfig,
+  ...require('@cryptocurrency-viewer/testing').backendConfig,
   displayName: 'unit-tests',
   roots: ['<rootDir>'],
   testMatch: ['<rootDir>/**/*.(spec|test).(ts|js)'],

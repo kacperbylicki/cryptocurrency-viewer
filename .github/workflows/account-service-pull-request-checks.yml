@@ -15,6 +15,7 @@ defaults:
 jobs:
   pull-request-checks:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
     - name: Checkout code
@@ -30,5 +31,8 @@ jobs:
     - name: Install dependencies
       run: yarn install --silent --frozen-lockfile
 
+    - name: Build packages
+      run: yarn turbo run build
+
     - name: Run tests
-      run: yarn test:unit
+      run: yarn turbo run --scope=@cryptocurrency-viewer/account-service test:ci
