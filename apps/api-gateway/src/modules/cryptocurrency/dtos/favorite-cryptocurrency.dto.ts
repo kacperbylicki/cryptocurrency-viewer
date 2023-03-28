@@ -7,10 +7,10 @@ export class UpsertFavoriteCryptocurrencyRequestDto
 {
   @ApiProperty({
     description: 'Cryptocurrency we want to add or update',
-    type: CryptocurrencyDto,
+    type: () => CryptocurrencyDto,
   })
   public cryptocurrency!: CryptocurrencyDto;
 
-  @ApiProperty({ example: true })
+  @ApiProperty({ type: Boolean, example: true })
   public isFavorite!: boolean;
 }

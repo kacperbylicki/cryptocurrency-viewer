@@ -12,6 +12,7 @@ import {
   HttpStatus,
   Param,
   Put,
+  Query,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -36,6 +37,7 @@ import {
 import {
   HttpStatusInterceptor,
   JwtAuthGuard,
+  Public,
   RequestAccountId,
   TimeoutInterceptor,
 } from '@/common';
@@ -77,51 +79,64 @@ export class CryptocurrencyController {
     return this.client.getFavoriteCryptocurrencies({ userId: accountId });
   }
 
+  @Public()
   @Get()
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ description: '' })
   async getCryptocurrencies(
-    @Body() dto: GetCryptocurrenciesDto,
+    @Query() queryParams: GetCryptocurrenciesDto,
   ): Promise<Observable<GetCryptocurrenciesResponse>> {
-    return this.client.getCryptocurrencies(dto);
+    return this.client.getCryptocurrencies(queryParams);
   }
 
+  @Public()
   @Get(':cryptocurrencyId')
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ description: '' })
   async getCryptocurrency(
     @Param('cryptocurrencyId') cryptocurrencyId: string,
-    @Body() dto: GetCryptocurrencyDto,
+    @Query() queryParams: GetCryptocurrencyDto,
   ): Promise<Observable<GetCryptocurrencyResponse>> {
-    return this.client.getCryptocurrency({ cryptocurrencyId, ...dto });
+    return this.client.getCryptocurrency({ cryptocurrencyId, ...queryParams });
   }
 
+  @Public()
   @Get(':cryptocurrencyId/history')
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ description: '' })
   async getCryptocurrencyHistory(
     @Param('cryptocurrencyId') cryptocurrencyId: string,
-    @Body() dto: GetCryptocurrencyHistoryRequestDto,
+    @Query() queryParams: GetCryptocurrencyHistoryRequestDto,
   ): Promise<Observable<GetCryptocurrencyHistoryResponse>> {
-    return this.client.getCryptocurrencyHistory({ cryptocurrencyId, ...dto });
+    return this.client.getCryptocurrencyHistory({
+      cryptocurrencyId,
+      ...queryParams,
+    });
   }
 
+  @Public()
   @Get('news')
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({ description: '' })
   async getCryptocurrencyNews(
-    @Body() dto: GetCryptocurrencyNewsRequestDto,
+    @Query() queryParams: GetCryptocurrencyNewsRequestDto,
   ): Promise<Observable<GetCryptocurrencyNewsResponse>> {
-    return this.client.getCryptocurrencyNews(dto);
+    return this.client.getCryptocurrencyNews(queryParams);
   }
 
+  @Public()
   @Get(':cryptocurrencyId/timeline')
   @HttpCode(HttpStatus.OK)
-  @ApiOkResponse({ description: '' })
+  @ApiOkResponse({
+    description: '',
+  })
   async getCryptocurrencyTimeline(
     @Param('cryptocurrencyId') cryptocurrencyId: string,
-    @Body() dto: GetCryptocurrencyTimelineRequestDto,
+    @Query() queryParams: GetCryptocurrencyTimelineRequestDto,
   ): Promise<Observable<GetCryptocurrencyTimelineResponse>> {
-    return this.client.getCryptocurrencyTimeline({ cryptocurrencyId, ...dto });
+    return this.client.getCryptocurrencyTimeline({
+      cryptocurrencyId,
+      ...queryParams,
+    });
   }
 }

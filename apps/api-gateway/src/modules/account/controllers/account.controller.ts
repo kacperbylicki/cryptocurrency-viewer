@@ -8,6 +8,7 @@ import {
 } from '@cryptocurrency-viewer/transport';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiTags,
@@ -24,6 +25,15 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import {
+  GetAccountResponseDto,
+  LoginRequestDto,
+  LoginResponseDto,
+  RefreshTokenRequestDto,
+  RefreshTokenResponseDto,
+  RegisterRequestDto,
+  RegisterResponseDto,
+} from '../dtos';
+import {
   HttpStatusInterceptor,
   JwtAuthGuard,
   Public,
@@ -32,7 +42,6 @@ import {
   RequestRefreshToken,
   TimeoutInterceptor,
 } from '@/common';
-import { LoginRequestDto, RegisterRequestDto } from '../dtos';
 import { Observable } from 'rxjs';
 
 @Controller('accounts')
@@ -45,6 +54,7 @@ export class AccountController {
   @Get('me')
   @ApiUnauthorizedResponse({ description: `Invalid token` })
   @ApiOkResponse({
+    type: GetAccountResponseDto,
     description: `Currently logged account retrieved`,
   })
   @ApiBearerAuth()
@@ -58,7 +68,7 @@ export class AccountController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @ApiUnauthorizedResponse({ description: `Invalid token` })
-  @ApiOkResponse({ description: `Logged in` })
+  @ApiOkResponse({ type: LoginResponseDto, description: `Logged in` })
   async login(
     @Body() dto: LoginRequestDto,
   ): Promise<Observable<LoginResponse>> {
@@ -67,7 +77,10 @@ export class AccountController {
 
   @Public()
   @Post('register')
-  @ApiCreatedResponse({ description: `Account created` })
+  @ApiCreatedResponse({
+    type: RegisterResponseDto,
+    description: `Account created`,
+  })
   async register(
     @Body() dto: RegisterRequestDto,
   ): Promise<Observable<RegisterResponse>> {
@@ -90,7 +103,11 @@ export class AccountController {
   @Post('refresh-token')
   @HttpCode(HttpStatus.OK)
   @ApiUnauthorizedResponse({ description: `Invalid token` })
-  @ApiOkResponse({ description: `Access token refreshed` })
+  @ApiOkResponse({
+    type: RefreshTokenResponseDto,
+    description: `Access token refreshed`,
+  })
+  @ApiBody({ type: RefreshTokenRequestDto })
   async refreshToken(
     @RequestAccountId() accountId: string,
     @RequestRefreshToken() refreshToken: string,
