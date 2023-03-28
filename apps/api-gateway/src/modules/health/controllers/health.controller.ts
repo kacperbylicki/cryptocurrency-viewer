@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { Controller, Get, UseInterceptors } from '@nestjs/common';
 import {
   HealthCheck,
   HealthCheckResult,
@@ -6,8 +7,11 @@ import {
   HealthIndicatorResult,
   MemoryHealthIndicator,
 } from '@nestjs/terminus';
+import { TimeoutInterceptor } from '@/common';
 
 @Controller('health')
+@ApiTags(HealthController.name)
+@UseInterceptors(TimeoutInterceptor)
 export class HealthController {
   constructor(
     private readonly health: HealthCheckService,

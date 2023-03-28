@@ -1,76 +1,79 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CryptocurrencyDto {
-  @ApiProperty({ example: `ab3e825e-a542-49ba-8aaa-2340deecc2b0` })
+  @ApiProperty({
+    type: String,
+    example: `ab3e825e-a542-49ba-8aaa-2340deecc2b0`,
+  })
   uuid!: string;
 
-  @ApiProperty({ example: `-0.98%` })
+  @ApiProperty({ type: String, example: `-0.98%` })
   change!: string;
 
-  @ApiProperty({ example: `https://example.com/bitcoin.jpg` })
+  @ApiProperty({ type: String, example: `https://example.com/bitcoin.jpg` })
   iconUrl!: string;
 
-  @ApiProperty({ example: `Bitcoin` })
+  @ApiProperty({ type: String, example: `Bitcoin` })
   name!: string;
 
-  @ApiProperty({ example: `22209` })
+  @ApiProperty({ type: String, example: `22209` })
   price!: string;
 
-  @ApiProperty({ example: 1 })
+  @ApiProperty({ type: Number, example: 1 })
   rank!: number;
 
-  @ApiProperty({ example: `BTC` })
+  @ApiProperty({ type: String, example: `BTC` })
   symbol!: string;
 
-  @ApiProperty({ example: [] })
+  @ApiProperty({ type: [String], example: [] })
   sparkline!: string[];
 
-  @ApiProperty({ example: '1000000000' })
+  @ApiProperty({ type: String, example: '1000000000' })
   marketCap!: string;
 
-  @ApiProperty({ example: '1000' })
+  @ApiProperty({ type: String, example: '1000' })
   dailyVolume!: string;
 }
 
 export class GetCryptocurrenciesDto {
-  @ApiProperty({ example: '' })
+  @ApiProperty({ type: String, example: '' })
   timePeriod!: string;
 
-  @ApiProperty({ example: 10 })
+  @ApiProperty({ type: Number, example: 10 })
   tiers!: number;
 
-  @ApiProperty({ example: '' })
+  @ApiProperty({ type: String, example: '' })
   orderBy!: string;
 
-  @ApiProperty({ example: '' })
+  @ApiProperty({ type: String, example: '' })
   orderDirection!: string;
 
-  @ApiProperty({ example: 10 })
+  @ApiProperty({ type: Number, example: 10 })
   limit!: number;
 
-  @ApiProperty({ example: 0 })
+  @ApiProperty({ type: Number, example: 0 })
   offset!: number;
 }
 
 export class GetCryptocurrencyDto {
-  @ApiProperty({ example: '' })
+  @ApiProperty({ type: String, example: '' })
   timePeriod!: string;
 }
 
 export class GetCryptocurrencyHistoryRequestDto {
-  @ApiProperty({ example: '' })
+  @ApiProperty({ type: String, example: '' })
   timePeriod!: string;
 }
 
 export class GetCryptocurrencyNewsRequestDto {
-  @ApiProperty({ example: '' })
+  @ApiProperty({ type: String, example: '' })
   category!: string;
 
-  @ApiProperty({ example: '' })
+  @ApiProperty({ type: Number, example: '' })
   limit!: number;
 }
 
 export class GetCryptocurrencyTimelineRequestDto {
-  @ApiProperty({ example: '' })
+  @ApiProperty({ type: String, example: '' })
   timePeriod!: string;
 }
