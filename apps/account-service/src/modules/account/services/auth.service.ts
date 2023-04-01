@@ -50,17 +50,24 @@ export class AuthService {
   public async validateJwt(token: string): Promise<ValidateJwtResponse> {
     const { accessTokenSecret } = this.authConfig.values;
 
-    const decodedAccessToken = await this.jwtService.verifyAsync(token, {
-      secret: accessTokenSecret,
-    });
+    try {
+      const decodedAccessToken = await this.jwtService.verifyAsync(token, {
+        secret: accessTokenSecret,
+      });
 
-    return {
-      status: HttpStatus.OK,
-      data: {
-        isValid: true,
-        accountId: decodedAccessToken.uuid,
-      },
-    };
+      return {
+        status: HttpStatus.OK,
+        data: {
+          isValid: true,
+          accountId: decodedAccessToken.uuid,
+        },
+      };
+    } catch (error: any) {
+      return {
+        status: HttpStatus.UNAUTHORIZED,
+        error: [error?.message],
+      };
+    }
   }
 
   public async validateRefreshJwt(
@@ -68,16 +75,23 @@ export class AuthService {
   ): Promise<ValidateRefreshJwtResponse> {
     const { refreshTokenSecret } = this.authConfig.values;
 
-    const decodedRefreshToken = await this.jwtService.verifyAsync(token, {
-      secret: refreshTokenSecret,
-    });
+    try {
+      const decodedRefreshToken = await this.jwtService.verifyAsync(token, {
+        secret: refreshTokenSecret,
+      });
 
-    return {
-      status: HttpStatus.OK,
-      data: {
-        isValid: true,
-        accountId: decodedRefreshToken.uuid,
-      },
-    };
+      return {
+        status: HttpStatus.OK,
+        data: {
+          isValid: true,
+          accountId: decodedRefreshToken.uuid,
+        },
+      };
+    } catch (error: any) {
+      return {
+        status: HttpStatus.UNAUTHORIZED,
+        error: [error?.message],
+      };
+    }
   }
 }

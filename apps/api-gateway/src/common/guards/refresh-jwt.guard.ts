@@ -3,9 +3,9 @@ import {
   ExecutionContext,
   Inject,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '../../modules/account/services/jwt.service';
+import { UnauthorizedException } from '../exceptions';
 
 @Injectable()
 export class RefreshJwtAuthGuard implements CanActivate {
@@ -19,14 +19,14 @@ export class RefreshJwtAuthGuard implements CanActivate {
     const { refreshToken } = request.body;
 
     if (!refreshToken) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException(['invalid refresh token']);
     }
 
-    const { data: validationResponse } =
+    const { data: validationResponse, error: validationError } =
       await this.service.validateRefreshToken({ refreshToken });
 
     if (!validationResponse?.isValid) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException(validationError ?? []);
     }
 
     request.user = { accountId: validationResponse?.accountId };

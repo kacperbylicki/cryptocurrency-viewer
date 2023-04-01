@@ -8,8 +8,6 @@ import {
   GetCryptocurrencyNewsResponse,
   GetCryptocurrencyRequest,
   GetCryptocurrencyResponse,
-  GetCryptocurrencyTimelineRequest,
-  GetCryptocurrencyTimelineResponse,
 } from '../dtos';
 import { Injectable } from '@nestjs/common';
 
@@ -30,7 +28,7 @@ export class CryptocurrencyService {
 
       return {
         status: 200,
-        data: cryptocurrencies,
+        data: [...cryptocurrencies],
         error: [],
       };
     } catch (error: any) {
@@ -45,41 +43,12 @@ export class CryptocurrencyService {
       return {
         status: error?.response?.status,
         data: [],
-        error: [error?.response?.statusText],
+        error: [error?.response?.data?.message ?? error?.response?.statusText],
       };
     }
   }
 
-  async getCryptocurrencyTimeline(
-    payload: GetCryptocurrencyTimelineRequest,
-  ): Promise<GetCryptocurrencyTimelineResponse> {
-    try {
-      const cryptocurrencyTimeline =
-        await this.coinRankingClient.getCryptocurrencyTimeline(payload);
-
-      return {
-        status: 200,
-        data: cryptocurrencyTimeline,
-        error: [],
-      };
-    } catch (error: any) {
-      if (!error?.response) {
-        return {
-          status: 500,
-          data: undefined,
-          error: [error?.message],
-        };
-      }
-
-      return {
-        status: error?.response?.status,
-        data: undefined,
-        error: [error?.response?.statusText],
-      };
-    }
-  }
-
-  async getCryptocurrenciesHistory(
+  async getCryptocurrencyHistory(
     payload: GetCryptocurrencyHistoryRequest,
   ): Promise<GetCryptocurrencyHistoryResponse> {
     try {
@@ -103,7 +72,7 @@ export class CryptocurrencyService {
       return {
         status: error?.response?.status,
         data: undefined,
-        error: [error?.response?.statusText],
+        error: [error?.response?.data?.message ?? error?.response?.statusText],
       };
     }
   }
@@ -133,7 +102,7 @@ export class CryptocurrencyService {
       return {
         status: error?.response?.status,
         data: undefined,
-        error: [error?.response?.statusText],
+        error: [error?.response?.data?.message ?? error?.response?.statusText],
       };
     }
   }
@@ -162,7 +131,7 @@ export class CryptocurrencyService {
       return {
         status: error?.response?.status,
         data: [],
-        error: [error?.response?.statusText],
+        error: [error?.response?.data?.message ?? error?.response?.statusText],
       };
     }
   }

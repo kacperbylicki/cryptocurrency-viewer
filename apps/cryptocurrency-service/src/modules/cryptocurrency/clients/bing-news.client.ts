@@ -1,25 +1,43 @@
 import axios from 'axios';
+import { ConfigContainer } from '@unifig/core';
 import { CryptocurrencyNews } from '@cryptocurrency-viewer/transport';
+import { ExternalApiConfig } from '@/config';
 import { GetCryptocurrencyNewsRequest } from '../dtos';
+import { InjectConfig } from '@unifig/nest';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class BingNewsClient {
-  private readonly API_URL = 'https://bing-news-search1.p.rapidapi.com';
+  constructor(
+    @InjectConfig(ExternalApiConfig)
+    private config: ConfigContainer<ExternalApiConfig>,
+  ) {}
 
   async getCryptocurrencyNews(
     payload: GetCryptocurrencyNewsRequest,
   ): Promise<CryptocurrencyNews[]> {
-    const { data } = await axios.get<CryptocurrencyNews[]>(
-      `${this.API_URL}/news/search
-        ?q=${payload.category}
-        &safeSearch=Off
-        &textFormat=Raw
-        &freshness=Day
-        &count=${payload.limit}
-      `,
-    );
+    const { bingNewsApiHost, rapidApiKey } = this.config.values;
 
-    return data;
+    const options = {
+      method: 'GET',
+      url: `https://${bingNewsApiHost}/news/search`,
+      params: {
+        q: payload.category,
+        safeSearch: 'Off',
+        textFormat: 'Raw',
+        freshness: 'Day',
+        count: payload.limit,
+      },
+      headers: {
+        'X-RapidAPI-Host': bingNewsApiHost,
+        'X-RapidAPI-Key': rapidApiKey,
+      },
+    };
+
+    const {
+      data: { value: cryptocurrencyNews },
+    } = await axios.request<{ value: CryptocurrencyNews[] }>(options);
+
+    return cryptocurrencyNews;
   }
 }
