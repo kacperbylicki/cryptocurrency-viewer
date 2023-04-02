@@ -198,7 +198,7 @@ describe('AccountService', () => {
       ).toBe(true);
     });
 
-    it('should return HttpStatus.UNPROCESSABLE_ENTITY if account already exists', async () => {
+    it(`should return HttpStatus.UNPROCESSABLE_ENTITY with message "cannot process the request" if account already exists`, async () => {
       // given
       await accountService.register(payload);
 
@@ -207,7 +207,7 @@ describe('AccountService', () => {
 
       // then
       expect(response.status).toEqual(HttpStatus.UNPROCESSABLE_ENTITY);
-      expect(response.error).toEqual(['Account already exists']);
+      expect(response.error).toEqual(['cannot process the request']);
     });
 
     it('should return HttpStatus.UNPROCESSABLE_ENTITY if passwords do not match', async () => {
@@ -224,7 +224,7 @@ describe('AccountService', () => {
 
       // then
       expect(response.status).toEqual(HttpStatus.UNPROCESSABLE_ENTITY);
-      expect(response.error).toEqual(['Passwords do not match']);
+      expect(response.error).toEqual(['passwords does not match']);
     });
   });
 
@@ -269,7 +269,7 @@ describe('AccountService', () => {
 
       // then
       expect(response.status).toEqual(HttpStatus.UNAUTHORIZED);
-      expect(response.error).toEqual(['Invalid email or password']);
+      expect(response.error).toEqual(['invalid email or password']);
     });
 
     it('should return HttpStatus.UNAUTHORIZED if password is incorrect', async () => {
@@ -284,7 +284,7 @@ describe('AccountService', () => {
 
       // then
       expect(response.status).toEqual(HttpStatus.UNAUTHORIZED);
-      expect(response.error).toEqual(['Invalid email or password']);
+      expect(response.error).toEqual(['invalid email or password']);
     });
   });
 
@@ -346,7 +346,7 @@ describe('AccountService', () => {
 
       // then
       expect(response.status).toEqual(HttpStatus.UNAUTHORIZED);
-      expect(response.error).toEqual(['Invalid refresh token']);
+      expect(response.error).toEqual(['invalid refresh token']);
     });
 
     it('should return HttpStatus.UNAUTHORIZED if account ID is incorrect', async () => {
@@ -362,7 +362,7 @@ describe('AccountService', () => {
 
       // then
       expect(response.status).toEqual(HttpStatus.UNAUTHORIZED);
-      expect(response.error).toEqual(['Invalid refresh token']);
+      expect(response.error).toEqual(['invalid refresh token']);
     });
   });
 

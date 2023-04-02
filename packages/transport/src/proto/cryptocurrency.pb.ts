@@ -129,18 +129,6 @@ export interface GetCryptocurrencyResponse {
   data?: Cryptocurrency;
 }
 
-/** GetCryptocurrencyTimeline */
-export interface GetCryptocurrencyTimelineRequest {
-  cryptocurrencyId: string;
-  timePeriod: string;
-}
-
-export interface GetCryptocurrencyTimelineResponse {
-  status: number;
-  error: string[];
-  data?: Cryptocurrency;
-}
-
 export const CRYPTOCURRENCY_PACKAGE_NAME = 'cryptocurrency';
 
 export abstract class CryptocurrencyServiceClient {
@@ -167,10 +155,6 @@ export abstract class CryptocurrencyServiceClient {
   abstract getCryptocurrency(
     request: GetCryptocurrencyRequest,
   ): Observable<GetCryptocurrencyResponse>;
-
-  abstract getCryptocurrencyTimeline(
-    request: GetCryptocurrencyTimelineRequest,
-  ): Observable<GetCryptocurrencyTimelineResponse>;
 }
 
 export interface CryptocurrencyServiceController {
@@ -215,13 +199,6 @@ export interface CryptocurrencyServiceController {
     | Promise<GetCryptocurrencyResponse>
     | Observable<GetCryptocurrencyResponse>
     | GetCryptocurrencyResponse;
-
-  getCryptocurrencyTimeline(
-    request: GetCryptocurrencyTimelineRequest,
-  ):
-    | Promise<GetCryptocurrencyTimelineResponse>
-    | Observable<GetCryptocurrencyTimelineResponse>
-    | GetCryptocurrencyTimelineResponse;
 }
 
 export function CryptocurrencyServiceControllerMethods() {
@@ -233,7 +210,6 @@ export function CryptocurrencyServiceControllerMethods() {
       'getCryptocurrencyHistory',
       'getCryptocurrencies',
       'getCryptocurrency',
-      'getCryptocurrencyTimeline',
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(

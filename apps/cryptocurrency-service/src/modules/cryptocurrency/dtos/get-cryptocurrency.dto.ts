@@ -3,12 +3,11 @@ import {
   GetCryptocurrencyRequest as IGetCryptocurrencyRequest,
   GetCryptocurrencyResponse as IGetCryptocurrencyResponse,
 } from '@cryptocurrency-viewer/transport';
-import { IsIn, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsIn, IsNotEmpty, IsString } from 'class-validator';
 
 export class GetCryptocurrencyRequest implements IGetCryptocurrencyRequest {
   @IsNotEmpty()
   @IsString()
-  @IsUUID()
   cryptocurrencyId!: string;
 
   @IsNotEmpty()

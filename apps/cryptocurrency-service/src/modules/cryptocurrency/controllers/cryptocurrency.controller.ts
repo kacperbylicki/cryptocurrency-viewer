@@ -10,8 +10,6 @@ import {
   GetCryptocurrencyNewsResponse,
   GetCryptocurrencyRequest,
   GetCryptocurrencyResponse,
-  GetCryptocurrencyTimelineRequest,
-  GetCryptocurrencyTimelineResponse,
 } from '../dtos';
 import { GrpcMethod } from '@nestjs/microservices';
 
@@ -24,13 +22,6 @@ export class CryptocurrencyController {
     payload: GetCryptocurrenciesRequest,
   ): Promise<GetCryptocurrenciesResponse> {
     return this.cryptocurrencyService.getCryptocurrencies(payload);
-  }
-
-  @GrpcMethod(CRYPTOCURRENCY_SERVICE_NAME, 'GetCryptocurrencyTimeline')
-  async getCryptocurrencyTimeline(
-    payload: GetCryptocurrencyTimelineRequest,
-  ): Promise<GetCryptocurrencyTimelineResponse> {
-    return this.cryptocurrencyService.getCryptocurrencyTimeline(payload);
   }
 
   @GrpcMethod(CRYPTOCURRENCY_SERVICE_NAME, 'GetCryptocurrency')
@@ -47,10 +38,10 @@ export class CryptocurrencyController {
     return this.cryptocurrencyService.getCryptocurrencyNews(payload);
   }
 
-  @GrpcMethod(CRYPTOCURRENCY_SERVICE_NAME, 'GetCryptocurrenciesHistory')
-  async getCryptocurrenciesHistory(
+  @GrpcMethod(CRYPTOCURRENCY_SERVICE_NAME, 'GetCryptocurrencyHistory')
+  async getCryptocurrencyHistory(
     payload: GetCryptocurrencyHistoryRequest,
   ): Promise<GetCryptocurrencyHistoryResponse> {
-    return this.cryptocurrencyService.getCryptocurrenciesHistory(payload);
+    return this.cryptocurrencyService.getCryptocurrencyHistory(payload);
   }
 }

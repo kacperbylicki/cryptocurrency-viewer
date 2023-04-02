@@ -72,8 +72,3 @@ export class GetCryptocurrencyNewsRequestDto {
   @ApiProperty({ type: Number, example: '' })
   limit!: number;
 }
-
-export class GetCryptocurrencyTimelineRequestDto {
-  @ApiProperty({ type: String, example: '' })
-  timePeriod!: string;
-}

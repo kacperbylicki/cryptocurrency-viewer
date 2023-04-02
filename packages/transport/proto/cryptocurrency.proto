@@ -9,7 +9,6 @@ service CryptocurrencyService {
     rpc GetCryptocurrencyHistory (GetCryptocurrencyHistoryRequest) returns (GetCryptocurrencyHistoryResponse) {}
     rpc GetCryptocurrencies (GetCryptocurrenciesRequest) returns (GetCryptocurrenciesResponse) {}
     rpc GetCryptocurrency (GetCryptocurrencyRequest) returns (GetCryptocurrencyResponse) {}
-    rpc GetCryptocurrencyTimeline (GetCryptocurrencyTimelineRequest) returns (GetCryptocurrencyTimelineResponse) {}
 }
 
 message Cryptocurrency {
@@ -131,18 +130,6 @@ message GetCryptocurrencyRequest {
 }
 
 message GetCryptocurrencyResponse {
-    int32 status = 1;
-    repeated string error = 2;
-    optional Cryptocurrency data = 3;
-}
-
-// GetCryptocurrencyTimeline
-message GetCryptocurrencyTimelineRequest {
-    string cryptocurrencyId = 1;
-    string timePeriod = 2;
-}
-
-message GetCryptocurrencyTimelineResponse {
     int32 status = 1;
     repeated string error = 2;
     optional Cryptocurrency data = 3;

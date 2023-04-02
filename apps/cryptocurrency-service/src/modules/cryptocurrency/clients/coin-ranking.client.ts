@@ -1,60 +1,78 @@
 import axios from 'axios';
+import { ConfigContainer } from '@unifig/core';
 import {
   Cryptocurrency,
   CryptocurrencyHistory,
 } from '@cryptocurrency-viewer/transport';
+import { ExternalApiConfig } from '@/config';
 import {
   GetCryptocurrenciesRequest,
   GetCryptocurrencyHistoryRequest,
   GetCryptocurrencyRequest,
-  GetCryptocurrencyTimelineRequest,
 } from '../dtos';
+import { InjectConfig } from '@unifig/nest';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class CoinRankingClient {
-  private readonly API_URL = 'https://coinranking1.p.rapidapi.com';
-
-  async getCryptocurrencyTimeline(
-    payload: GetCryptocurrencyTimelineRequest,
-  ): Promise<Cryptocurrency> {
-    const { data } = await axios.get<Cryptocurrency>(
-      `${this.API_URL}/coin/${payload.cryptocurrencyId}
-        ?referenceCurrencyUuid=yhjMzLPhuIDl
-        &timePeriod=${payload.timePeriod}
-      `,
-    );
-
-    return data;
-  }
+  constructor(
+    @InjectConfig(ExternalApiConfig)
+    private config: ConfigContainer<ExternalApiConfig>,
+  ) {}
 
   async getCryptocurrencies(
     payload: GetCryptocurrenciesRequest,
   ): Promise<Cryptocurrency[]> {
-    const { data } = await axios.get<Cryptocurrency[]>(
-      `${this.API_URL}/coins
-        ?referenceCurrencyUuid=yhjMzLPhuIDl
-        &timePeriod=${payload.timePeriod}
-        &tiers=${payload.tiers}
-        &orderBy=${payload.orderBy}
-        &orderDirection=${payload.orderDirection}
-        &limit=${payload.limit}
-        &offset=${payload.offset}
-      `,
-    );
+    const { coinRankingApiHost, rapidApiKey } = this.config.values;
 
-    return data;
+    const options = {
+      method: 'GET',
+      url: `https://${coinRankingApiHost}/coins`,
+      params: {
+        referenceCurrencyUuid: 'yhjMzLPhuIDl',
+        timePeriod: payload.timePeriod,
+        tiers: payload.tiers,
+        orderBy: payload.orderBy,
+        orderDirection: payload.orderDirection,
+        limit: payload.limit,
+        offset: payload.offset,
+      },
+      headers: {
+        'X-RapidAPI-Host': coinRankingApiHost,
+        'X-RapidAPI-Key': rapidApiKey,
+      },
+    };
+
+    const {
+      data: {
+        data: { coins },
+      },
+    } = await axios.request(options);
+
+    return coins;
   }
 
   async getCryptocurrenciesHistory(
     payload: GetCryptocurrencyHistoryRequest,
   ): Promise<CryptocurrencyHistory> {
-    const { data } = await axios.get<CryptocurrencyHistory>(
-      `${this.API_URL}/coin/${payload.cryptocurrencyId}/history
-        ?referenceCurrencyUuid=yhjMzLPhuIDl
-        &timePeriod=${payload.timePeriod}
-      `,
-    );
+    const { coinRankingApiHost, rapidApiKey } = this.config.values;
+
+    const options = {
+      method: 'GET',
+      url: `https://${coinRankingApiHost}/coin/${payload.cryptocurrencyId}/history`,
+      params: {
+        referenceCurrencyUuid: 'yhjMzLPhuIDl',
+        timePeriod: payload.timePeriod,
+      },
+      headers: {
+        'X-RapidAPI-Host': coinRankingApiHost,
+        'X-RapidAPI-Key': rapidApiKey,
+      },
+    };
+
+    const {
+      data: { data },
+    } = await axios.request(options);
 
     return data;
   }
@@ -62,13 +80,27 @@ export class CoinRankingClient {
   async getCryptocurrency(
     payload: GetCryptocurrencyRequest,
   ): Promise<Cryptocurrency> {
-    const { data } = await axios.get<Cryptocurrency>(
-      `${this.API_URL}/coin/${payload.cryptocurrencyId}
-        ?referenceCurrencyUuid=yhjMzLPhuIDl
-        &timePeriod=${payload.timePeriod}
-      `,
-    );
+    const { coinRankingApiHost, rapidApiKey } = this.config.values;
 
-    return data;
+    const options = {
+      method: 'GET',
+      url: `https://${coinRankingApiHost}/coin/${payload.cryptocurrencyId}`,
+      params: {
+        referenceCurrencyUuid: 'yhjMzLPhuIDl',
+        timePeriod: payload.timePeriod,
+      },
+      headers: {
+        'X-RapidAPI-Host': coinRankingApiHost,
+        'X-RapidAPI-Key': rapidApiKey,
+      },
+    };
+
+    const {
+      data: {
+        data: { coin },
+      },
+    } = await axios.request(options);
+
+    return coin;
   }
 }

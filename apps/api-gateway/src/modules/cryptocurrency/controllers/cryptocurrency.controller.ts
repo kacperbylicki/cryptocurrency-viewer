@@ -22,7 +22,6 @@ import {
   GetCryptocurrencyHistoryResponse,
   GetCryptocurrencyNewsResponse,
   GetCryptocurrencyResponse,
-  GetCryptocurrencyTimelineResponse,
   GetFavoriteCryptocurrenciesResponse,
   UpsertFavoriteCryptocurrencyResponse,
 } from '@cryptocurrency-viewer/transport';
@@ -31,7 +30,6 @@ import {
   GetCryptocurrencyDto,
   GetCryptocurrencyHistoryRequestDto,
   GetCryptocurrencyNewsRequestDto,
-  GetCryptocurrencyTimelineRequestDto,
   UpsertFavoriteCryptocurrencyRequestDto,
 } from '../dtos';
 import {
@@ -122,21 +120,5 @@ export class CryptocurrencyController {
     @Query() queryParams: GetCryptocurrencyNewsRequestDto,
   ): Promise<Observable<GetCryptocurrencyNewsResponse>> {
     return this.client.getCryptocurrencyNews(queryParams);
-  }
-
-  @Public()
-  @Get(':cryptocurrencyId/timeline')
-  @HttpCode(HttpStatus.OK)
-  @ApiOkResponse({
-    description: '',
-  })
-  async getCryptocurrencyTimeline(
-    @Param('cryptocurrencyId') cryptocurrencyId: string,
-    @Query() queryParams: GetCryptocurrencyTimelineRequestDto,
-  ): Promise<Observable<GetCryptocurrencyTimelineResponse>> {
-    return this.client.getCryptocurrencyTimeline({
-      cryptocurrencyId,
-      ...queryParams,
-    });
   }
 }

@@ -1,4 +1,4 @@
-import { AppConfig, DatabaseConfig } from '@/config';
+import { AppConfig, DatabaseConfig, ExternalApiConfig } from '@/config';
 import { Config } from '@unifig/core';
 import { ConfigModule, getConfigContainerToken } from '@unifig/nest';
 import { CryptocurrencyModule } from '@/modules';
@@ -8,7 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      templates: [DatabaseConfig],
+      templates: [DatabaseConfig, ExternalApiConfig],
       default: AppConfig,
     }),
     MongooseModule.forRootAsync({
