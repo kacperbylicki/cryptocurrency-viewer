@@ -6,7 +6,7 @@ export type IconStyleProps = {
   pathname?: string;
 };
 
-export const StatisticIcon = (props: IconStyleProps) => (
+export const RankingIcon = (props: IconStyleProps) => (
   <RiMedalFill
     style={
       props.currentLocation === props.pathname
