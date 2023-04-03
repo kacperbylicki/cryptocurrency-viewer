@@ -1,10 +1,5 @@
 import { BiNews } from 'react-icons/bi';
-
-export type IconStyleProps = {
-  currentLocation?: string;
-  color?: string;
-  pathname?: string;
-};
+import { IconStyleProps } from '../../types/IconStyleProps';
 
 export const NewsIcon = (props: IconStyleProps) => (
   <BiNews

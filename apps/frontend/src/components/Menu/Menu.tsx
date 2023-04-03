@@ -5,9 +5,9 @@ import { Link, useLocation } from 'react-router-dom';
 import { MenuDataItem, menuData } from './MenuData';
 import { useState } from 'react';
 
-interface MenuProps {
+type MenuProps = {
   width: number;
-}
+};
 const Menu = ({ width }: MenuProps) => {
   const [activeMenu, setActiveMenu] = useState<boolean>(false);
   const location = useLocation();

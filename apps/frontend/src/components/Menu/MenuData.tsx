@@ -5,11 +5,11 @@ import { NewsIcon } from '../Icons/NewsIcon';
 import { RankingIcon } from '../Icons/RankingIcon';
 import { StatisticIcon } from '../Icons/StatisticIcon';
 
-export interface MenuDataItem {
+export type MenuDataItem = {
   path: string;
   label: string;
   icon: React.ElementType;
-}
+};
 
 export const menuData: MenuDataItem[] = [
   {

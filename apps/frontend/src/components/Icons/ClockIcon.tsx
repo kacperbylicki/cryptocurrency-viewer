@@ -1,10 +1,5 @@
 import { AiOutlineClockCircle } from 'react-icons/ai';
-
-export type IconStyleProps = {
-  currentLocation?: string;
-  color?: string;
-  pathname?: string;
-};
+import { IconStyleProps } from '../../types/IconStyleProps';
 
 export const ClockIcon = (props: IconStyleProps) => (
   <AiOutlineClockCircle

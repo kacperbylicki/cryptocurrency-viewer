@@ -1,10 +1,5 @@
+import { IconStyleProps } from '../../types/IconStyleProps';
 import { RiMedalFill } from 'react-icons/ri';
-
-export type IconStyleProps = {
-  currentLocation?: string;
-  color?: string;
-  pathname?: string;
-};
 
 export const RankingIcon = (props: IconStyleProps) => (
   <RiMedalFill
