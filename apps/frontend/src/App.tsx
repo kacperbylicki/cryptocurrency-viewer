@@ -1,5 +1,12 @@
-function App(): JSX.Element {
-  return <div className="App"></div>;
-}
+import './assets/styles/App.scss';
+import Root from './Root';
+
+const App = () => {
+  return (
+    <div className="App">
+      <Root />
+    </div>
+  );
+};
 
 export default App;
