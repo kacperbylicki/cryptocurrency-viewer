@@ -13,10 +13,12 @@ export class FavoriteCryptocurrencyRepository {
 
   public async upsertOne(
     payload: UpsertFavoriteCryptocurrencyRequest,
-  ): Promise<FavoriteCryptocurrency | undefined> {
+  ): Promise<FavoriteCryptocurrency | null> {
     const filter = {
       userId: payload.userId,
-      cryptocurrencyId: payload.cryptocurrency.uuid,
+      cryptocurrency: {
+        uuid: payload.cryptocurrency.uuid,
+      },
     };
 
     const options = {
@@ -29,7 +31,7 @@ export class FavoriteCryptocurrencyRepository {
       .lean()
       .exec();
 
-    return favoriteCryptocurrency ?? undefined;
+    return favoriteCryptocurrency;
   }
 
   public async findAllByUserId(

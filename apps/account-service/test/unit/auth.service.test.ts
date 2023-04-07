@@ -9,7 +9,6 @@ import { createMock as autoMocker } from '@golevelup/ts-jest';
 
 describe('AuthService', () => {
   let moduleRef: TestingModule;
-
   let authService: AuthService;
   let jwtService: JwtService;
 
