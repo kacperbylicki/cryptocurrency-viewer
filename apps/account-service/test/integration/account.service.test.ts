@@ -19,7 +19,7 @@ import {
   getConnectionToken,
   getModelToken,
 } from '@nestjs/mongoose';
-import { MongooseTestModule } from './mongo';
+import { MongooseTestModule } from '@cryptocurrency-viewer/testing';
 import { RefreshTokenRequestDto } from '../../src/modules/account/dtos/refresh-token-request.dto';
 import { RegisterRequestDto } from '../../src/modules/account/dtos/register-request.dto';
 import { Test, TestingModule } from '@nestjs/testing';
@@ -29,10 +29,11 @@ describe('AccountService', () => {
   const mongooseTestModule = new MongooseTestModule();
 
   let moduleRef: TestingModule;
-  let accountModel: Model<Account>;
 
   let accountService: AccountService;
   let accountRepository: AccountRepository;
+
+  let accountModel: Model<Account>;
 
   beforeAll(async () => {
     Config.registerSync({

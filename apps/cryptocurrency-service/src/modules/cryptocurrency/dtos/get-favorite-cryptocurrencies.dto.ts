@@ -19,5 +19,5 @@ export class GetFavoriteCryptocurrenciesResponse
 {
   status!: number;
   error!: string[];
-  data!: FavoriteCryptocurrency[];
+  data!: Omit<FavoriteCryptocurrency, 'userId'>[];
 }

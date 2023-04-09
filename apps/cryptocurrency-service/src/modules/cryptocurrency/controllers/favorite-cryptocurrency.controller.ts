@@ -19,7 +19,7 @@ export class FavoriteCryptocurrencyController {
   async upsertFavoriteCryptocurrency(
     payload: UpsertFavoriteCryptocurrencyRequest,
   ): Promise<UpsertFavoriteCryptocurrencyResponse> {
-    return this.favoriteCryptocurrencyService.upsertFavoriteCryptocurrencies(
+    return this.favoriteCryptocurrencyService.upsertFavoriteCryptocurrency(
       payload,
     );
   }
