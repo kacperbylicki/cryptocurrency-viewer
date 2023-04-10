@@ -1,4 +1,4 @@
-import { AccountConstraints } from '../enums/account-constraints.enum';
+import { AccountConstraints } from '../enums';
 import {
   IsEmail,
   IsNotEmpty,

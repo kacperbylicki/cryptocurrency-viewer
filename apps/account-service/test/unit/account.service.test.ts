@@ -1,15 +1,11 @@
-import { Account } from '../../src/modules/account/entities/account.entity';
-import { AccountRepository } from '../../src/modules/account/repositories/account.repository';
-import { AccountService } from '../../src/modules/account/services/account.service';
+import { Account, AccountRepository, AccountService } from '@/modules';
 import { GetAccountResponse } from '@cryptocurrency-viewer/transport';
 import { HttpStatus } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { createMock } from '@golevelup/ts-jest';
-// import { AuthService } from 'src/modules/account/service/auth.service';
 
 describe('AccountService', () => {
   let accountService: AccountService;
-  //   let authService: AuthService;
   let accountRepository: AccountRepository;
 
   beforeEach(async () => {
@@ -20,7 +16,6 @@ describe('AccountService', () => {
       .compile();
 
     accountService = moduleRef.get<AccountService>(AccountService);
-    // authService = moduleRef.get<AuthService>(AuthService);
     accountRepository = moduleRef.get<AccountRepository>(AccountRepository);
   });
 

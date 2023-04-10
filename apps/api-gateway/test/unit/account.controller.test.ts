@@ -13,7 +13,7 @@ import {
 } from '@cryptocurrency-viewer/transport';
 import { Observable, of } from 'rxjs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { createMock } from '@golevelup/ts-jest';
+import { createMock as autoMocker } from '@golevelup/ts-jest';
 
 describe('AccountController', () => {
   let controller: AccountController;
@@ -23,7 +23,7 @@ describe('AccountController', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AccountController],
     })
-      .useMocker(createMock)
+      .useMocker(autoMocker)
       .compile();
 
     controller = module.get<AccountController>(AccountController);
