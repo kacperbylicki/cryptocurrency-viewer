@@ -85,21 +85,21 @@ services:
       - internal_services
       - cryptocurrencies
 
-  # frontend:
-  #   container_name: cryptocurrency-viewer-frontend
-  #   build:
-  #     context: .
-  #     dockerfile: ./apps/frontend/Dockerfile
-  #     target: development
-  #   volumes:
-  #     - ./:/app
-  #     - /app/node_modules
-  #   ports:
-  #     - ${FRONTEND_PORT:-5173}:${FRONTEND_PORT:-5173}
-  #   command: ["yarn", "start:dev", "--port", "${FRONTEND_PORT:-5173}"]
-  #   restart: unless-stopped
-  #   networks:
-  #     - api_gateway
+  frontend:
+    container_name: cryptocurrency-viewer-frontend
+    build:
+      context: .
+      dockerfile: ./apps/frontend/Dockerfile
+      target: development
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - ${FRONTEND_PORT:-5173}:${FRONTEND_PORT:-5173}
+    command: ["yarn", "start:dev", "--port", "${FRONTEND_PORT:-5173}"]
+    restart: unless-stopped
+    networks:
+      - api_gateway
 
 volumes:
   cryptocurrency-viewer-accounts-mongodb:
