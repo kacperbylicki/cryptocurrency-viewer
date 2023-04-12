@@ -13,15 +13,26 @@ export class FavoriteCryptocurrencyService {
     private readonly favoriteCryptocurrencyRepository: FavoriteCryptocurrencyRepository,
   ) {}
 
-  async upsertFavoriteCryptocurrencies(
+  async upsertFavoriteCryptocurrency(
     payload: UpsertFavoriteCryptocurrencyRequest,
   ): Promise<UpsertFavoriteCryptocurrencyResponse> {
     const favoriteCryptocurrency =
       await this.favoriteCryptocurrencyRepository.upsertOne(payload);
 
+    if (!favoriteCryptocurrency) {
+      return {
+        status: 422,
+        data: undefined,
+        error: [`unable to upsert favorite cryptocurrency`],
+      };
+    }
+
     return {
       status: 200,
-      data: favoriteCryptocurrency,
+      data: {
+        cryptocurrency: favoriteCryptocurrency?.cryptocurrency,
+        isFavorite: favoriteCryptocurrency?.isFavorite,
+      },
       error: [],
     };
   }
@@ -36,7 +47,10 @@ export class FavoriteCryptocurrencyService {
 
     return {
       status: 200,
-      data: favoriteCryptocurrencies,
+      data: favoriteCryptocurrencies.map((favoriteCryptocurrency) => ({
+        cryptocurrency: favoriteCryptocurrency.cryptocurrency,
+        isFavorite: favoriteCryptocurrency.isFavorite,
+      })),
       error: [],
     };
   }

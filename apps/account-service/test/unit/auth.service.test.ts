@@ -1,5 +1,5 @@
-import { AuthConfig } from '../../src/config/auth.config';
-import { AuthService } from '../../src/modules/account/services/auth.service';
+import { AuthConfig } from '@/config';
+import { AuthService } from '@/modules';
 import { Config, PlainConfigAdapter } from '@unifig/core';
 import { ConfigModule } from '@unifig/nest';
 import { HttpStatus } from '@nestjs/common';
@@ -9,7 +9,6 @@ import { createMock as autoMocker } from '@golevelup/ts-jest';
 
 describe('AuthService', () => {
   let moduleRef: TestingModule;
-
   let authService: AuthService;
   let jwtService: JwtService;
 

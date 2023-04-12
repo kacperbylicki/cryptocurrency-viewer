@@ -9,7 +9,7 @@ import {
 } from '@cryptocurrency-viewer/transport';
 import { Observable } from 'rxjs';
 import { Test, TestingModule } from '@nestjs/testing';
-import { createMock } from '@golevelup/ts-jest';
+import { createMock as autoMocker } from '@golevelup/ts-jest';
 
 describe('CryptocurrencyController', () => {
   let controller: CryptocurrencyController;
@@ -19,7 +19,7 @@ describe('CryptocurrencyController', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [CryptocurrencyController],
     })
-      .useMocker(createMock)
+      .useMocker(autoMocker)
       .compile();
 
     controller = module.get<CryptocurrencyController>(CryptocurrencyController);

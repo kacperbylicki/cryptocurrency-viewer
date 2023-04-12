@@ -1,6 +1,5 @@
-import { Account } from '../../src/modules/account/entities/account.entity';
-import { AuthConfig } from '../../src/config/auth.config';
-import { AuthService } from '../../src/modules/account/services/auth.service';
+import { Account, AuthService } from '@/modules';
+import { AuthConfig } from '@/config';
 import { Config, PlainConfigAdapter } from '@unifig/core';
 import { ConfigModule } from '@unifig/nest';
 import { HttpStatus } from '@nestjs/common';

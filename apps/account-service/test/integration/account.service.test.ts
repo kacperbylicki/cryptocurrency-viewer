@@ -2,26 +2,26 @@ import argon2 from 'argon2';
 import dayjs from 'dayjs';
 import {
   Account,
+  AccountRepository,
   AccountSchema,
-} from '../../src/modules/account/entities/account.entity';
-import { AccountRepository } from '../../src/modules/account/repositories/account.repository';
-import { AccountService } from '../../src/modules/account/services/account.service';
-import { AuthConfig } from '../../src/config/auth.config';
-import { AuthService } from '../../src/modules/account/services/auth.service';
+  AccountService,
+  AuthService,
+  LoginRequestDto,
+  RefreshTokenRequestDto,
+  RegisterRequestDto,
+} from '@/modules';
+import { AuthConfig } from '@/config';
 import { Config, PlainConfigAdapter } from '@unifig/core';
 import { ConfigModule } from '@unifig/nest';
 import { HttpStatus } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { LoginRequestDto } from '../../src/modules/account/dtos/login-request.dto';
 import { Model } from 'mongoose';
 import {
   MongooseModule,
   getConnectionToken,
   getModelToken,
 } from '@nestjs/mongoose';
-import { MongooseTestModule } from './mongo';
-import { RefreshTokenRequestDto } from '../../src/modules/account/dtos/refresh-token-request.dto';
-import { RegisterRequestDto } from '../../src/modules/account/dtos/register-request.dto';
+import { MongooseTestModule } from '@cryptocurrency-viewer/testing';
 import { Test, TestingModule } from '@nestjs/testing';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -29,10 +29,11 @@ describe('AccountService', () => {
   const mongooseTestModule = new MongooseTestModule();
 
   let moduleRef: TestingModule;
-  let accountModel: Model<Account>;
 
   let accountService: AccountService;
   let accountRepository: AccountRepository;
+
+  let accountModel: Model<Account>;
 
   beforeAll(async () => {
     Config.registerSync({
