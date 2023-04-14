@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  extends: ['frontend-linter'],
+  extends: ['frontend'],
   parserOptions: {
     project: './tsconfig.json',
     tsconfigRootDir: __dirname,
