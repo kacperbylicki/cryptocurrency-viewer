@@ -1,9 +1,14 @@
 import '../../assets/styles/Menu.scss';
+import '../../assets/styles/authentication/RegisterForm.scss';
 import guest from '../../assets/images/guest.png';
+import { AiOutlinePoweroff } from 'react-icons/ai';
+import { AuthContext } from '../../context/AuthContext';
 import { GoSignIn } from 'react-icons/go';
 import { Link, useLocation } from 'react-router-dom';
 import { MenuDataItem, menuData } from './MenuData';
-import { useState } from 'react';
+import { RegisterForm } from '../authentication/RegisterForm';
+import { SignInForm } from '../authentication/SignInForm';
+import { useContext, useState } from 'react';
 
 type MenuProps = {
   width: number;
@@ -11,6 +16,14 @@ type MenuProps = {
 const Menu = ({ width }: MenuProps) => {
   const [activeMenu, setActiveMenu] = useState<boolean>(false);
   const location = useLocation();
+  const {
+    activeSignInForm,
+    setActiveSignInForm,
+    setActiveRegisterForm,
+    activeRegisterForm,
+    user,
+    handleLogout,
+  } = useContext(AuthContext);
 
   // Disable scroll on body
   if (activeMenu && width < 1024) {
@@ -21,6 +34,21 @@ const Menu = ({ width }: MenuProps) => {
 
   function handleMenuIcon() {
     setActiveMenu(!activeMenu);
+  }
+
+  function handleSignInButton() {
+    setActiveMenu(false);
+    if (setActiveSignInForm !== undefined)
+      setActiveSignInForm(!activeSignInForm);
+    if (setActiveRegisterForm !== undefined) setActiveRegisterForm(false);
+    console.log(activeSignInForm);
+  }
+
+  function handleCreateAccountButton() {
+    setActiveMenu(false);
+    if (setActiveRegisterForm !== undefined)
+      setActiveRegisterForm(!activeRegisterForm);
+    if (setActiveSignInForm !== undefined) setActiveSignInForm(false);
   }
 
   // Style for the active menu link
@@ -57,9 +85,7 @@ const Menu = ({ width }: MenuProps) => {
       <div className={activeMenu || width > 1024 ? 'menu' : 'menu none'}>
         <div className="user-icon" onClick={() => setActiveMenu(false)}>
           <img src={guest} alt="" />
-          <div>
-            <p>Guest</p>
-          </div>
+          <div>{user ? <p>{JSON.parse(user)?.username}</p> : <p>Guest</p>}</div>
         </div>
         <ul className="menu-links">
           {menuData.map((item: MenuDataItem) => {
@@ -84,14 +110,27 @@ const Menu = ({ width }: MenuProps) => {
           })}
         </ul>
         <div className="button-authentication-wrapper">
-          <button>
-            <GoSignIn /> Sign in
-          </button>
-          <p>
-            Not registered yet? <span>Create an Account</span>
-          </p>
+          {user ? (
+            <button onClick={() => handleLogout()}>
+              <AiOutlinePoweroff /> Sign out
+            </button>
+          ) : (
+            <button onClick={() => handleSignInButton()}>
+              <GoSignIn /> Sign in
+            </button>
+          )}
+          {!user && (
+            <p>
+              Not registered yet?{' '}
+              <span onClick={() => handleCreateAccountButton()}>
+                Create an Account
+              </span>
+            </p>
+          )}
         </div>
       </div>
+      {activeSignInForm && <SignInForm />}
+      {activeRegisterForm && <RegisterForm />}
     </div>
   );
 };

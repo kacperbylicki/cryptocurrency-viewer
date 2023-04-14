@@ -1,9 +1,9 @@
 import React from 'react';
-import { ClockIcon } from '../Icons/ClockIcon';
-import { HomeIcon } from '../Icons/HomeIcon';
-import { NewsIcon } from '../Icons/NewsIcon';
-import { RankingIcon } from '../Icons/RankingIcon';
-import { StatisticIcon } from '../Icons/StatisticIcon';
+import { ClockIcon } from '../icons/ClockIcon';
+import { HomeIcon } from '../icons/HomeIcon';
+import { NewsIcon } from '../icons/NewsIcon';
+import { RankingIcon } from '../icons/RankingIcon';
+import { StatisticIcon } from '../icons/StatisticIcon';
 
 export type MenuDataItem = {
   path: string;
@@ -13,12 +13,12 @@ export type MenuDataItem = {
 
 export const menuData: MenuDataItem[] = [
   {
-    path: '/cryptocurrency_viewer',
+    path: '/cryptocurrency-viewer',
     label: 'Dashboard',
     icon: HomeIcon,
   },
   {
-    path: '/live_chart',
+    path: '/live-chart',
     label: 'Live Chart',
     icon: ClockIcon,
   },
