@@ -1,4 +1,4 @@
-import Menu from './components/Menu/Menu';
+import Menu from './components/menu/Menu';
 import { useEffect, useState } from 'react';
 
 const Root = () => {
@@ -17,9 +17,9 @@ const Root = () => {
   }, []);
 
   return (
-    <>
+    <div className="App">
       <Menu width={width} />
-    </>
+    </div>
   );
 };
 
