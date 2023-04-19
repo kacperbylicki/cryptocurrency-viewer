@@ -1,5 +1,5 @@
 import { AiOutlinePieChart } from 'react-icons/ai';
-import { IconStyleProps } from '../../types/icon-style-props';
+import { IconStyleProps } from '../../types/icon-style-props.types';
 
 export const StatisticIcon = (props: IconStyleProps) => (
   <AiOutlinePieChart

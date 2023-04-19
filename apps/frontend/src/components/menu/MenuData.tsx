@@ -13,7 +13,7 @@ export type MenuDataItem = {
 
 export const menuData: MenuDataItem[] = [
   {
-    path: '/cryptocurrency-viewer',
+    path: '/',
     label: 'Dashboard',
     icon: HomeIcon,
   },

@@ -1,6 +1,5 @@
-import { AxiosError } from 'axios';
-import { ErrorResponse } from '../../types/accounts/error';
-import { LoginParams, LoginResponse } from '../../types/accounts/login';
+import { ErrorResponse } from '../../types/accounts/error.types';
+import { LoginParams, LoginResponse } from '../../types/accounts/login.types';
 import { UseMutationOptions, useMutation } from 'react-query';
 import { axiosInstance } from '../axiosInstance';
 
@@ -10,9 +9,5 @@ export const login = (params: LoginParams): Promise<LoginResponse> =>
     .then((response) => response.data);
 
 export const useLoginMutation = (
-  options?: UseMutationOptions<
-    LoginResponse,
-    AxiosError<ErrorResponse>,
-    LoginParams
-  >,
+  options?: UseMutationOptions<LoginResponse, ErrorResponse, LoginParams>,
 ) => useMutation(login, options);

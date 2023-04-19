@@ -13,7 +13,7 @@ import { useContext, useState } from 'react';
 type MenuProps = {
   width: number;
 };
-const Menu = ({ width }: MenuProps) => {
+export const Menu = ({ width }: MenuProps) => {
   const [activeMenu, setActiveMenu] = useState<boolean>(false);
   const location = useLocation();
   const {
@@ -32,24 +32,23 @@ const Menu = ({ width }: MenuProps) => {
     document.body.style.overflow = 'visible';
   }
 
-  function handleMenuIcon() {
+  const handleMenuIcon = () => {
     setActiveMenu(!activeMenu);
-  }
+  };
 
-  function handleSignInButton() {
+  const handleSignInButton = () => {
     setActiveMenu(false);
     if (setActiveSignInForm !== undefined)
       setActiveSignInForm(!activeSignInForm);
     if (setActiveRegisterForm !== undefined) setActiveRegisterForm(false);
-    console.log(activeSignInForm);
-  }
+  };
 
-  function handleCreateAccountButton() {
+  const handleCreateAccountButton = () => {
     setActiveMenu(false);
     if (setActiveRegisterForm !== undefined)
       setActiveRegisterForm(!activeRegisterForm);
     if (setActiveSignInForm !== undefined) setActiveSignInForm(false);
-  }
+  };
 
   // Style for the active menu link
   const styleLink = {
@@ -85,7 +84,9 @@ const Menu = ({ width }: MenuProps) => {
       <div className={activeMenu || width > 1024 ? 'menu' : 'menu none'}>
         <div className="user-icon" onClick={() => setActiveMenu(false)}>
           <img src={guest} alt="" />
-          <div>{user ? <p>{JSON.parse(user)?.username}</p> : <p>Guest</p>}</div>
+          <div>
+            {user && user.username ? <p>{user.username}</p> : <p>Guest</p>}
+          </div>
         </div>
         <ul className="menu-links">
           {menuData.map((item: MenuDataItem) => {
@@ -134,5 +135,3 @@ const Menu = ({ width }: MenuProps) => {
     </div>
   );
 };
-
-export default Menu;

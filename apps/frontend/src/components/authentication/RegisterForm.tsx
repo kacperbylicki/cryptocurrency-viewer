@@ -12,14 +12,14 @@ export const RegisterForm: React.FC = () => {
   const { setActiveSignInForm, setActiveRegisterForm, handleRegister } =
     useContext(AuthContext);
 
-  function handleRegisterFormCloseBtn() {
+  const handleRegisterFormCloseBtn = () => {
     if (setActiveRegisterForm !== undefined) setActiveRegisterForm(false);
-  }
+  };
 
-  function handleRegisterFormCreateBtn() {
+  const handleRegisterFormCreateBtn = () => {
     if (setActiveSignInForm !== undefined) setActiveSignInForm(true);
     if (setActiveRegisterForm !== undefined) setActiveRegisterForm(false);
-  }
+  };
 
   return (
     <section className="register-form">

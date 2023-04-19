@@ -1,6 +1,5 @@
-import { AxiosError } from 'axios';
-import { ErrorResponse } from '../../types/accounts/error';
-import { LogoutResponse } from '../../types/accounts/logout';
+import { ErrorResponse } from '../../types/accounts/error.types';
+import { LogoutResponse } from '../../types/accounts/logout.types';
 import { UseMutationOptions, useMutation } from 'react-query';
 import { axiosInstance } from '../axiosInstance';
 
@@ -13,5 +12,5 @@ export const logout = (accessToken: string): Promise<LogoutResponse> =>
 
 export const useLogoutMutation = (
   accessToken: string,
-  options?: UseMutationOptions<LogoutResponse, AxiosError<ErrorResponse>>,
+  options?: UseMutationOptions<LogoutResponse, ErrorResponse>,
 ) => useMutation(() => logout(accessToken), options);

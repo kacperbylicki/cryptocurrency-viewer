@@ -1,5 +1,5 @@
 import { BiHomeAlt } from 'react-icons/bi';
-import { IconStyleProps } from '../../types/icon-style-props';
+import { IconStyleProps } from '../../types/icon-style-props.types';
 
 export const HomeIcon = (props: IconStyleProps) => (
   <BiHomeAlt

@@ -1,11 +1,12 @@
 import { Dispatch, SetStateAction } from 'react';
-import { UpdateTokenData } from '../accounts/update-token';
+import { UpdateTokenData } from '../accounts/update-token.types';
+import { User } from '../accounts/user.types';
 
-export interface IAuthContext {
+export interface AuthContextHandler {
   handleLogin: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   handleRegister: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   handleRefreshToken: (updateTokenData: UpdateTokenData) => Promise<void>;
-  user: any;
+  user?: User;
   accessToken: string | undefined;
   setActiveRegisterForm: Dispatch<React.SetStateAction<boolean>>;
   activeRegisterForm: boolean;

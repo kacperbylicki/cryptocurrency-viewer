@@ -11,14 +11,14 @@ export const SignInForm = () => {
   const [emailPlaceholder, setEmailPlaceholder] = useState('Email');
   const [passwordPlaceholder, setPasswordPlaceholder] = useState('Password');
 
-  function handleSignInCloseBtn() {
+  const handleSignInCloseBtn = () => {
     if (setActiveSignInForm !== undefined) setActiveSignInForm(false);
-  }
+  };
 
-  function handleSignInCreateBtn() {
+  const handleSignInCreateBtn = () => {
     if (setActiveRegisterForm !== undefined) setActiveRegisterForm(true);
     if (setActiveSignInForm !== undefined) setActiveSignInForm(false);
-  }
+  };
 
   return (
     <section className="sign-in">

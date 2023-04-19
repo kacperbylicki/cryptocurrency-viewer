@@ -1,8 +1,17 @@
-import React, { ReactNode, createContext, useEffect, useState } from 'react';
+import React, {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import jwt_decode from 'jwt-decode';
-import { IAuthContext } from '../types/contexts/auth-context';
-import { LoginParams } from '../types/accounts/login';
-import { RegisterParams } from '../types/accounts/register';
+import { AuthContextHandler } from '../types/contexts/auth-context.types';
+import { ErrorResponse } from '../types/accounts/error.types';
+import { LoginParams } from '../types/accounts/login.types';
+import { RegisterParams } from '../types/accounts/register.types';
+import { ToastNotificationContext } from './ToastNotificationContext';
+import { User } from '../types/accounts/user.types';
 import { useLoginMutation } from '../api/account/login.service';
 import { useLogoutMutation } from '../api/account/logout.service';
 import { useRefreshTokenMutation } from '../api/account/updateToken.service';
@@ -11,19 +20,23 @@ import { useRegisterMutation } from '../api/account/register.service';
 interface AuthProviderProps {
   children: ReactNode;
 }
-export const AuthContext = createContext<IAuthContext>({} as IAuthContext);
+export const AuthContext = createContext<AuthContextHandler>(
+  {} as AuthContextHandler,
+);
 
 export function AuthProvider({ children }: AuthProviderProps) {
+  const { showToastNotification } = useContext(ToastNotificationContext);
   const [activeRegisterForm, setActiveRegisterForm] = useState(false);
   const [activeSignInForm, setActiveSignInForm] = useState(false);
   const [accessToken, setAccessToken] = useState('');
   const [refreshToken, setRefreshToken] = useState('');
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState<User | undefined>(undefined);
 
   useEffect(() => {
-    const access_token = localStorage.getItem('access_token') ?? '';
-    const refresh_token = localStorage.getItem('refresh_token') ?? '';
-    const user = localStorage.getItem('user') ?? '';
+    const access_token = localStorage.getItem('access_token') ?? '{}';
+    const refresh_token = localStorage.getItem('refresh_token') ?? '{}';
+    const userString = localStorage.getItem('user');
+    const user = userString ? JSON.parse(userString) : null;
 
     setAccessToken(access_token);
     setRefreshToken(refresh_token);
@@ -45,6 +58,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
       );
       setActiveSignInForm(false);
       setActiveRegisterForm(false);
+      showToastNotification('you are logged in!', 'success');
+    },
+    onError: (error: ErrorResponse) => {
+      showToastNotification(
+        error.response?.data.error[0] ?? error.message,
+        'error',
+      );
     },
   });
 
@@ -64,7 +84,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
   //Register
   const { mutate: registerMutate } = useRegisterMutation({
     onSuccess: () => {
-      console.log('Success');
+      showToastNotification('your account has been created!', 'success');
+    },
+    onError: (error: ErrorResponse) => {
+      showToastNotification(
+        error.response?.data.error[0] ?? error.message,
+        'error',
+      );
     },
   });
 
@@ -93,6 +119,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
         JSON.stringify(jwt_decode(data.data.accessToken)),
       );
     },
+    onError: (error: ErrorResponse) => {
+      showToastNotification(
+        error.response?.data.error[0] ?? error.message,
+        'error',
+      );
+    },
   });
 
   const handleRefreshToken = async () => {
@@ -105,10 +137,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const { mutate: logout } = useLogoutMutation(accessToken);
   const handleLogout = async () => {
     await logout();
-    localStorage.setItem('access_token', '');
-    localStorage.setItem('refresh_token', '');
+    localStorage.setItem('access_token', '{}');
+    localStorage.setItem('refresh_token', '{}');
     localStorage.setItem('user', '');
-    console.log('You have been logged out');
+    showToastNotification('you have been logged out!', 'success');
   };
 
   const contextData = {
