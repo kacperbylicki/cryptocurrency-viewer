@@ -1,17 +1,17 @@
 import React from 'react';
-import { ClockIcon } from '../icons/ClockIcon';
-import { HomeIcon } from '../icons/HomeIcon';
-import { NewsIcon } from '../icons/NewsIcon';
-import { RankingIcon } from '../icons/RankingIcon';
-import { StatisticIcon } from '../icons/StatisticIcon';
+import { ClockIcon } from '../components/icons/ClockIcon';
+import { HomeIcon } from '../components/icons/HomeIcon';
+import { NewsIcon } from '../components/icons/NewsIcon';
+import { RankingIcon } from '../components/icons/RankingIcon';
+import { StatisticIcon } from '../components/icons/StatisticIcon';
 
-export type MenuDataItem = {
+export type Route = {
   path: string;
   label: string;
   icon: React.ElementType;
 };
 
-export const menuData: MenuDataItem[] = [
+export const routes: Route[] = [
   {
     path: '/',
     label: 'Dashboard',

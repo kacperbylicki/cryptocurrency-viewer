@@ -5,8 +5,8 @@ import { AiOutlinePoweroff } from 'react-icons/ai';
 import { AuthContext } from '../../context/AuthContext';
 import { GoSignIn } from 'react-icons/go';
 import { Link, useLocation } from 'react-router-dom';
-import { MenuDataItem, menuData } from './MenuData';
 import { RegisterForm } from '../authentication/RegisterForm';
+import { Route, routes } from '../../router/MenuData';
 import { SignInForm } from '../authentication/SignInForm';
 import { useContext, useState } from 'react';
 
@@ -43,11 +43,10 @@ export const Menu = ({ width }: MenuProps) => {
     if (setActiveRegisterForm !== undefined) setActiveRegisterForm(false);
   };
 
-  const handleCreateAccountButton = () => {
+  const handleSignUpButton = () => {
     setActiveMenu(false);
-    if (setActiveRegisterForm !== undefined)
-      setActiveRegisterForm(!activeRegisterForm);
-    if (setActiveSignInForm !== undefined) setActiveSignInForm(false);
+    if (setActiveRegisterForm) setActiveRegisterForm(!activeRegisterForm);
+    if (setActiveSignInForm) setActiveSignInForm(false);
   };
 
   // Style for the active menu link
@@ -89,7 +88,7 @@ export const Menu = ({ width }: MenuProps) => {
           </div>
         </div>
         <ul className="menu-links">
-          {menuData.map((item: MenuDataItem) => {
+          {routes.map((item: Route) => {
             const Icon = item.icon;
             return (
               <li key={item.path}>
@@ -123,7 +122,7 @@ export const Menu = ({ width }: MenuProps) => {
           {!user && (
             <p>
               Not registered yet?{' '}
-              <span onClick={() => handleCreateAccountButton()}>
+              <span onClick={() => handleSignUpButton()}>
                 Create an Account
               </span>
             </p>

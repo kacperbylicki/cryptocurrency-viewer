@@ -13,12 +13,12 @@ export const RegisterForm: React.FC = () => {
     useContext(AuthContext);
 
   const handleRegisterFormCloseBtn = () => {
-    if (setActiveRegisterForm !== undefined) setActiveRegisterForm(false);
+    if (setActiveRegisterForm) setActiveRegisterForm(false);
   };
 
-  const handleRegisterFormCreateBtn = () => {
-    if (setActiveSignInForm !== undefined) setActiveSignInForm(true);
-    if (setActiveRegisterForm !== undefined) setActiveRegisterForm(false);
+  const handleLoginRedirect = () => {
+    if (setActiveSignInForm) setActiveSignInForm(true);
+    if (setActiveRegisterForm) setActiveRegisterForm(false);
   };
 
   return (
@@ -68,7 +68,7 @@ export const RegisterForm: React.FC = () => {
         <button type="submit">Sign up</button>
         <p>
           If you already have an account.{' '}
-          <span onClick={() => handleRegisterFormCreateBtn()}>Sign in</span>
+          <span onClick={() => handleLoginRedirect()}>Sign in</span>
         </p>
       </form>
     </section>

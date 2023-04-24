@@ -12,12 +12,12 @@ export const SignInForm = () => {
   const [passwordPlaceholder, setPasswordPlaceholder] = useState('Password');
 
   const handleSignInCloseBtn = () => {
-    if (setActiveSignInForm !== undefined) setActiveSignInForm(false);
+    if (setActiveSignInForm) setActiveSignInForm(false);
   };
 
-  const handleSignInCreateBtn = () => {
-    if (setActiveRegisterForm !== undefined) setActiveRegisterForm(true);
-    if (setActiveSignInForm !== undefined) setActiveSignInForm(false);
+  const handleRegisterRedirect = () => {
+    if (setActiveRegisterForm) setActiveRegisterForm(true);
+    if (setActiveSignInForm) setActiveSignInForm(false);
   };
 
   return (
@@ -52,7 +52,7 @@ export const SignInForm = () => {
         </button>
         <p>
           Don't have an account?{' '}
-          <span onClick={() => handleSignInCreateBtn()}>Create</span>
+          <span onClick={() => handleRegisterRedirect()}>Create</span>
         </p>
       </form>
     </section>
