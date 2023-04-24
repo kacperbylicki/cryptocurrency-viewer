@@ -2,7 +2,7 @@ export type RegisterResponse = {
   status: number;
 };
 
-export type RegisterParams = {
+export type RegisterPayload = {
   email: string;
   username: string;
   password: string;

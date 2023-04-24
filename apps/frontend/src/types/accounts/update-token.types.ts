@@ -1,13 +1,13 @@
 export type UpdateTokenResponse = {
   status: number;
-  data: UpdateTokenData;
+  data: UpdateTokenResult | null;
 };
 
-export type UpdateTokenData = {
-  accessToken: string;
-  refreshToken: string;
+export type UpdateTokenResult = {
+  accessToken: string | null;
+  refreshToken: string | null;
 };
 
-export type UpdateTokenParams = {
+export type UpdateTokenPayload = {
   refreshToken: string;
 };

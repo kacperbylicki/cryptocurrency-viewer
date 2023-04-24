@@ -1,14 +1,14 @@
 export type LoginResponse = {
   status: number;
-  data: LoginData;
+  data: LoginResult | null;
 };
 
-export type LoginData = {
+export type LoginResult = {
   accessToken: string;
   refreshToken: string;
 };
 
-export type LoginParams = {
+export type LoginPayload = {
   email: string;
   password: string;
 };
