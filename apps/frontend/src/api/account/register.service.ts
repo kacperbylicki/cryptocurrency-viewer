@@ -1,16 +1,27 @@
 import { ErrorResponse } from '../../types/accounts/error.types';
 import {
-  RegisterParams,
+  RegisterPayload,
   RegisterResponse,
 } from '../../types/accounts/register.types';
 import { UseMutationOptions, useMutation } from 'react-query';
 import { axiosInstance } from '../axiosInstance';
 
-export const register = (params: RegisterParams): Promise<RegisterResponse> =>
-  axiosInstance
-    .post('/accounts/register', params)
-    .then((response) => response.data);
+export const register = async (
+  params: RegisterPayload,
+): Promise<RegisterResponse> => {
+  try {
+    const status = await axiosInstance.post('/accounts/register', params);
+    return status;
+  } catch (error: unknown) {
+    const status = (error as ErrorResponse)?.status || 500;
+    return { status };
+  }
+};
 
 export const useRegisterMutation = (
-  options?: UseMutationOptions<RegisterResponse, ErrorResponse, RegisterParams>,
+  options?: UseMutationOptions<
+    RegisterResponse,
+    ErrorResponse,
+    RegisterPayload
+  >,
 ) => useMutation(register, options);

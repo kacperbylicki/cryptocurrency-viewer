@@ -3,12 +3,17 @@ import { LogoutResponse } from '../../types/accounts/logout.types';
 import { UseMutationOptions, useMutation } from 'react-query';
 import { axiosInstance } from '../axiosInstance';
 
-export const logout = (accessToken: string): Promise<LogoutResponse> =>
-  axiosInstance
-    .post('/accounts/logout', null, {
+export const logout = async (accessToken: string): Promise<LogoutResponse> => {
+  try {
+    const status = await axiosInstance.post('/accounts/logout', null, {
       headers: { Authorization: `Bearer ${accessToken}` },
-    })
-    .then((response) => response.data);
+    });
+    return status;
+  } catch (error: unknown) {
+    const status = (error as ErrorResponse)?.status || 500;
+    return { status };
+  }
+};
 
 export const useLogoutMutation = (
   accessToken: string,
