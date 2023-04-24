@@ -9,9 +9,9 @@ export const ToastNotificationContext =
     {} as ToastNotificationContextHandler,
   );
 
-export function ToastNotificationProvider({
+export const ToastNotificationProvider = ({
   children,
-}: ToastNotificationProviderProps) {
+}: ToastNotificationProviderProps) => {
   const [activeToastNotification, setActiveToastNotification] = useState(false);
   const [toastNotificationType, setToastNotificationType] = useState('');
   const [toastNotificationTxt, setToastNotificationTxt] = useState('');
@@ -42,4 +42,4 @@ export function ToastNotificationProvider({
       {children}
     </ToastNotificationContext.Provider>
   );
-}
+};

@@ -8,8 +8,8 @@ import React, {
 import jwt_decode from 'jwt-decode';
 import { AuthContextHandler } from '../types/contexts/auth-context.types';
 import { ErrorResponse } from '../types/accounts/error.types';
-import { LoginParams } from '../types/accounts/login.types';
-import { RegisterParams } from '../types/accounts/register.types';
+import { LoginPayload } from '../types/accounts/login.types';
+import { RegisterPayload } from '../types/accounts/register.types';
 import { ToastNotificationContext } from './ToastNotificationContext';
 import { User } from '../types/accounts/user.types';
 import { useLoginMutation } from '../api/account/login.service';
@@ -24,7 +24,7 @@ export const AuthContext = createContext<AuthContextHandler>(
   {} as AuthContextHandler,
 );
 
-export function AuthProvider({ children }: AuthProviderProps) {
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   const { showToastNotification } = useContext(ToastNotificationContext);
   const [activeRegisterForm, setActiveRegisterForm] = useState(false);
   const [activeSignInForm, setActiveSignInForm] = useState(false);
@@ -50,15 +50,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
   //Login
   const { mutate: loginMutate } = useLoginMutation({
     onSuccess: (data) => {
-      localStorage.setItem('access_token', data.data.accessToken);
-      localStorage.setItem('refresh_token', data.data.refreshToken);
+      localStorage.setItem('access_token', data.data?.accessToken ?? '');
+      localStorage.setItem('refresh_token', data.data?.refreshToken ?? '');
       localStorage.setItem(
         'user',
-        JSON.stringify(jwt_decode(data.data.accessToken)),
+        JSON.stringify(jwt_decode(data.data?.accessToken ?? '')),
       );
       setActiveSignInForm(false);
       setActiveRegisterForm(false);
-      showToastNotification('you are logged in!', 'success');
+      showToastNotification('successfully logged in!', 'success');
     },
     onError: (error: ErrorResponse) => {
       showToastNotification(
@@ -73,7 +73,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     const formData = new FormData(e.currentTarget);
 
-    const loginData: LoginParams = {
+    const loginData: LoginPayload = {
       email: formData.get('email')?.toString() ?? '',
       password: formData.get('password')?.toString() ?? '',
     };
@@ -84,7 +84,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   //Register
   const { mutate: registerMutate } = useRegisterMutation({
     onSuccess: () => {
-      showToastNotification('your account has been created!', 'success');
+      setActiveSignInForm(false);
+      setActiveRegisterForm(false);
+      showToastNotification('account has been created!', 'success');
     },
     onError: (error: ErrorResponse) => {
       showToastNotification(
@@ -99,7 +101,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     const formData = new FormData(e.currentTarget);
 
-    const registerData: RegisterParams = {
+    const registerData: RegisterPayload = {
       email: formData.get('email')?.toString() ?? '',
       username: formData.get('username')?.toString() ?? '',
       password: formData.get('password')?.toString() ?? '',
@@ -112,11 +114,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
   //Update Token
   const { mutate: refreshTokenMutate } = useRefreshTokenMutation({
     onSuccess: (data) => {
-      localStorage.setItem('access_token', data.data.accessToken);
-      localStorage.setItem('refresh_token', data.data.refreshToken);
+      localStorage.setItem('access_token', data.data?.accessToken ?? '');
+      localStorage.setItem('refresh_token', data.data?.refreshToken ?? '');
       localStorage.setItem(
         'user',
-        JSON.stringify(jwt_decode(data.data.accessToken)),
+        JSON.stringify(jwt_decode(data.data?.accessToken ?? '')),
       );
     },
     onError: (error: ErrorResponse) => {
@@ -160,4 +162,4 @@ export function AuthProvider({ children }: AuthProviderProps) {
   return (
     <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>
   );
-}
+};
