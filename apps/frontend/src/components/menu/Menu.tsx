@@ -38,9 +38,8 @@ export const Menu = ({ width }: MenuProps) => {
 
   const handleSignInButton = () => {
     setActiveMenu(false);
-    if (setActiveSignInForm !== undefined)
-      setActiveSignInForm(!activeSignInForm);
-    if (setActiveRegisterForm !== undefined) setActiveRegisterForm(false);
+    if (setActiveSignInForm) setActiveSignInForm(!activeSignInForm);
+    if (setActiveRegisterForm) setActiveRegisterForm(false);
   };
 
   const handleSignUpButton = () => {

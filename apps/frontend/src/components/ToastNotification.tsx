@@ -3,13 +3,13 @@ import { ToastNotificationContext } from '../context/ToastNotificationContext';
 import { useContext } from 'react';
 
 export const ToastNotification = () => {
-  const { toastNotificationType, toastNotificationTxt } = useContext(
+  const { toastNotificationType, toastNotificationContext } = useContext(
     ToastNotificationContext,
   );
 
   return (
     <div className={`toast-notification ${toastNotificationType}`}>
-      <p>{toastNotificationTxt}</p>
+      <p>{toastNotificationContext}</p>
     </div>
   );
 };

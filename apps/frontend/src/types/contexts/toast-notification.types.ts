@@ -5,5 +5,5 @@ export interface ToastNotificationContextHandler {
     type: 'error' | 'warning' | 'success',
   ) => void;
   toastNotificationType: string;
-  toastNotificationTxt: string;
+  toastNotificationContext: string;
 }
