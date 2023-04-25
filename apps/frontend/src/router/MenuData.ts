@@ -1,24 +1,24 @@
 import React from 'react';
-import { ClockIcon } from '../Icons/ClockIcon';
-import { HomeIcon } from '../Icons/HomeIcon';
-import { NewsIcon } from '../Icons/NewsIcon';
-import { RankingIcon } from '../Icons/RankingIcon';
-import { StatisticIcon } from '../Icons/StatisticIcon';
+import { ClockIcon } from '../components/icons/ClockIcon';
+import { HomeIcon } from '../components/icons/HomeIcon';
+import { NewsIcon } from '../components/icons/NewsIcon';
+import { RankingIcon } from '../components/icons/RankingIcon';
+import { StatisticIcon } from '../components/icons/StatisticIcon';
 
-export type MenuDataItem = {
+export type Route = {
   path: string;
   label: string;
   icon: React.ElementType;
 };
 
-export const menuData: MenuDataItem[] = [
+export const routes: Route[] = [
   {
-    path: '/cryptocurrency_viewer',
+    path: '/',
     label: 'Dashboard',
     icon: HomeIcon,
   },
   {
-    path: '/live_chart',
+    path: '/live-chart',
     label: 'Live Chart',
     icon: ClockIcon,
   },

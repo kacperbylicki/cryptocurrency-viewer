@@ -1,16 +1,29 @@
 import '../../assets/styles/Menu.scss';
+import '../../assets/styles/authentication/RegisterForm.scss';
 import guest from '../../assets/images/guest.png';
+import { AiOutlinePoweroff } from 'react-icons/ai';
+import { AuthContext } from '../../context/AuthContext';
 import { GoSignIn } from 'react-icons/go';
 import { Link, useLocation } from 'react-router-dom';
-import { MenuDataItem, menuData } from './MenuData';
-import { useState } from 'react';
+import { RegisterForm } from '../authentication/RegisterForm';
+import { Route, routes } from '../../router/MenuData';
+import { SignInForm } from '../authentication/SignInForm';
+import { useContext, useState } from 'react';
 
 type MenuProps = {
   width: number;
 };
-const Menu = ({ width }: MenuProps) => {
+export const Menu = ({ width }: MenuProps) => {
   const [activeMenu, setActiveMenu] = useState<boolean>(false);
   const location = useLocation();
+  const {
+    activeSignInForm,
+    setActiveSignInForm,
+    setActiveRegisterForm,
+    activeRegisterForm,
+    user,
+    handleLogout,
+  } = useContext(AuthContext);
 
   // Disable scroll on body
   if (activeMenu && width < 1024) {
@@ -19,9 +32,21 @@ const Menu = ({ width }: MenuProps) => {
     document.body.style.overflow = 'visible';
   }
 
-  function handleMenuIcon() {
+  const handleMenuIcon = () => {
     setActiveMenu(!activeMenu);
-  }
+  };
+
+  const handleSignInButton = () => {
+    setActiveMenu(false);
+    if (setActiveSignInForm) setActiveSignInForm(!activeSignInForm);
+    if (setActiveRegisterForm) setActiveRegisterForm(false);
+  };
+
+  const handleSignUpButton = () => {
+    setActiveMenu(false);
+    if (setActiveRegisterForm) setActiveRegisterForm(!activeRegisterForm);
+    if (setActiveSignInForm) setActiveSignInForm(false);
+  };
 
   // Style for the active menu link
   const styleLink = {
@@ -58,11 +83,11 @@ const Menu = ({ width }: MenuProps) => {
         <div className="user-icon" onClick={() => setActiveMenu(false)}>
           <img src={guest} alt="" />
           <div>
-            <p>Guest</p>
+            {user && user.username ? <p>{user.username}</p> : <p>Guest</p>}
           </div>
         </div>
         <ul className="menu-links">
-          {menuData.map((item: MenuDataItem) => {
+          {routes.map((item: Route) => {
             const Icon = item.icon;
             return (
               <li key={item.path}>
@@ -84,16 +109,27 @@ const Menu = ({ width }: MenuProps) => {
           })}
         </ul>
         <div className="button-authentication-wrapper">
-          <button>
-            <GoSignIn /> Sign in
-          </button>
-          <p>
-            Not registered yet? <span>Create an Account</span>
-          </p>
+          {user ? (
+            <button onClick={() => handleLogout()}>
+              <AiOutlinePoweroff /> Sign out
+            </button>
+          ) : (
+            <button onClick={() => handleSignInButton()}>
+              <GoSignIn /> Sign in
+            </button>
+          )}
+          {!user && (
+            <p>
+              Not registered yet?{' '}
+              <span onClick={() => handleSignUpButton()}>
+                Create an Account
+              </span>
+            </p>
+          )}
         </div>
       </div>
+      {activeSignInForm && <SignInForm />}
+      {activeRegisterForm && <RegisterForm />}
     </div>
   );
 };
-
-export default Menu;
