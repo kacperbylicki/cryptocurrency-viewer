@@ -14,7 +14,7 @@ export const ToastNotificationProvider = ({
 }: ToastNotificationProviderProps) => {
   const [activeToastNotification, setActiveToastNotification] = useState(false);
   const [toastNotificationType, setToastNotificationType] = useState('');
-  const [toastNotificationContext, setToastNotificationContext] = useState('');
+  const [toastNotificationContent, setToastNotificationContent] = useState('');
 
   const showToastNotification = (
     txt: string,
@@ -22,11 +22,11 @@ export const ToastNotificationProvider = ({
   ) => {
     setActiveToastNotification(true);
     setToastNotificationType(type);
-    setToastNotificationContext(txt);
+    setToastNotificationContent(txt);
     setTimeout(() => {
       setActiveToastNotification(false);
       setToastNotificationType('');
-      setToastNotificationContext('');
+      setToastNotificationContent('');
     }, 2000);
   };
 
@@ -34,7 +34,7 @@ export const ToastNotificationProvider = ({
     activeToastNotification,
     showToastNotification,
     toastNotificationType,
-    toastNotificationContext,
+    toastNotificationContent,
   };
 
   return (
