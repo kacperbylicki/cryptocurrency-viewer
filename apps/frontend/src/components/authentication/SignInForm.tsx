@@ -22,14 +22,20 @@ export const SignInForm = () => {
 
   return (
     <section className="sign-in">
-      <div className="sign-in-close-btn">
-        <MdClose onClick={() => handleSignInCloseBtn()} />
+      <div
+        className="sign-in-close-btn"
+        role="sign-in-close-btn"
+        onClick={() => handleSignInCloseBtn()}>
+        <MdClose />
       </div>
       <div className="sign-in-header">
         <h2 className="sign-in-welcome-txt-first">Hello!</h2>
         <h2 className="sign-in-welcome-txt-second">Sign into Your account</h2>
       </div>
-      <form className="sign-in-form" onSubmit={(e) => handleLogin(e)}>
+      <form
+        className="sign-in-form"
+        role="sign-in-form"
+        onSubmit={(e) => handleLogin(e)}>
         <input
           required
           type="email"

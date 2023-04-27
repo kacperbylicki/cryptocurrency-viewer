@@ -1,4 +1,5 @@
-import { Menu } from './components/menu/Menu';
+import { Menu } from './components/Menu';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { ToastNotification } from './components/ToastNotification';
 import { ToastNotificationContext } from './context/ToastNotificationContext';
 import { useContext, useEffect, useState } from 'react';
@@ -21,8 +22,10 @@ export const Root = () => {
 
   return (
     <div className="App">
-      <Menu width={width} />
-      {activeToastNotification && <ToastNotification />}
+      <Router>
+        <Menu width={width} />
+        {activeToastNotification && <ToastNotification />}
+      </Router>
     </div>
   );
 };
