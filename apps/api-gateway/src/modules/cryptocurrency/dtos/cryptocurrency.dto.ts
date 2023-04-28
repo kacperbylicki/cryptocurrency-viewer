@@ -71,4 +71,7 @@ export class GetCryptocurrencyNewsRequestDto {
 
   @ApiProperty({ type: Number, example: '' })
   limit!: number;
+
+  @ApiProperty({ type: Number, example: '' })
+  offset?: number;
 }

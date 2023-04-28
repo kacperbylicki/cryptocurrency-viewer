@@ -81,6 +81,7 @@ export interface UpsertFavoriteCryptocurrencyResponse {
 export interface GetCryptocurrencyNewsRequest {
   category: string;
   limit: number;
+  offset?: number;
 }
 
 export interface GetCryptocurrencyNewsResponse {
