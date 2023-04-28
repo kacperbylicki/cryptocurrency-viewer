@@ -3,7 +3,14 @@ import {
   GetCryptocurrencyNewsRequest as IGetCryptocurrencyNewsRequest,
   GetCryptocurrencyNewsResponse as IGetCryptocurrencyNewsResponse,
 } from '@cryptocurrency-viewer/transport';
-import { IsInt, IsNotEmpty, IsString, Max, Min } from 'class-validator';
+import {
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  Max,
+  Min,
+} from 'class-validator';
 
 export class GetCryptocurrencyNewsRequest
   implements IGetCryptocurrencyNewsRequest
@@ -17,6 +24,11 @@ export class GetCryptocurrencyNewsRequest
   @Min(1)
   @Max(100)
   limit!: number;
+
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  offset?: number;
 }
 
 export class GetCryptocurrencyNewsResponse

@@ -27,6 +27,7 @@ export class BingNewsClient {
         textFormat: 'Raw',
         freshness: 'Day',
         count: payload.limit,
+        offset: payload.offset,
       },
       headers: {
         'X-RapidAPI-Host': bingNewsApiHost,
