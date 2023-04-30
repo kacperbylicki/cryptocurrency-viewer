@@ -1,5 +1,6 @@
 import './assets/styles/App.scss';
 import { AuthProvider } from './context/AuthContext';
+import { LoaderProvider } from './context/LoaderContext';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Root } from './Root';
@@ -11,8 +12,10 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <ToastNotificationProvider>
         <AuthProvider>
-          <Root />
-          <ReactQueryDevtools initialIsOpen={false} />
+          <LoaderProvider>
+            <Root />
+            <ReactQueryDevtools initialIsOpen={false} />
+          </LoaderProvider>
         </AuthProvider>
       </ToastNotificationProvider>
     </QueryClientProvider>
