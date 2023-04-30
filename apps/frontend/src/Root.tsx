@@ -1,3 +1,4 @@
+import { Loader } from './components/Loader';
 import { Menu } from './components/menu/Menu';
 import { ToastNotification } from './components/ToastNotification';
 import { ToastNotificationContext } from './context/ToastNotificationContext';
@@ -22,6 +23,7 @@ export const Root = () => {
   return (
     <div className="App">
       <Menu width={width} />
+      <Loader />
       {activeToastNotification && <ToastNotification />}
     </div>
   );
