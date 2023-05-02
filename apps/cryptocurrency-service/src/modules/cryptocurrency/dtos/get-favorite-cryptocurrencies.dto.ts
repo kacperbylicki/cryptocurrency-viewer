@@ -1,12 +1,12 @@
 import {
   FavoriteCryptocurrency,
-  GetFavoriteCryptocurrenciesRequest as IGetFavoriteCryptocurrenciesRequest,
-  GetFavoriteCryptocurrenciesResponse as IGetFavoriteCryptocurrenciesResponse,
+  GetFavoriteCryptocurrenciesRequest,
+  GetFavoriteCryptocurrenciesResponse,
 } from '@cryptocurrency-viewer/transport';
 import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
-export class GetFavoriteCryptocurrenciesRequest
-  implements IGetFavoriteCryptocurrenciesRequest
+export class GetFavoriteCryptocurrenciesRequestDto
+  implements GetFavoriteCryptocurrenciesRequest
 {
   @IsNotEmpty()
   @IsString()
@@ -14,8 +14,8 @@ export class GetFavoriteCryptocurrenciesRequest
   userId!: string;
 }
 
-export class GetFavoriteCryptocurrenciesResponse
-  implements IGetFavoriteCryptocurrenciesResponse
+export class GetFavoriteCryptocurrenciesResponseDto
+  implements GetFavoriteCryptocurrenciesResponse
 {
   status!: number;
   error!: string[];

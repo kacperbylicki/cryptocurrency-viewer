@@ -1,9 +1,9 @@
 import { FavoriteCryptocurrencyRepository } from '../repositories';
 import {
-  GetFavoriteCryptocurrenciesRequest,
-  GetFavoriteCryptocurrenciesResponse,
-  UpsertFavoriteCryptocurrencyRequest,
-  UpsertFavoriteCryptocurrencyResponse,
+  GetFavoriteCryptocurrenciesRequestDto,
+  GetFavoriteCryptocurrenciesResponseDto,
+  UpsertFavoriteCryptocurrencyRequestDto,
+  UpsertFavoriteCryptocurrencyResponseDto,
 } from '../dtos';
 import { Injectable } from '@nestjs/common';
 
@@ -14,8 +14,8 @@ export class FavoriteCryptocurrencyService {
   ) {}
 
   async upsertFavoriteCryptocurrency(
-    payload: UpsertFavoriteCryptocurrencyRequest,
-  ): Promise<UpsertFavoriteCryptocurrencyResponse> {
+    payload: UpsertFavoriteCryptocurrencyRequestDto,
+  ): Promise<UpsertFavoriteCryptocurrencyResponseDto> {
     const favoriteCryptocurrency =
       await this.favoriteCryptocurrencyRepository.upsertOne(payload);
 
@@ -38,8 +38,8 @@ export class FavoriteCryptocurrencyService {
   }
 
   async getFavoriteCryptocurrencies(
-    payload: GetFavoriteCryptocurrenciesRequest,
-  ): Promise<GetFavoriteCryptocurrenciesResponse> {
+    payload: GetFavoriteCryptocurrenciesRequestDto,
+  ): Promise<GetFavoriteCryptocurrenciesResponseDto> {
     const favoriteCryptocurrencies =
       await this.favoriteCryptocurrencyRepository.findAllByUserId(
         payload.userId,

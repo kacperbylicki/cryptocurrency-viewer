@@ -2,7 +2,7 @@ import { FavoriteCryptocurrency } from '../entities';
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { UpsertFavoriteCryptocurrencyRequest } from '../dtos';
+import { UpsertFavoriteCryptocurrencyRequestDto } from '../dtos';
 
 @Injectable()
 export class FavoriteCryptocurrencyRepository {
@@ -12,13 +12,11 @@ export class FavoriteCryptocurrencyRepository {
   ) {}
 
   public async upsertOne(
-    payload: UpsertFavoriteCryptocurrencyRequest,
+    payload: UpsertFavoriteCryptocurrencyRequestDto,
   ): Promise<FavoriteCryptocurrency | null> {
     const filter = {
       userId: payload.userId,
-      cryptocurrency: {
-        uuid: payload.cryptocurrency.uuid,
-      },
+      'cryptocurrency.uuid': payload.cryptocurrency.uuid,
     };
 
     const options = {

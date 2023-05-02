@@ -2,10 +2,10 @@ import { CRYPTOCURRENCY_SERVICE_NAME } from '@cryptocurrency-viewer/transport';
 import { Controller } from '@nestjs/common';
 import { FavoriteCryptocurrencyService } from '../services';
 import {
-  GetFavoriteCryptocurrenciesRequest,
-  GetFavoriteCryptocurrenciesResponse,
-  UpsertFavoriteCryptocurrencyRequest,
-  UpsertFavoriteCryptocurrencyResponse,
+  GetFavoriteCryptocurrenciesRequestDto,
+  GetFavoriteCryptocurrenciesResponseDto,
+  UpsertFavoriteCryptocurrencyRequestDto,
+  UpsertFavoriteCryptocurrencyResponseDto,
 } from '../dtos';
 import { GrpcMethod } from '@nestjs/microservices';
 
@@ -17,8 +17,8 @@ export class FavoriteCryptocurrencyController {
 
   @GrpcMethod(CRYPTOCURRENCY_SERVICE_NAME, 'UpsertFavoriteCryptocurrency')
   async upsertFavoriteCryptocurrency(
-    payload: UpsertFavoriteCryptocurrencyRequest,
-  ): Promise<UpsertFavoriteCryptocurrencyResponse> {
+    payload: UpsertFavoriteCryptocurrencyRequestDto,
+  ): Promise<UpsertFavoriteCryptocurrencyResponseDto> {
     return this.favoriteCryptocurrencyService.upsertFavoriteCryptocurrency(
       payload,
     );
@@ -26,8 +26,8 @@ export class FavoriteCryptocurrencyController {
 
   @GrpcMethod(CRYPTOCURRENCY_SERVICE_NAME, 'GetFavoriteCryptocurrencies')
   async getFavoriteCryptocurrencies(
-    payload: GetFavoriteCryptocurrenciesRequest,
-  ): Promise<GetFavoriteCryptocurrenciesResponse> {
+    payload: GetFavoriteCryptocurrenciesRequestDto,
+  ): Promise<GetFavoriteCryptocurrenciesResponseDto> {
     return this.favoriteCryptocurrencyService.getFavoriteCryptocurrencies(
       payload,
     );
