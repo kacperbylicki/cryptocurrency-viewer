@@ -60,8 +60,8 @@ export class CryptocurrencyController {
     @Body() dto: UpsertFavoriteCryptocurrencyRequestDto,
   ): Promise<Observable<UpsertFavoriteCryptocurrencyResponse>> {
     return this.client.upsertFavoriteCryptocurrency({
-      ...dto,
       userId: accountId,
+      ...dto,
     });
   }
 
