@@ -1,10 +1,10 @@
 import {
   FavoriteCryptocurrencyRepository,
   FavoriteCryptocurrencyService,
-  GetFavoriteCryptocurrenciesRequest,
-  GetFavoriteCryptocurrenciesResponse,
-  UpsertFavoriteCryptocurrencyRequest,
-  UpsertFavoriteCryptocurrencyResponse,
+  GetFavoriteCryptocurrenciesRequestDto,
+  GetFavoriteCryptocurrenciesResponseDto,
+  UpsertFavoriteCryptocurrencyRequestDto,
+  UpsertFavoriteCryptocurrencyResponseDto,
 } from '@/modules';
 import { Test, TestingModule } from '@nestjs/testing';
 import { createMock as autoMocker } from '@golevelup/ts-jest';
@@ -42,7 +42,7 @@ describe('FavoriteCryptocurrencyService', () => {
   });
 
   describe('upsertFavoriteCryptocurrencies', () => {
-    const mockUpsertRequest: UpsertFavoriteCryptocurrencyRequest = {
+    const mockUpsertRequest: UpsertFavoriteCryptocurrencyRequestDto = {
       userId: mockUserId,
       ...mockFavoriteCryptocurrencies[0],
       isFavorite: false,
@@ -54,7 +54,7 @@ describe('FavoriteCryptocurrencyService', () => {
         ...mockFavoriteCryptocurrencies[0],
       });
 
-      const result: UpsertFavoriteCryptocurrencyResponse =
+      const result: UpsertFavoriteCryptocurrencyResponseDto =
         await favoriteCryptocurrencyService.upsertFavoriteCryptocurrency(
           mockUpsertRequest,
         );
@@ -72,7 +72,7 @@ describe('FavoriteCryptocurrencyService', () => {
     it('should return 422 if upserting favorite cryptocurrency fails', async () => {
       favoriteCryptocurrencyRepository.upsertOne.mockResolvedValue(null);
 
-      const result: UpsertFavoriteCryptocurrencyResponse =
+      const result: UpsertFavoriteCryptocurrencyResponseDto =
         await favoriteCryptocurrencyService.upsertFavoriteCryptocurrency(
           mockUpsertRequest,
         );
@@ -89,7 +89,7 @@ describe('FavoriteCryptocurrencyService', () => {
   });
 
   describe('getFavoriteCryptocurrencies', () => {
-    const mockGetRequest: GetFavoriteCryptocurrenciesRequest = {
+    const mockGetRequest: GetFavoriteCryptocurrenciesRequestDto = {
       userId: mockUserId,
     };
 
@@ -109,7 +109,7 @@ describe('FavoriteCryptocurrencyService', () => {
         },
       ]);
 
-      const result: GetFavoriteCryptocurrenciesResponse =
+      const result: GetFavoriteCryptocurrenciesResponseDto =
         await favoriteCryptocurrencyService.getFavoriteCryptocurrencies(
           mockGetRequest,
         );
@@ -127,7 +127,7 @@ describe('FavoriteCryptocurrencyService', () => {
     it('should return empty array if no favorite cryptocurrencies are found for a user', async () => {
       favoriteCryptocurrencyRepository.findAllByUserId.mockResolvedValue([]);
 
-      const result: GetFavoriteCryptocurrenciesResponse =
+      const result: GetFavoriteCryptocurrenciesResponseDto =
         await favoriteCryptocurrencyService.getFavoriteCryptocurrencies(
           mockGetRequest,
         );
