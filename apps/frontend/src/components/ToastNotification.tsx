@@ -8,7 +8,9 @@ export const ToastNotification = () => {
   );
 
   return (
-    <div className={`toast-notification ${toastNotificationType}`}>
+    <div
+      className={`toast-notification ${toastNotificationType}`}
+      role="toast-notification">
       <p>{toastNotificationContent}</p>
     </div>
   );

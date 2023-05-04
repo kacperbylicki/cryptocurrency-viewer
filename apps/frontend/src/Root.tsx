@@ -1,5 +1,5 @@
 import { Loader } from './components/Loader';
-import { Menu } from './components/menu/Menu';
+import { Menu } from './components/Menu';
 import { ToastNotification } from './components/ToastNotification';
 import { ToastNotificationContext } from './context/ToastNotificationContext';
 import { useContext, useEffect, useState } from 'react';

@@ -1,13 +1,13 @@
-import '../../assets/styles/Menu.scss';
-import '../../assets/styles/authentication/RegisterForm.scss';
-import guest from '../../assets/images/guest.png';
+import '../assets/styles/Menu.scss';
+import '../assets/styles/authentication/RegisterForm.scss';
+import guest from '../assets/images/guest.png';
 import { AiOutlinePoweroff } from 'react-icons/ai';
-import { AuthContext } from '../../context/AuthContext';
+import { AuthContext } from '../context/AuthContext';
 import { GoSignIn } from 'react-icons/go';
 import { Link, useLocation } from 'react-router-dom';
-import { RegisterForm } from '../authentication/RegisterForm';
-import { Route, routes } from '../../router/MenuData';
-import { SignInForm } from '../authentication/SignInForm';
+import { RegisterForm } from './authentication/RegisterForm';
+import { Route, routes } from '../router/MenuData';
+import { SignInForm } from './authentication/SignInForm';
 import { useContext, useState } from 'react';
 
 type MenuProps = {
@@ -56,7 +56,7 @@ export const Menu = ({ width }: MenuProps) => {
   };
 
   return (
-    <div className="menu-wrapper">
+    <div className="menu-wrapper" role="menu">
       <div className="menu-icon">
         {activeMenu ? (
           <input
