@@ -3,6 +3,7 @@ import { LoaderContext } from './context/LoaderContext';
 import { Menu } from './components/Menu';
 import { Ranking } from './components/Ranking';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Statistics } from './components/statistics/Statistics';
 import { ToastNotification } from './components/ToastNotification';
 import { ToastNotificationContext } from './context/ToastNotificationContext';
 import { useContext, useEffect, useState } from 'react';
@@ -30,6 +31,7 @@ export const Root = () => {
         <Menu width={width} />
         {activeLoader && <Loader />}
         <Routes>
+          <Route path="/statistics" element={<Statistics />} />
           <Route path="/ranking" element={<Ranking />} />
         </Routes>
         {activeToastNotification && <ToastNotification />}
