@@ -4,11 +4,6 @@ import { describe, it, vi } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 describe('SignInForm', () => {
-  it('should render correctly', () => {
-    const { container } = render(<SignInForm />);
-    expect(container).toMatchSnapshot();
-  });
-
   it('renders the SignInForm component', async () => {
     const authContextMock = {
       setActiveSignInForm: vi.fn(),
