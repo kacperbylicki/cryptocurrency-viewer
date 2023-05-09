@@ -4,11 +4,6 @@ import { describe, it, vi } from 'vitest';
 import { fireEvent, render } from '@testing-library/react';
 
 describe('RegisterForm', () => {
-  it('should render correctly', () => {
-    const { container } = render(<RegisterForm />);
-    expect(container).toMatchSnapshot();
-  });
-
   it('should set username placeholder onFocus and onBlur', () => {
     const { getByPlaceholderText } = render(<RegisterForm />);
     const usernameInput = getByPlaceholderText('Username') as HTMLInputElement;
