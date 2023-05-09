@@ -106,7 +106,7 @@ describe('SignInForm', () => {
     expect(passwordInput).toHaveAttribute('placeholder', 'Password');
   });
 
-  it('submitting the sign-in form', async () => {
+  it('submits the sign-in form', async () => {
     const authContextMock = {
       setActiveSignInForm: vi.fn(),
       setActiveRegisterForm: vi.fn(),

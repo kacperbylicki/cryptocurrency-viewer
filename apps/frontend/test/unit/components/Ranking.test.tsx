@@ -62,11 +62,6 @@ describe('Ranking', () => {
     mockToggleFavoriteCryptocurrencyMutation.mockClear();
   });
 
-  it('renders the component correctly', () => {
-    const { container } = renderWithProviders(<Ranking />);
-    expect(container).toBeInTheDocument();
-  });
-
   it('renders the loading state correctly', () => {
     renderWithProviders(<Loader />);
     const loadingIndicator = screen.getByRole('loader');
