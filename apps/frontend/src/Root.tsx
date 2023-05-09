@@ -2,6 +2,7 @@ import { LiveChart } from './pages/LiveChart';
 import { Loader } from './components/Loader';
 import { LoaderContext } from './context/LoaderContext';
 import { Menu } from './components/Menu';
+import { News } from './pages/News';
 import { Ranking } from './components/Ranking';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { Statistics } from './components/statistics/Statistics';
@@ -35,6 +36,7 @@ export const Root = () => {
           <Route path="/live-chart" element={<LiveChart />} />
           <Route path="/statistics" element={<Statistics />} />
           <Route path="/ranking" element={<Ranking />} />
+          <Route path="/news" element={<News />} />
         </Routes>
         {activeToastNotification && <ToastNotification />}
       </div>
