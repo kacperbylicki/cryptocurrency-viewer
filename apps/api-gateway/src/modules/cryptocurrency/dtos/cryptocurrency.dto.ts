@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CryptocurrencyDto {
   @ApiProperty({
@@ -51,8 +51,8 @@ export class GetCryptocurrenciesDto {
   @ApiProperty({ type: Number, example: 10 })
   limit!: number;
 
-  @ApiProperty({ type: Number, example: 0 })
-  offset!: number;
+  @ApiPropertyOptional({ type: Number, example: 1 })
+  offset?: number;
 }
 
 export class GetCryptocurrencyDto {

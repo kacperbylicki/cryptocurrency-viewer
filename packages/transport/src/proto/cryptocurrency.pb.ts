@@ -109,7 +109,7 @@ export interface GetCryptocurrenciesRequest {
   orderBy: string;
   orderDirection: string;
   limit: number;
-  offset: number;
+  offset?: number;
 }
 
 export interface GetCryptocurrenciesResponse {
