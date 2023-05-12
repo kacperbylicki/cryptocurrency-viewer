@@ -8,6 +8,7 @@ import {
   IsInt,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   Max,
   Min,
@@ -40,9 +41,10 @@ export class GetCryptocurrenciesRequest implements IGetCryptocurrenciesRequest {
   @Max(100)
   limit!: number;
 
+  @IsOptional()
   @IsNumber()
   @Min(1)
-  offset!: number;
+  offset?: number;
 }
 
 export class GetCryptocurrenciesResponse
