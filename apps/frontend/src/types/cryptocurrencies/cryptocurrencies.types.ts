@@ -3,6 +3,11 @@ export type CryptocurrenciesResponse = {
   data: Cryptocurrency[] | null;
 };
 
+export type CryptocurrencyByUuidResponse = {
+  status: number;
+  data: Cryptocurrency | null;
+};
+
 export type Cryptocurrency = {
   uuid: string;
   change: string;
