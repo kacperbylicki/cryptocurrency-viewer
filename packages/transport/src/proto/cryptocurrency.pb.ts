@@ -38,9 +38,13 @@ export enum CryptocurrencyNews_Category {
 }
 
 export interface CryptocurrencyNews_Image {
+  thumbnail: CryptocurrencyNews_Image_Thumbnail;
+}
+
+export interface CryptocurrencyNews_Image_Thumbnail {
   contentUrl: string;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
 }
 
 export interface CryptocurrencyHistory {
