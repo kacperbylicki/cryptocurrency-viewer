@@ -1,0 +1,158 @@
+@import "./abstracts/variables";
+@import "./abstracts/mixins";
+
+.news {
+  @include column-center;
+  width: 100vw;
+  min-height: 680px;
+  padding: 2rem;
+
+  .search-and-header-wrapper {
+    width: 100%;
+    text-align: center;
+
+    .news-header {
+      padding: 6rem 0 2rem 0;
+
+      h2 {
+        font-size: 3rem;
+        color: #fff;
+        text-align: center;
+      }
+    }
+
+    .search-cryptocurrency {
+      width: 100%;
+      max-width: 450px;
+      margin: 2rem 0;
+      @include select;
+    }
+  }
+
+  .news-element-wrapper {
+    .empty-crypto-news-info {
+      font-size: 2rem;
+      color: $txt-grey;
+      font-weight: 500;
+      margin: 10rem 0;
+      text-align: center;
+    }
+
+    .news-element {
+      a {
+        @include row-y-center;
+        background-color: $elements-background;
+        padding: 1.5rem;
+        border-radius: 12px;
+        overflow: hidden;
+        margin: 2rem 0;
+        max-width: 450px;
+        transition: background-color 0.2s;
+
+        .news-element-img {
+          max-width: 100px;
+          max-height: 100px;
+          border-radius: 8px;
+          margin-right: 15px;
+        }
+
+        .news-element-information-wrapper {
+          .news-element-header {
+            font-size: 1.4rem;
+            color: #fff;
+            margin-bottom: 1.5rem;
+          }
+
+          .publication-time {
+            font-size: 1rem;
+            color: #fff;
+          }
+        }
+      }
+
+      &:active {
+        a {
+          background-color: $elements-hover;
+        }
+      }
+    }
+  }
+}
+
+@media all and (min-width: 1024px) {
+  .news {
+    align-items: flex-start;
+    padding: 2rem 4rem;
+    height: 100vh;
+
+    .search-and-header-wrapper {
+      @include row-y-center;
+      justify-content: space-between;
+      margin: 5rem 0;
+      .news-header {
+        padding: 0;
+      }
+
+      .search-cryptocurrency {
+        margin: 0 0 0 2rem;
+        max-width: 300px;
+      }
+    }
+
+    .news-element-wrapper {
+      margin: 0 auto;
+      overflow-y: auto;
+      padding: 0 2rem;
+
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: $elements_background;
+        border-radius: 100vw;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: $scrollbar-thumb-color;
+        border-radius: 100vw;
+      }
+
+      .news-element {
+        a {
+          width: 60vw;
+          max-width: 550px;
+          margin: 2rem 1rem;
+          .news-element-information-wrapper {
+            .news-element-header {
+              font-size: 1.6rem;
+              margin-bottom: 2rem;
+            }
+          }
+        }
+
+        &:hover {
+          a {
+            background-color: $elements-hover;
+          }
+        }
+      }
+    }
+  }
+
+  @media all and (min-width: 1350px) {
+    .news {
+      .news-element-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+
+        .news-element {
+          a {
+            max-width: 430px;
+          }
+        }
+      }
+    }
+  }
+}
