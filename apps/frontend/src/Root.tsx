@@ -1,3 +1,4 @@
+import { LiveChart } from './pages/LiveChart';
 import { Loader } from './components/Loader';
 import { LoaderContext } from './context/LoaderContext';
 import { Menu } from './components/Menu';
@@ -31,6 +32,7 @@ export const Root = () => {
         <Menu width={width} />
         {activeLoader && <Loader />}
         <Routes>
+          <Route path="/live-chart" element={<LiveChart />} />
           <Route path="/statistics" element={<Statistics />} />
           <Route path="/ranking" element={<Ranking />} />
         </Routes>
