@@ -1,0 +1,210 @@
+@import "./abstracts/variables";
+@import "./abstracts/mixins";
+
+.ranking {
+  @include column-center;
+  width: 100vw;
+  height: 100vh;
+  padding: 2rem;
+
+  .ranking-header {
+    padding: 6rem 0 3rem 0;
+
+    h2 {
+      font-size: 3rem;
+      color: #fff;
+    }
+  }
+
+  .ranking-table {
+    height: calc(100% - 137px - 39px);
+    width: 100%;
+
+    .ranking-table-header {
+      display: grid;
+      grid-template-columns: 10% 10% 40% 40%;
+      padding: 1rem 1.5rem;
+
+      div {
+        margin: 0 auto;
+      }
+
+      .ranking-sort {
+        @include row-y-center;
+        cursor: pointer;
+
+        svg {
+          transition: transform 0.2s;
+          font-size: 2.5rem;
+          color: #fff;
+
+          &.RiArrowDropUpLine {
+            transform: rotate(180deg);
+          }
+        }
+      }
+
+      p {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #fff;
+      }
+    }
+
+    .ranking-list-wrapper {
+      overflow-y: scroll;
+      height: 100%;
+
+      .ranking-list-element {
+        display: grid;
+        grid-template-columns: 10% 90%;
+        padding: 1rem 1.5rem;
+        background-color: $elements-background;
+        margin: 2rem 0;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: 0.2s;
+
+        .star-icon {
+          width: 100%;
+          height: 100%;
+
+          svg {
+            font-size: 1.5rem;
+            color: $txt-grey;
+            cursor: pointer;
+            transition: 0.2s;
+
+            &:active {
+              color: #ffcc33;
+            }
+          }
+
+          svg[class*="active"] {
+            color: #ffcc33;
+          }
+        }
+
+        div {
+          @include row-y-center;
+          padding: 0 0.5rem;
+
+          p {
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: $txt-grey;
+          }
+        }
+
+        .ranking-list-element-link {
+          display: grid;
+          grid-template-columns: 11.11% 44.44% 44.44%;
+
+          .item-name {
+            img {
+              max-width: 16px;
+            }
+
+            p {
+              &:nth-of-type(1) {
+                display: none;
+              }
+
+              &:nth-of-type(2) {
+                margin-left: 1rem;
+              }
+            }
+          }
+
+          .item-price {
+            margin: 0 auto;
+          }
+        }
+
+        &:active {
+          background-color: $elements-hover;
+        }
+      }
+    }
+  }
+}
+
+@media all and (min-width: 550px) {
+  .ranking {
+    .ranking-table {
+      .ranking-table-header {
+        grid-template-columns: 10% 10% 45% 35%;
+      }
+
+      .ranking-list-wrapper {
+        @include scroll-bar;
+
+        .ranking-list-element {
+          margin-right: 1rem;
+
+          .star-icon {
+            display: flex;
+            justify-content: center;
+          }
+
+          .ranking-list-element-link {
+            grid-template-columns: 11.11% calc(50% + 15px) 38.88%;
+
+            .item-name {
+              p {
+                &:nth-of-type(1) {
+                  display: block;
+                  margin-left: 1rem;
+                }
+
+                &:nth-of-type(2) {
+                  font-weight: 600;
+                }
+              }
+
+              img {
+                max-width: 24px;
+              }
+            }
+
+            .item-number {
+              margin: 0 auto;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media all and (min-width: 1024px) {
+  .ranking {
+    padding: 2rem 4rem;
+
+    .ranking-header {
+      padding: 5rem 0;
+    }
+    .ranking-table {
+      .ranking-table-header {
+        p {
+          font-size: 1.6rem;
+        }
+      }
+      .ranking-list-wrapper {
+        min-height: calc(680px - 137px - 45px);
+
+        .ranking-list-element {
+          div {
+            p {
+              font-size: 1.6rem;
+            }
+          }
+
+          &:hover {
+            background-color: $elements-hover;
+          }
+        }
+      }
+    }
+  }
+}
