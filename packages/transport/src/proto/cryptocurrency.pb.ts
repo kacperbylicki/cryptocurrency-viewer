@@ -43,8 +43,8 @@ export interface CryptocurrencyNews_Image {
 
 export interface CryptocurrencyNews_Image_Thumbnail {
   contentUrl: string;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
 }
 
 export interface CryptocurrencyHistory {
