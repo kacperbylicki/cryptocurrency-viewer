@@ -1,91 +1,78 @@
-import { BrowserRouter } from 'react-router-dom';
 import { Root } from '../../src/Root';
 import { ToastNotificationContext } from '../../src/context/ToastNotificationContext';
-import { ToastNotificationContextHandler } from '../../src/types/contexts/toast-notification.types';
-import { describe, it } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
+import {
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from '@testing-library/react';
+import { vi } from 'vitest';
 
-describe('Root', () => {
-  it('renders the Menu component', () => {
+describe('Root component', () => {
+  it('renders menu', () => {
+    render(<Root />);
+    const menuElement = screen.getByRole('menu');
+    expect(menuElement).toBeInTheDocument();
+  });
+
+  it('does not render toast notification when there is no active notification', () => {
     render(
       <ToastNotificationContext.Provider
-        value={
-          {
-            activeToastNotification: false,
-          } as unknown as ToastNotificationContextHandler
-        }>
-        <BrowserRouter>
-          <Root />
-        </BrowserRouter>
+        value={{
+          activeToastNotification: false,
+          toastNotificationType: 'error',
+          toastNotificationContent: 'something went wrong!',
+          showToastNotification: vi.fn(),
+        }}>
+        <Root />
+      </ToastNotificationContext.Provider>,
+    );
+    const toastNotificationElement = screen.queryByRole('toast-notification');
+    expect(toastNotificationElement).not.toBeInTheDocument();
+  });
+
+  it('renders toast notification when there is an active notification', () => {
+    render(
+      <ToastNotificationContext.Provider
+        value={{
+          activeToastNotification: true,
+          toastNotificationType: 'success',
+          toastNotificationContent: 'successfully logged in!',
+          showToastNotification: vi.fn(),
+        }}>
+        <Root />
+      </ToastNotificationContext.Provider>,
+    );
+    const toastNotificationElement = screen.getByRole('toast-notification');
+    expect(toastNotificationElement).toBeInTheDocument();
+  });
+
+  it('disappears after 2 seconds', async () => {
+    render(
+      <ToastNotificationContext.Provider
+        value={{
+          activeToastNotification: true,
+          toastNotificationType: 'success',
+          toastNotificationContent: 'successfully logged in!',
+          showToastNotification: vi.fn(),
+        }}>
+        <Root />
       </ToastNotificationContext.Provider>,
     );
 
-    expect(screen.getByRole('navigation')).toBeInTheDocument();
-  });
+    const toastNotificationElement = screen.getByRole('toast-notification');
+    expect(toastNotificationElement).toBeInTheDocument();
 
-  //   it('renders the ToastNotification component when there is an activeToastNotification', () => {
-  //     render(
-  //       <ToastNotificationContext.Provider
-  //         value={
-  //           {
-  //             activeToastNotification: true,
-  //             toastNotificationType: 'success',
-  //             toastNotificationContent: 'test',
-  //           } as unknown as ToastNotificationContextHandler
-  //         }>
-  //         <BrowserRouter>
-  //           <Root />
-  //         </BrowserRouter>
-  //       </ToastNotificationContext.Provider>,
-  //     );
+    act(() => {
+      vi.useFakeTimers();
+      vi.advanceTimersByTime(2000);
+    });
 
-  //     expect(screen.getByRole('alert')).toBeInTheDocument();
-  //     expect(screen.getByText('Test Message')).toBeInTheDocument();
-  //   });
+    await waitForElementToBeRemoved(
+      () => screen.getByRole('toast-notification'),
+      { timeout: 5000 },
+    );
 
-  //   it('does not render the ToastNotification component when there is no activeToastNotification', () => {
-  //     render(
-  //       <ToastNotificationContext.Provider
-  //         value={
-  //           {
-  //             activeToastNotification: false,
-  //           } as unknown as ToastNotificationContextHandler
-  //         }>
-  //         <BrowserRouter>
-  //           <Root />
-  //         </BrowserRouter>
-  //       </ToastNotificationContext.Provider>,
-  //     );
-
-  //     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-  //   });
-
-  //   it('updates the width state when the window is resized', async () => {
-  //     render(
-  //       <ToastNotificationContext.Provider
-  //         value={
-  //           {
-  //             activeToastNotification: false,
-  //           } as unknown as ToastNotificationContextHandler
-  //         }>
-  //         <BrowserRouter>
-  //           <Root />
-  //         </BrowserRouter>
-  //       </ToastNotificationContext.Provider>,
-  //     );
-
-  //     const initialWidth = window.innerWidth;
-
-  //     // Resize the window
-  //     Object.defineProperty(window, 'innerWidth', {
-  //       writable: true,
-  //       configurable: true,
-  //       value: initialWidth + 100,
-  //     });
-
-  //     fireEvent(window, new Event('resize'));
-
-  //     const menu = screen.getByRole('navigation');
-  //     expect(menu).toHaveAttribute('width', (initialWidth + 100).toString());
-  //   });
+    expect(screen.queryByRole('toast-notification')).not.toBeInTheDocument();
+  }, 5000);
 });

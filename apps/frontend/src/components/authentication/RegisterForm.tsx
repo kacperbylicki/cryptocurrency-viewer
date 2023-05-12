@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { MdClose } from 'react-icons/md';
+import { useContext, useState } from 'react';
 
-export const RegisterForm: React.FC = () => {
+export const RegisterForm = () => {
   const [usernamePlaceholder, setUsernamePlaceholder] = useState('Username');
   const [emailPlaceholder, setEmailPlaceholder] = useState('Email');
   const [passwordPlaceholder, setPasswordPlaceholder] = useState('Password');
