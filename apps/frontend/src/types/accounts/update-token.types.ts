@@ -4,8 +4,8 @@ export type UpdateTokenResponse = {
 };
 
 export type UpdateTokenResult = {
-  accessToken: string | null;
-  refreshToken: string | null;
+  accessToken: string;
+  refreshToken: string;
 };
 
 export type UpdateTokenPayload = {

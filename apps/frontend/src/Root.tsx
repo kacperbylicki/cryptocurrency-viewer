@@ -1,3 +1,4 @@
+import { AuthContext } from './context/AuthContext';
 import { Dashboard } from './pages/Dashboard';
 import { LiveChart } from './pages/LiveChart';
 import { Loader } from './components/Loader';
@@ -9,12 +10,18 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { Statistics } from './components/statistics/Statistics';
 import { ToastNotification } from './components/ToastNotification';
 import { ToastNotificationContext } from './context/ToastNotificationContext';
+import { createAxiosInstance } from './api/axiosInstance';
 import { useContext, useEffect, useState } from 'react';
 
 export const Root = () => {
   const [width, setWidth] = useState<number>(window.innerWidth);
   const { activeToastNotification } = useContext(ToastNotificationContext);
   const { activeLoader } = useContext(LoaderContext);
+  const { handleRefreshToken } = useContext(AuthContext);
+
+  useEffect(() => {
+    createAxiosInstance(handleRefreshToken);
+  }, []);
 
   // Checking the window size for the mobile version
   function handleWindowSizeChange() {

@@ -51,7 +51,6 @@ export const Dashboard = () => {
     }
   }, [cryptocurrenciesIsError, favoriteCryptocurrenciesIsError]);
 
-  console.log(favoriteCryptocurrenciesData);
   return (
     <section className="dashboard">
       <div className="dashboard-left-area">
@@ -66,17 +65,20 @@ export const Dashboard = () => {
               Ranking section and add them to your profile using stars
             </p>
           ) : user?.email ? (
-            favoriteCryptocurrenciesData?.data?.map((data: any) => (
-              <AbbreviatedStatistics
-                name={data?.cryptocurrency?.name}
-                symbol={data?.cryptocurrency?.symbol}
-                price={data?.cryptocurrency?.price}
-                iconUrl={data?.cryptocurrency?.iconUrl}
-                change={data?.cryptocurrency?.change}
-                rank={data?.cryptocurrency?.rank}
-                key={data?.cryptocurrency?.uuid}
-              />
-            ))
+            favoriteCryptocurrenciesData?.data?.map((data: any) =>
+              data?.isFavorite &&
+              Object.keys(data?.cryptocurrency || {}).length > 0 ? (
+                <AbbreviatedStatistics
+                  name={data?.cryptocurrency.name}
+                  symbol={data?.cryptocurrency.symbol}
+                  price={data?.cryptocurrency.price}
+                  iconUrl={data?.cryptocurrency.iconUrl}
+                  change={data?.cryptocurrency.change}
+                  rank={data?.cryptocurrency.rank}
+                  key={data?.cryptocurrency.uuid}
+                />
+              ) : null,
+            )
           ) : (
             cryptocurrenciesData?.data
               ?.slice(0, 9)

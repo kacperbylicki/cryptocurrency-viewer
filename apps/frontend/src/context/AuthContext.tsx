@@ -50,15 +50,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   //Login
   const { mutate: loginMutate } = useLoginMutation({
     onSuccess: (data) => {
-      localStorage.setItem('access_token', data.data?.accessToken ?? '');
-      localStorage.setItem('refresh_token', data.data?.refreshToken ?? '');
-      localStorage.setItem(
-        'user',
-        JSON.stringify(jwt_decode(data.data?.accessToken ?? '')),
-      );
-      setActiveSignInForm(false);
-      setActiveRegisterForm(false);
-      showToastNotification('successfully logged in!', 'success');
+      const accessToken = data.data?.accessToken;
+      const refreshToken = data.data?.refreshToken;
+
+      if (accessToken && refreshToken) {
+        localStorage.setItem('access_token', accessToken);
+        localStorage.setItem('refresh_token', refreshToken);
+        localStorage.setItem('user', JSON.stringify(jwt_decode(accessToken)));
+        setActiveSignInForm(false);
+        setActiveRegisterForm(false);
+        showToastNotification('Zalogowano pomyślnie!', 'success');
+      }
     },
     onError: (error: ErrorResponse) => {
       showToastNotification(
@@ -114,12 +116,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   //Update Token
   const { mutate: refreshTokenMutate } = useRefreshTokenMutation({
     onSuccess: (data) => {
-      localStorage.setItem('access_token', data.data?.accessToken ?? '');
-      localStorage.setItem('refresh_token', data.data?.refreshToken ?? '');
-      localStorage.setItem(
-        'user',
-        JSON.stringify(jwt_decode(data.data?.accessToken ?? '')),
-      );
+      const accessToken = data.data?.accessToken;
+      const refreshToken = data.data?.refreshToken;
+
+      if (accessToken && refreshToken) {
+        localStorage.setItem('access_token', accessToken);
+        localStorage.setItem('refresh_token', refreshToken);
+        localStorage.setItem('user', JSON.stringify(jwt_decode(accessToken)));
+      }
     },
     onError: (error: ErrorResponse) => {
       showToastNotification(
