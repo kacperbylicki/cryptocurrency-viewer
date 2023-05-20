@@ -3,7 +3,7 @@ import moment from 'moment';
 import noImage from '../assets/images/no_photo.png';
 import { Cryptocurrency } from '../types/cryptocurrencies/cryptocurrencies.types';
 import { CryptocurrencyNews } from '../types/cryptocurrencies/news.types';
-import { LoaderContext } from '../context/LoaderContext';
+import { Loader } from '../components/Loader';
 import { SelectedCryptocurrencyContext } from '../context/SelectedCryptocurrencyContext';
 import { ToastNotificationContext } from '../context/ToastNotificationContext';
 import { useContext, useEffect } from 'react';
@@ -14,7 +14,6 @@ export const News = () => {
   const { newsCategory, handleSelectCryptocurrency, activeUuid } = useContext(
     SelectedCryptocurrencyContext,
   );
-  const { setActiveLoader } = useContext(LoaderContext);
   const { showToastNotification } = useContext(ToastNotificationContext);
 
   //Fetching data
@@ -28,15 +27,7 @@ export const News = () => {
     data: newsData,
     isLoading: newsIsLoading,
     isError: newsIsError,
-  } = useNewsQuery(newsCategory);
-
-  useEffect(() => {
-    if (cryptocurrenciesIsLoading || newsIsLoading) {
-      setActiveLoader(true);
-    } else {
-      setActiveLoader(false);
-    }
-  }, [cryptocurrenciesIsLoading, newsIsLoading]);
+  } = useNewsQuery(newsCategory, 100);
 
   useEffect(() => {
     if (cryptocurrenciesIsError || newsIsError) {
@@ -94,12 +85,14 @@ export const News = () => {
             </a>
           </div>
         ))}
-        {!newsData?.data?.length && (
-          <p className="empty-crypto-news-info">
-            We currently do not have any news
-          </p>
-        )}
+        {!newsData?.data?.length &&
+          (!cryptocurrenciesIsLoading || !newsIsLoading) && (
+            <p className="empty-crypto-news-info">
+              We currently do not have any news
+            </p>
+          )}
       </div>
+      {(cryptocurrenciesIsLoading || newsIsLoading) && <Loader />}
     </section>
   );
 };

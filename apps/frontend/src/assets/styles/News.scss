@@ -3,6 +3,7 @@
 
 .news {
   @include column-center;
+  position: relative;
   width: 100vw;
   min-height: 680px;
   padding: 2rem;

@@ -32,6 +32,7 @@
 
   .price {
     @include statistics-div-element;
+    position: relative;
 
     div {
       display: flex;
@@ -57,6 +58,8 @@
 
   .height24h {
     @include statistics-div-element;
+    position: relative;
+    min-height: 200px;
 
     .height24h-header {
       display: flex;
@@ -82,6 +85,8 @@
 
   .low24h {
     @include statistics-div-element;
+    position: relative;
+    min-height: 200px;
 
     .low24h-header {
       display: flex;
@@ -107,6 +112,8 @@
 
   .rank {
     @include statistics-div-element;
+    position: relative;
+    min-height: 200px;
 
     .rank-header {
       display: flex;
@@ -157,6 +164,8 @@
       }
 
       .live-chart-statistics {
+        position: relative;
+        min-height: 200px;
         width: 100%;
         margin-top: 2rem;
       }
@@ -165,6 +174,8 @@
     .market-cap-and-percent-change {
       .market-cap {
         @include statistics-div-element;
+        position: relative;
+        min-height: 100px;
 
         div {
           display: flex;
@@ -180,12 +191,15 @@
 
         .market-cap-value {
           @include statistics-div-element-value;
+          position: relative;
           overflow-wrap: anywhere;
         }
       }
 
       .percent-change {
         @include statistics-div-element;
+        position: relative;
+        min-height: 150px;
 
         div {
           display: flex;
