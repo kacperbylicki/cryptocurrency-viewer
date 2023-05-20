@@ -5,6 +5,6 @@
     "outDir": "dist"
   },
   "include": ["src",
-    "test", "vite.config.ts"],
+    "test", "vite.config.ts", "src/assets/animations/animation.json"],
   "exclude": ["node_modules", "dist", "src/**/*.test.ts, src/**/*.test.tsx"],
 }
