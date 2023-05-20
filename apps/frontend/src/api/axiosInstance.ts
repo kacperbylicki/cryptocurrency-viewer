@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 
 export function createAxiosInstance(handleRefreshToken: () => Promise<void>) {
   const axiosInstance = axios.create({
@@ -14,16 +14,10 @@ export function createAxiosInstance(handleRefreshToken: () => Promise<void>) {
     reject: (reason?: any) => void;
   }> = [];
 
-  const processQueue = (error: AxiosError | null, token: string | null) => {
-    failedQueue.forEach((prom) => {
-      if (error) {
-        prom.reject(error);
-      } else {
-        prom.resolve(token);
-      }
-    });
-
-    failedQueue = [];
+  const logoutUser = () => {
+    localStorage.setItem('access_token', '');
+    localStorage.setItem('refresh_token', '');
+    localStorage.setItem('user', '');
   };
 
   axiosInstance.interceptors.response.use(
@@ -52,15 +46,8 @@ export function createAxiosInstance(handleRefreshToken: () => Promise<void>) {
 
         try {
           await handleRefreshToken();
-          const newToken = localStorage.getItem('access_token');
-          axiosInstance.defaults.headers.common['Authorization'] =
-            'Bearer ' + newToken;
-          originalRequest.headers['Authorization'] = 'Bearer ' + newToken;
-          processQueue(null, newToken);
-          return axiosInstance(originalRequest);
         } catch (err) {
-          processQueue(error as AxiosError, null);
-          return Promise.reject(err);
+          logoutUser();
         } finally {
           isRefreshing = false;
         }

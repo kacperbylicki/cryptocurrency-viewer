@@ -1,4 +1,3 @@
-import { AuthContext } from '../../context/AuthContext';
 import { ErrorResponse } from '../../types/accounts/error.types';
 import {
   FavouriteCryptocurrency,
@@ -6,9 +5,9 @@ import {
 } from '../../types/cryptocurrencies/favouriteCryptocurrencies.types';
 import { UseMutationOptions, useMutation } from 'react-query';
 import { createAxiosInstance } from '../axiosInstance';
-import { useContext } from 'react';
 
 export const useToggleFavoriteCryptocurrencyMutation = (
+  handleRefreshToken: () => Promise<void>,
   accessToken: string,
   options?: UseMutationOptions<
     ToggleFavouriteCryptocurrencyResponse,
@@ -16,7 +15,6 @@ export const useToggleFavoriteCryptocurrencyMutation = (
     FavouriteCryptocurrency
   >,
 ) => {
-  const { handleRefreshToken } = useContext(AuthContext);
   const axiosInstance = createAxiosInstance(handleRefreshToken);
 
   const toggleFavoriteCryptocurrency = async (
@@ -35,8 +33,12 @@ export const useToggleFavoriteCryptocurrencyMutation = (
       );
       return data;
     } catch (error: unknown) {
-      const status = (error as ErrorResponse)?.response?.status || 500;
-      throw { status };
+      const errorData = (error as ErrorResponse)?.response?.data;
+      if (errorData?.error) {
+        throw new Error('This option is available for logged in users');
+      } else {
+        throw new Error('An error occurred');
+      }
     }
   };
 

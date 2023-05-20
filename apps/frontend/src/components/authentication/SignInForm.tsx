@@ -39,7 +39,7 @@ export const SignInForm = () => {
         <input
           required
           type="email"
-          name="email"
+          name="email_signin"
           placeholder={emailPlaceholder}
           onFocus={() => setEmailPlaceholder('')}
           onBlur={() => setEmailPlaceholder('Email')}
@@ -47,7 +47,7 @@ export const SignInForm = () => {
         <input
           required
           type="password"
-          name="password"
+          name="password_signin"
           placeholder={passwordPlaceholder}
           onFocus={() => setPasswordPlaceholder('')}
           onBlur={() => setPasswordPlaceholder('Password')}

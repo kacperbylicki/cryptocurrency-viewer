@@ -36,7 +36,7 @@ export const RegisterForm = () => {
         <input
           required
           type="text"
-          name="username"
+          name="username_register"
           placeholder={usernamePlaceholder}
           onFocus={() => setUsernamePlaceholder('')}
           onBlur={() => setUsernamePlaceholder('Username')}
@@ -44,7 +44,7 @@ export const RegisterForm = () => {
         <input
           required
           type="email"
-          name="email"
+          name="email_register"
           placeholder={emailPlaceholder}
           onFocus={() => setEmailPlaceholder('')}
           onBlur={() => setEmailPlaceholder('Email')}
@@ -52,7 +52,7 @@ export const RegisterForm = () => {
         <input
           required
           type="password"
-          name="password"
+          name="password_register"
           placeholder={passwordPlaceholder}
           onFocus={() => setPasswordPlaceholder('')}
           onBlur={() => setPasswordPlaceholder('Password')}
@@ -60,7 +60,7 @@ export const RegisterForm = () => {
         <input
           required
           type="password"
-          name="confirm_password"
+          name="confirm_password_register"
           placeholder={confirmPasswordPlaceholder}
           onFocus={() => setConfirmPasswordPlaceholder('')}
           onBlur={() => setConfirmPasswordPlaceholder('Confirm Password')}

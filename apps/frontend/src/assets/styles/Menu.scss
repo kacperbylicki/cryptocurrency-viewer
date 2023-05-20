@@ -27,27 +27,27 @@
     .dot-menu__label span:before {
       content: "";
       position: absolute;
-      left: $dot-menu-size / 2 - $dot-menu-dot-size / 2;
+      left: calc(#{$dot-menu-size} / 2 - #{$dot-menu-dot-size} / 2);
       width: $dot-menu-dot-size;
       height: $dot-menu-dot-size;
       border-radius: $dot-menu-dot-size;
       background-color: $dot-menu-dot-color;
       transition: 0.4s;
     }
-
+    
     .dot-menu__label:before {
-      top: ($dot-menu-size / 2 - $dot-menu-dot-size / 2) +
-        ($dot-menu-dot-size * 1.5);
+      top: calc(#{$dot-menu-size} / 2 - #{$dot-menu-dot-size} / 2 + (#{$dot-menu-dot-size} * 1.5));
     }
-
+    
     .dot-menu__label:after {
-      top: ($dot-menu-size / 2 - $dot-menu-dot-size / 2) -
-        ($dot-menu-dot-size * 1.5);
+      top: calc(#{$dot-menu-size} / 2 - #{$dot-menu-dot-size} / 2 - (#{$dot-menu-dot-size} * 1.5));
     }
-
+    
     .dot-menu__label span:before {
-      top: ($dot-menu-size / 2 - $dot-menu-dot-size / 2);
+      top: calc(#{$dot-menu-size} / 2 - #{$dot-menu-dot-size} / 2);
     }
+    
+    
 
     .dot-menu__checkbox:checked {
       ~ .dot-menu__label:before {

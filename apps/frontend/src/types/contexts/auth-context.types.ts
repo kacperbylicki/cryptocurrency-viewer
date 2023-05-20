@@ -7,6 +7,7 @@ export interface AuthContextHandler {
   handleRefreshToken: () => Promise<void>;
   user?: User;
   accessToken?: string;
+  refreshToken?: string;
   setActiveRegisterForm: Dispatch<React.SetStateAction<boolean>>;
   activeRegisterForm: boolean;
   setActiveSignInForm: Dispatch<SetStateAction<boolean>>;

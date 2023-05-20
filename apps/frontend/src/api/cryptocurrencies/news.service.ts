@@ -5,15 +5,18 @@ import { createAxiosInstance } from '../axiosInstance';
 import { useContext } from 'react';
 import { useQuery } from 'react-query';
 
-export const useNewsQuery = (category: string) => {
+export const useNewsQuery = (category: string, limit: number) => {
   const { handleRefreshToken } = useContext(AuthContext);
   const axiosInstance = createAxiosInstance(handleRefreshToken);
 
-  const getNews = async (category: string): Promise<NewsResponse> => {
+  const getNews = async (
+    category: string,
+    limit: number,
+  ): Promise<NewsResponse> => {
     try {
       const queryParams = new URLSearchParams({
         category,
-        limit: '50',
+        limit: limit.toString(),
         offset: '1',
       }).toString();
 
@@ -27,7 +30,8 @@ export const useNewsQuery = (category: string) => {
     }
   };
 
-  return useQuery<NewsResponse, ErrorResponse>(['getNews', category], () =>
-    getNews(category),
+  return useQuery<NewsResponse, ErrorResponse>(
+    ['getNews', category, limit],
+    () => getNews(category, limit),
   );
 };

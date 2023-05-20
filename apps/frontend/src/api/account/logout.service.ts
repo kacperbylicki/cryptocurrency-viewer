@@ -1,15 +1,13 @@
-import { AuthContext } from '../../context/AuthContext';
 import { ErrorResponse } from '../../types/accounts/error.types';
 import { LogoutResponse } from '../../types/accounts/logout.types';
 import { UseMutationOptions, useMutation } from 'react-query';
 import { createAxiosInstance } from '../axiosInstance';
-import { useContext } from 'react';
 
 export const useLogoutMutation = (
+  handleRefreshToken: () => Promise<void>,
   accessToken: string,
   options?: UseMutationOptions<LogoutResponse, ErrorResponse>,
 ) => {
-  const { handleRefreshToken } = useContext(AuthContext);
   const axiosInstance = createAxiosInstance(handleRefreshToken);
 
   const logout = async (accessToken: string): Promise<LogoutResponse> => {
@@ -19,8 +17,13 @@ export const useLogoutMutation = (
       });
       return status;
     } catch (error: unknown) {
-      const status = (error as ErrorResponse)?.status || 500;
-      return { status };
+      const errorData = (error as ErrorResponse)?.response?.data;
+      if (errorData?.error) {
+        const errorMessage = errorData.error[0];
+        throw new Error(errorMessage);
+      } else {
+        throw new Error('An error occurred');
+      }
     }
   };
 

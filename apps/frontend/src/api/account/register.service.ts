@@ -1,4 +1,3 @@
-import { AuthContext } from '../../context/AuthContext';
 import { ErrorResponse } from '../../types/accounts/error.types';
 import {
   RegisterPayload,
@@ -6,16 +5,15 @@ import {
 } from '../../types/accounts/register.types';
 import { UseMutationOptions, useMutation } from 'react-query';
 import { createAxiosInstance } from '../axiosInstance';
-import { useContext } from 'react';
 
 export const useRegisterMutation = (
+  handleRefreshToken: () => Promise<void>,
   options?: UseMutationOptions<
     RegisterResponse,
     ErrorResponse,
     RegisterPayload
   >,
 ) => {
-  const { handleRefreshToken } = useContext(AuthContext);
   const axiosInstance = createAxiosInstance(handleRefreshToken);
 
   const register = async (
@@ -25,8 +23,13 @@ export const useRegisterMutation = (
       const status = await axiosInstance.post('/accounts/register', params);
       return status;
     } catch (error: unknown) {
-      const status = (error as ErrorResponse)?.status || 500;
-      return { status };
+      const errorData = (error as ErrorResponse)?.response?.data;
+      if (errorData?.error) {
+        const errorMessage = errorData.error[0];
+        throw new Error(errorMessage);
+      } else {
+        throw new Error('An error occurred');
+      }
     }
   };
 
