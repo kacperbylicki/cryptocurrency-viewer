@@ -3,16 +3,27 @@
 
 .ranking {
   @include column-center;
+  position: relative;
   width: 100vw;
   height: 100vh;
   padding: 2rem;
 
-  .ranking-header {
-    padding: 6rem 0 3rem 0;
+  .ranking-header-wrapper {
+    .ranking-header {
+      padding: 6rem 0 3rem 0;
 
-    h2 {
-      font-size: 3rem;
-      color: #fff;
+      h2 {
+        text-align: center;
+        font-size: 3rem;
+        color: #fff;
+      }
+    }
+
+    .select-time-period {
+      @include select;
+      width: 90vw;
+      max-width: 450px;
+      margin: 2rem 0 4rem 0;
     }
   }
 
@@ -181,8 +192,21 @@
   .ranking {
     padding: 2rem 4rem;
 
-    .ranking-header {
-      padding: 5rem 0;
+    .ranking-header-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin: 5rem 0;
+
+      .ranking-header {
+        padding: 0;
+      }
+
+      .select-time-period {
+        margin: 0;
+        max-width: 100px;
+      }
     }
     .ranking-table {
       .ranking-table-header {

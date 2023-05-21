@@ -4,18 +4,17 @@ import noImage from '../../assets/images/no_photo.png';
 import { Cryptocurrency } from '../../types/cryptocurrencies/cryptocurrencies.types';
 import { CryptocurrencyNews } from '../../types/cryptocurrencies/news.types';
 import { Link } from 'react-router-dom';
-import { LoaderContext } from '../../context/LoaderContext';
+import { Loader } from '../Loader';
 import { SelectedCryptocurrencyContext } from '../../context/SelectedCryptocurrencyContext';
 import { ToastNotificationContext } from '../../context/ToastNotificationContext';
 import { useContext, useEffect } from 'react';
 import { useCryptocurrenciesQuery } from '../../api/cryptocurrencies/cryptocurrencies.service';
 import { useNewsQuery } from '../../api/cryptocurrencies/news.service';
 
-export const NewsDashboard: React.FC = () => {
+export const NewsDashboard = () => {
   const { newsCategory, handleSelectCryptocurrency, activeUuid } = useContext(
     SelectedCryptocurrencyContext,
   );
-  const { setActiveLoader } = useContext(LoaderContext);
   const { showToastNotification } = useContext(ToastNotificationContext);
 
   //Fetching data
@@ -23,21 +22,13 @@ export const NewsDashboard: React.FC = () => {
     data: newsData,
     isLoading: newsIsLoading,
     isError: newsIsError,
-  } = useNewsQuery(newsCategory);
+  } = useNewsQuery(newsCategory, 10);
 
   const {
     data: cryptocurrenciesData,
     isLoading: cryptocurrenciesIsLoading,
     isError: cryptocurrenciesIsError,
-  } = useCryptocurrenciesQuery('24h', 1, 'marketCap', 'desc', 50, 1);
-
-  useEffect(() => {
-    if (cryptocurrenciesIsLoading || newsIsLoading) {
-      setActiveLoader(true);
-    } else {
-      setActiveLoader(false);
-    }
-  }, [cryptocurrenciesIsLoading, newsIsLoading]);
+  } = useCryptocurrenciesQuery('24h', 1, 'marketCap', 'desc', 50, 0);
 
   useEffect(() => {
     if (cryptocurrenciesIsError || newsIsError) {
@@ -90,15 +81,19 @@ export const NewsDashboard: React.FC = () => {
             </a>
           </div>
         ))}
-        {newsData?.data?.length === 0 && (
-          <p className="empty-crypto-news-info-dashboard">
-            We currently do not have any news
-          </p>
+        {(!newsData?.data || newsData?.data?.length === 0) &&
+          !newsIsLoading && (
+            <p className="empty-crypto-news-info-dashboard">
+              We currently do not have any news for this cryptocurrency
+            </p>
+          )}
+        {!newsIsLoading && (
+          <Link to="/news">
+            <button className="news-dashboard-button">Show all</button>
+          </Link>
         )}
-        <Link to="/news">
-          <button className="news-dashboard-button">Show all</button>
-        </Link>
       </div>
+      {(newsIsLoading || cryptocurrenciesIsLoading) && <Loader />}
     </div>
   );
 };

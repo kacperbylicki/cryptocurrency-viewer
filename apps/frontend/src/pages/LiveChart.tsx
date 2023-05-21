@@ -1,7 +1,7 @@
 import '../assets/styles/LiveChart.scss';
 import { Chart } from '../components/charts/Chart';
 import { Cryptocurrency } from '../types/cryptocurrencies/cryptocurrencies.types';
-import { LoaderContext } from '../context/LoaderContext';
+import { Loader } from '../components/Loader';
 import { SelectedCryptocurrencyContext } from '../context/SelectedCryptocurrencyContext';
 import { ToastNotificationContext } from '../context/ToastNotificationContext';
 import { useContext, useEffect, useState } from 'react';
@@ -17,7 +17,6 @@ export const LiveChart = () => {
   const { handleSelectCryptocurrency, activeUuid } = useContext(
     SelectedCryptocurrencyContext,
   );
-  const { setActiveLoader } = useContext(LoaderContext);
   const { showToastNotification } = useContext(ToastNotificationContext);
 
   //Fetching data
@@ -25,7 +24,7 @@ export const LiveChart = () => {
     data: cryptocurrenciesData,
     isLoading: cryptocurrenciesIsLoading,
     isError: cryptocurrenciesIsError,
-  } = useCryptocurrenciesQuery('24h', 1, 'marketCap', 'desc', 50, 1);
+  } = useCryptocurrenciesQuery('24h', 1, 'marketCap', 'desc', 50, 0);
 
   const {
     data: cryptocurrencyByUuidData,
@@ -38,22 +37,6 @@ export const LiveChart = () => {
     isLoading: cryptocurrencyHistoryLoading,
     isError: cryptocurrencyHistoryError,
   } = useGetCryptocurrencyHistoryQuery(activeUuid, timePeriod);
-
-  useEffect(() => {
-    if (
-      cryptocurrenciesIsLoading ||
-      cryptocurrencyByUuidLoading ||
-      cryptocurrencyHistoryLoading
-    ) {
-      setActiveLoader(true);
-    } else {
-      setActiveLoader(false);
-    }
-  }, [
-    cryptocurrenciesIsLoading,
-    cryptocurrencyByUuidLoading,
-    cryptocurrencyHistoryLoading,
-  ]);
 
   useEffect(() => {
     if (
@@ -131,26 +114,31 @@ export const LiveChart = () => {
             ))}
           </select>
           <p>
-            {cryptocurrencyByUuidData?.data &&
-            parseFloat(cryptocurrencyByUuidData?.data?.price) < 1
-              ? `Current price: $${
-                  Math.round(
-                    parseFloat(cryptocurrencyByUuidData?.data?.price) * 1000000,
-                  ) / 1000000
-                }`
-              : `Current price: $${
-                  Math.round(
-                    parseFloat(
-                      cryptocurrencyByUuidData?.data?.price as string,
-                    ) * 10,
-                  ) / 10
-                }`}
+            {cryptocurrencyByUuidData?.data
+              ? parseFloat(cryptocurrencyByUuidData?.data?.price) < 1
+                ? `Current price: $${
+                    Math.round(
+                      parseFloat(cryptocurrencyByUuidData?.data?.price) *
+                        1000000,
+                    ) / 1000000
+                  }`
+                : `Current price: $${
+                    Math.round(
+                      parseFloat(
+                        cryptocurrencyByUuidData?.data?.price as string,
+                      ) * 10,
+                    ) / 10
+                  }`
+              : null}
           </p>
         </div>
         <div className="live-chart-area">
           <Chart prices={prices} timestamps={timestamps} />
         </div>
       </div>
+      {(cryptocurrenciesIsLoading ||
+        cryptocurrencyByUuidLoading ||
+        cryptocurrencyHistoryLoading) && <Loader />}
     </section>
   );
 };

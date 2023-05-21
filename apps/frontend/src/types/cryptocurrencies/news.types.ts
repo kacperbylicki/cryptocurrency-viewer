@@ -6,7 +6,15 @@ export type NewsResponse = {
 export type CryptocurrencyNews = {
   name?: string;
   url?: string;
-  image?: any;
+  image?: CryptocurrencyNewsImage;
   description?: string;
   datePublished?: string;
+};
+
+export type CryptocurrencyNewsImage = {
+  thumbnail?: {
+    contentUrl?: string;
+    width?: number;
+    height?: number;
+  };
 };

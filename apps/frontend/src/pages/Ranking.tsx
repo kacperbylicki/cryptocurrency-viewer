@@ -3,10 +3,11 @@ import { AuthContext } from '../context/AuthContext';
 import { Cryptocurrency } from '../types/cryptocurrencies/cryptocurrencies.types';
 import { FavouriteCryptocurrency } from '../types/cryptocurrencies/favouriteCryptocurrencies.types';
 import { Link } from 'react-router-dom';
-import { LoaderContext } from '../context/LoaderContext';
+import { Loader } from '../components/Loader';
 import { RiArrowDropDownLine, RiStarLine } from 'react-icons/ri';
 import { SelectedCryptocurrencyContext } from '../context/SelectedCryptocurrencyContext';
 import { ToastNotificationContext } from '../context/ToastNotificationContext';
+import { formatNumber } from '../helpers/formatUtils';
 import { useContext, useEffect, useState } from 'react';
 import { useCryptocurrenciesQuery } from '../api/cryptocurrencies/cryptocurrencies.service';
 import { useGetFavouriteCryptocurrenciesQuery } from '../api/cryptocurrencies/getFavoriteCryptocurrencies.service';
@@ -15,29 +16,27 @@ import { useToggleFavoriteCryptocurrencyMutation } from '../api/cryptocurrencies
 
 export const Ranking = () => {
   const [rankingToggle, setRankingToggle] = useState<boolean>(true);
+  const timePeriodOptions = ['24h', '7d', '30d'];
+  const [timePeriod, setTimePeriod] = useState<string>(timePeriodOptions[0]);
   const { handleSelectCryptocurrency } = useContext(
     SelectedCryptocurrencyContext,
   );
-  const { accessToken } = useContext(AuthContext);
-  const { setActiveLoader } = useContext(LoaderContext);
+  const { accessToken, handleRefreshToken } = useContext(AuthContext);
   const { showToastNotification } = useContext(ToastNotificationContext);
   const queryClient = useQueryClient();
 
   const toggleFavoriteMutation = useToggleFavoriteCryptocurrencyMutation(
+    handleRefreshToken,
     accessToken!,
     {
       onSuccess: async () => {
         await queryClient.invalidateQueries('getFavouriteCryptocurrencies');
       },
       onError: (error) => {
-        if (error?.status === 401) {
-          showToastNotification(
-            'this option is only available to logged in users!',
-            'warning',
-          );
-        } else {
-          showToastNotification('something went wrong!', 'error');
-        }
+        showToastNotification(
+          error.response?.data.error[0] ?? error.message,
+          'error',
+        );
       },
     },
   );
@@ -46,7 +45,7 @@ export const Ranking = () => {
     data: cryptocurrenciesData,
     isLoading: cryptocurrenciesIsLoading,
     isError: cryptocurrenciesIsError,
-  } = useCryptocurrenciesQuery('24h', 1, 'marketCap', 'desc', 50, 1);
+  } = useCryptocurrenciesQuery(timePeriod, 1, 'marketCap', 'desc', 50, 0);
 
   const {
     data: favoriteCryptocurrenciesData,
@@ -63,14 +62,6 @@ export const Ranking = () => {
       refetchFavouriteCryptocurrencies();
     }
   }, [accessToken, refetchFavouriteCryptocurrencies]);
-
-  useEffect(() => {
-    if (favoriteCryptocurrenciesIsLoading || cryptocurrenciesIsLoading) {
-      setActiveLoader(true);
-    } else {
-      setActiveLoader(false);
-    }
-  }, [favoriteCryptocurrenciesIsLoading, cryptocurrenciesIsLoading]);
 
   useEffect(() => {
     if (cryptocurrenciesIsError || favoriteCryptocurrenciesIsError) {
@@ -92,8 +83,19 @@ export const Ranking = () => {
 
   return (
     <section className="ranking">
-      <div className="ranking-header">
-        <h2>Ranking</h2>
+      <div className="ranking-header-wrapper">
+        <div className="ranking-header">
+          <h2>Ranking</h2>
+        </div>
+        <select
+          className="select-time-period"
+          onChange={(e) => setTimePeriod(e.target.value)}>
+          {timePeriodOptions.map((time: string) => (
+            <option key={time} value={time}>
+              {time}
+            </option>
+          ))}
+        </select>
       </div>
       <div className="ranking-table">
         <div className="ranking-table-header">
@@ -170,19 +172,7 @@ export const Ranking = () => {
                       <p>{cryptocurrency?.symbol}</p>
                     </div>
                     <div className="item-price">
-                      <p>
-                        {parseFloat(cryptocurrency?.price) < 1
-                          ? `${
-                              Math.round(
-                                parseFloat(cryptocurrency?.price) * 1000000,
-                              ) / 1000000
-                            }$`
-                          : `${
-                              Math.round(
-                                parseFloat(cryptocurrency?.price) * 100,
-                              ) / 100
-                            }$`}
-                      </p>
+                      <p>{formatNumber(parseFloat(cryptocurrency?.price))}</p>
                     </div>
                   </Link>
                 </div>
@@ -191,6 +181,9 @@ export const Ranking = () => {
           )}
         </div>
       </div>
+      {(cryptocurrenciesIsLoading || favoriteCryptocurrenciesIsLoading) && (
+        <Loader />
+      )}
     </section>
   );
 };

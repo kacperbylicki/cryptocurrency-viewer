@@ -1,16 +1,17 @@
-import '../../assets/styles/Statistics.scss';
-import { Cryptocurrency } from '../../types/cryptocurrencies/cryptocurrencies.types';
+import '../assets/styles/Statistics.scss';
+import { Cryptocurrency } from '../types/cryptocurrencies/cryptocurrencies.types';
 import { FiMaximize2 } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import { LoaderContext } from '../../context/LoaderContext';
+import { Loader } from '../components/Loader';
 import { MdArrowDropDown, MdArrowDropUp } from 'react-icons/md';
 import { RiMedalFill } from 'react-icons/ri';
-import { SelectedCryptocurrencyContext } from '../../context/SelectedCryptocurrencyContext';
-import { SmallChart } from './SmallChart';
-import { ToastNotificationContext } from '../../context/ToastNotificationContext';
+import { SelectedCryptocurrencyContext } from '../context/SelectedCryptocurrencyContext';
+import { SmallChart } from '../components/charts/SmallChart';
+import { ToastNotificationContext } from '../context/ToastNotificationContext';
+import { formatNumber } from '../helpers/formatUtils';
 import { useCallback, useContext, useEffect, useState } from 'react';
-import { useCryptocurrenciesQuery } from '../../api/cryptocurrencies/cryptocurrencies.service';
-import { useGetCryptocurrencyByUuidQuery } from '../../api/cryptocurrencies/getCryptocurrencyByUuid.service';
+import { useCryptocurrenciesQuery } from '../api/cryptocurrencies/cryptocurrencies.service';
+import { useGetCryptocurrencyByUuidQuery } from '../api/cryptocurrencies/getCryptocurrencyByUuid.service';
 
 export const Statistics = () => {
   const [lowestPrice, setLowestPrice] = useState<number>();
@@ -20,30 +21,15 @@ export const Statistics = () => {
   const { handleSelectCryptocurrency, activeUuid } = useContext(
     SelectedCryptocurrencyContext,
   );
-  const { setActiveLoader } = useContext(LoaderContext);
   const { showToastNotification } = useContext(ToastNotificationContext);
   const timePeriodOptions = ['24h', '7d', '30d'];
 
   //Fetching data
-  const {
-    data: cryptocurrenciesData,
-    isLoading: cryptocurrenciesIsLoading,
-    isError: cryptocurrenciesIsError,
-  } = useCryptocurrenciesQuery('24h', 1, 'marketCap', 'desc', 50, 1);
+  const { data: cryptocurrenciesData, isError: cryptocurrenciesIsError } =
+    useCryptocurrenciesQuery('24h', 1, 'marketCap', 'desc', 50, 0);
 
-  const {
-    data: cryptocurrencyByUuidData,
-    isLoading: cryptocurrencyByUuidLoading,
-    isError: cryptocurrencyByUuidError,
-  } = useGetCryptocurrencyByUuidQuery(activeUuid, timePeriod);
-
-  useEffect(() => {
-    if (cryptocurrenciesIsLoading || cryptocurrencyByUuidLoading) {
-      setActiveLoader(true);
-    } else {
-      setActiveLoader(false);
-    }
-  }, [cryptocurrenciesIsLoading, cryptocurrencyByUuidLoading]);
+  const { data: cryptocurrencyByUuidData, isError: cryptocurrencyByUuidError } =
+    useGetCryptocurrencyByUuidQuery(activeUuid, timePeriod);
 
   useEffect(() => {
     if (cryptocurrenciesIsError || cryptocurrencyByUuidError) {
@@ -116,32 +102,31 @@ export const Statistics = () => {
 
       <main className="statistics-main-container">
         <div className="price">
-          <div>
-            <img
-              src={cryptocurrencyByUuidData?.data?.iconUrl}
-              alt="Coin logo"
-            />
-            <p>
-              {cryptocurrencyByUuidData?.data?.name}{' '}
-              {cryptocurrencyByUuidData?.data?.symbol}
-            </p>
-          </div>
-          <p className="price-txt">
-            {cryptocurrencyByUuidData?.data &&
-            parseFloat(cryptocurrencyByUuidData?.data?.price ?? '0') < 1
-              ? `$${
-                  Math.round(
-                    parseFloat(cryptocurrencyByUuidData?.data?.price ?? '0') *
-                      1000000,
-                  ) / 1000000
-                }`
-              : `$${
-                  Math.round(
-                    parseFloat(cryptocurrencyByUuidData?.data?.price ?? '0') *
-                      100,
-                  ) / 100
-                }`}
-          </p>
+          {cryptocurrencyByUuidData?.data ? (
+            <>
+              <div>
+                <img
+                  src={cryptocurrencyByUuidData?.data?.iconUrl}
+                  alt="Coin logo"
+                />
+                <p>
+                  {cryptocurrencyByUuidData?.data?.name}{' '}
+                  {cryptocurrencyByUuidData?.data?.symbol}
+                </p>
+              </div>
+              <p className="price-txt">
+                {cryptocurrencyByUuidData?.data ? (
+                  formatNumber(
+                    parseFloat(cryptocurrencyByUuidData?.data?.price ?? '0'),
+                  )
+                ) : (
+                  <Loader />
+                )}
+              </p>
+            </>
+          ) : (
+            <Loader />
+          )}
         </div>
         <div className="height24h">
           <div className="height24h-header">
@@ -150,7 +135,7 @@ export const Statistics = () => {
           </div>
 
           <p className="height24h-value">
-            {highestPrice && `$${Math.round(highestPrice * 1000000) / 1000000}`}
+            {highestPrice ? formatNumber(highestPrice) : <Loader />}
           </p>
         </div>
         <div className="low24h">
@@ -159,7 +144,7 @@ export const Statistics = () => {
             <p>Low 24h</p>
           </div>
           <p className="low24h-value">
-            {lowestPrice && `$${Math.round(lowestPrice * 1000000) / 1000000}`}
+            {lowestPrice ? formatNumber(lowestPrice) : <Loader />}
           </p>
         </div>
         <div className="rank">
@@ -167,7 +152,11 @@ export const Statistics = () => {
             <RiMedalFill />
             <p>Rank</p>
           </div>
-          <p className="rank-value">{cryptocurrencyByUuidData?.data?.rank}</p>
+          {cryptocurrencyByUuidData?.data?.rank ? (
+            <p className="rank-value">{cryptocurrencyByUuidData?.data?.rank}</p>
+          ) : (
+            <Loader />
+          )}
         </div>
         <div className="bottom-area-container">
           <div className="live-chart-statistics-container">
@@ -178,7 +167,11 @@ export const Statistics = () => {
               </Link>
             </div>
             <div className="live-chart-statistics">
-              <SmallChart prices={prices} />
+              {prices?.length !== 0 ? (
+                <SmallChart prices={prices} />
+              ) : (
+                <Loader />
+              )}
             </div>
           </div>
           <div className="market-cap-and-percent-change">
@@ -186,9 +179,13 @@ export const Statistics = () => {
               <div>
                 <p className="market-cap-header">Market cap</p>
               </div>
-              <p className="market-cap-value">
-                {`$${cryptocurrencyByUuidData?.data?.marketCap}`}
-              </p>
+              {cryptocurrencyByUuidData?.data?.marketCap ? (
+                <p className="market-cap-value">
+                  {`$${cryptocurrencyByUuidData?.data?.marketCap}`}
+                </p>
+              ) : (
+                <Loader />
+              )}
             </div>
             <div className="percent-change">
               <div>
@@ -204,14 +201,14 @@ export const Statistics = () => {
                 </select>
               </div>
               <p className="percent-change-value">
-                {cryptocurrencyByUuidData &&
-                  `${
-                    Math.round(
-                      parseFloat(
-                        cryptocurrencyByUuidData?.data?.change ?? '0',
-                      ) * 100,
-                    ) / 100
-                  }%`}
+                {cryptocurrencyByUuidData ? (
+                  formatNumber(
+                    parseFloat(cryptocurrencyByUuidData?.data?.change ?? '0'),
+                    true,
+                  )
+                ) : (
+                  <Loader />
+                )}
               </p>
             </div>
           </div>

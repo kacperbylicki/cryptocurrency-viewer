@@ -33,8 +33,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | undefined>(undefined);
 
   useEffect(() => {
-    const access_token = localStorage.getItem('access_token') ?? '{}';
-    const refresh_token = localStorage.getItem('refresh_token') ?? '{}';
+    const access_token = localStorage.getItem('access_token') ?? '';
+    const refresh_token = localStorage.getItem('refresh_token') ?? '';
     const userString = localStorage.getItem('user');
     const user = userString ? JSON.parse(userString) : null;
 
@@ -47,18 +47,46 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     localStorage.getItem('user'),
   ]);
 
-  //Login
-  const { mutate: loginMutate } = useLoginMutation({
+  //Update Token
+  const { mutate: refreshTokenMutate } = useRefreshTokenMutation({
     onSuccess: (data) => {
-      localStorage.setItem('access_token', data.data?.accessToken ?? '');
-      localStorage.setItem('refresh_token', data.data?.refreshToken ?? '');
-      localStorage.setItem(
-        'user',
-        JSON.stringify(jwt_decode(data.data?.accessToken ?? '')),
+      const accessToken = data.data?.accessToken;
+      const refreshToken = data.data?.refreshToken;
+
+      if (accessToken && refreshToken) {
+        localStorage.setItem('access_token', accessToken);
+        localStorage.setItem('refresh_token', refreshToken);
+        localStorage.setItem('user', JSON.stringify(jwt_decode(accessToken)));
+      }
+    },
+    onError: (error: ErrorResponse) => {
+      showToastNotification(
+        error.response?.data.error[0] ?? error.message,
+        'error',
       );
-      setActiveSignInForm(false);
-      setActiveRegisterForm(false);
-      showToastNotification('successfully logged in!', 'success');
+    },
+  });
+
+  const handleRefreshToken = async () => {
+    await refreshTokenMutate({
+      refreshToken: refreshToken,
+    });
+  };
+
+  //Login
+  const { mutate: loginMutate } = useLoginMutation(handleRefreshToken, {
+    onSuccess: (data) => {
+      const accessToken = data.data?.accessToken;
+      const refreshToken = data.data?.refreshToken;
+
+      if (accessToken && refreshToken) {
+        localStorage.setItem('access_token', accessToken);
+        localStorage.setItem('refresh_token', refreshToken);
+        localStorage.setItem('user', JSON.stringify(jwt_decode(accessToken)));
+        setActiveSignInForm(false);
+        setActiveRegisterForm(false);
+        showToastNotification(`You've been logged in`, 'success');
+      }
     },
     onError: (error: ErrorResponse) => {
       showToastNotification(
@@ -74,15 +102,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const formData = new FormData(e.currentTarget);
 
     const loginData: LoginPayload = {
-      email: formData.get('email')?.toString() ?? '',
-      password: formData.get('password')?.toString() ?? '',
+      email: formData.get('email_signin')?.toString() ?? '',
+      password: formData.get('password_signin')?.toString() ?? '',
     };
 
     await loginMutate(loginData);
   };
 
   //Register
-  const { mutate: registerMutate } = useRegisterMutation({
+  const { mutate: registerMutate } = useRegisterMutation(handleRefreshToken, {
     onSuccess: () => {
       setActiveSignInForm(false);
       setActiveRegisterForm(false);
@@ -102,47 +130,27 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const formData = new FormData(e.currentTarget);
 
     const registerData: RegisterPayload = {
-      email: formData.get('email')?.toString() ?? '',
-      username: formData.get('username')?.toString() ?? '',
-      password: formData.get('password')?.toString() ?? '',
-      confirmPassword: formData.get('confirm_password')?.toString() ?? '',
+      email: formData.get('email_register')?.toString() ?? '',
+      username: formData.get('username_register')?.toString() ?? '',
+      password: formData.get('password_register')?.toString() ?? '',
+      confirmPassword:
+        formData.get('confirm_password_register')?.toString() ?? '',
     };
 
     await registerMutate(registerData);
   };
 
-  //Update Token
-  const { mutate: refreshTokenMutate } = useRefreshTokenMutation({
-    onSuccess: (data) => {
-      localStorage.setItem('access_token', data.data?.accessToken ?? '');
-      localStorage.setItem('refresh_token', data.data?.refreshToken ?? '');
-      localStorage.setItem(
-        'user',
-        JSON.stringify(jwt_decode(data.data?.accessToken ?? '')),
-      );
-    },
-    onError: (error: ErrorResponse) => {
-      showToastNotification(
-        error.response?.data.error[0] ?? error.message,
-        'error',
-      );
-    },
-  });
-
-  const handleRefreshToken = async () => {
-    await refreshTokenMutate({
-      refreshToken: refreshToken,
-    });
-  };
-
   //Logout
-  const { mutate: logout } = useLogoutMutation(accessToken);
+  const { mutate: logout } = useLogoutMutation(handleRefreshToken, accessToken);
   const handleLogout = async () => {
     await logout();
-    localStorage.setItem('access_token', '{}');
-    localStorage.setItem('refresh_token', '{}');
+    localStorage.setItem('access_token', '');
+    localStorage.setItem('refresh_token', '');
     localStorage.setItem('user', '');
     showToastNotification('you have been logged out!', 'success');
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
   };
 
   const contextData = {
