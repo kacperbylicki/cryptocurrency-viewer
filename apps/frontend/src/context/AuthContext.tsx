@@ -85,7 +85,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         localStorage.setItem('user', JSON.stringify(jwt_decode(accessToken)));
         setActiveSignInForm(false);
         setActiveRegisterForm(false);
-        showToastNotification('you have successfully logged in!', 'success');
+        showToastNotification(`You've been logged in`, 'success');
       }
     },
     onError: (error: ErrorResponse) => {
