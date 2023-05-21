@@ -43,7 +43,7 @@ export class GetCryptocurrenciesRequest implements IGetCryptocurrenciesRequest {
 
   @IsOptional()
   @IsNumber()
-  @Min(1)
+  @Min(0)
   offset?: number;
 }
 

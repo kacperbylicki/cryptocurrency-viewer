@@ -27,7 +27,7 @@ export class GetCryptocurrencyNewsRequest
 
   @IsOptional()
   @IsInt()
-  @Min(1)
+  @Min(0)
   offset?: number;
 }
 
