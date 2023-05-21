@@ -28,7 +28,7 @@ export const useRegisterMutation = (
         const errorMessage = errorData.error[0];
         throw new Error(errorMessage);
       } else {
-        throw new Error('An error occurred');
+        throw new Error('Unknown error occurred');
       }
     }
   };

@@ -7,6 +7,7 @@ import { Loader } from '../components/Loader';
 import { RiArrowDropDownLine, RiStarLine } from 'react-icons/ri';
 import { SelectedCryptocurrencyContext } from '../context/SelectedCryptocurrencyContext';
 import { ToastNotificationContext } from '../context/ToastNotificationContext';
+import { formatNumber } from '../helpers/formatUtils';
 import { useContext, useEffect, useState } from 'react';
 import { useCryptocurrenciesQuery } from '../api/cryptocurrencies/cryptocurrencies.service';
 import { useGetFavouriteCryptocurrenciesQuery } from '../api/cryptocurrencies/getFavoriteCryptocurrencies.service';
@@ -44,7 +45,7 @@ export const Ranking = () => {
     data: cryptocurrenciesData,
     isLoading: cryptocurrenciesIsLoading,
     isError: cryptocurrenciesIsError,
-  } = useCryptocurrenciesQuery(timePeriod, 1, 'marketCap', 'desc', 50, 1);
+  } = useCryptocurrenciesQuery(timePeriod, 1, 'marketCap', 'desc', 50, 0);
 
   const {
     data: favoriteCryptocurrenciesData,
@@ -171,19 +172,7 @@ export const Ranking = () => {
                       <p>{cryptocurrency?.symbol}</p>
                     </div>
                     <div className="item-price">
-                      <p>
-                        {parseFloat(cryptocurrency?.price) < 1
-                          ? `${
-                              Math.round(
-                                parseFloat(cryptocurrency?.price) * 1000000,
-                              ) / 1000000
-                            }$`
-                          : `${
-                              Math.round(
-                                parseFloat(cryptocurrency?.price) * 100,
-                              ) / 100
-                            }$`}
-                      </p>
+                      <p>{formatNumber(parseFloat(cryptocurrency?.price))}</p>
                     </div>
                   </Link>
                 </div>

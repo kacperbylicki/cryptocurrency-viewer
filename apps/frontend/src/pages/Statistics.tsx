@@ -8,6 +8,7 @@ import { RiMedalFill } from 'react-icons/ri';
 import { SelectedCryptocurrencyContext } from '../context/SelectedCryptocurrencyContext';
 import { SmallChart } from '../components/charts/SmallChart';
 import { ToastNotificationContext } from '../context/ToastNotificationContext';
+import { formatNumber } from '../helpers/formatUtils';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useCryptocurrenciesQuery } from '../api/cryptocurrencies/cryptocurrencies.service';
 import { useGetCryptocurrencyByUuidQuery } from '../api/cryptocurrencies/getCryptocurrencyByUuid.service';
@@ -25,7 +26,7 @@ export const Statistics = () => {
 
   //Fetching data
   const { data: cryptocurrenciesData, isError: cryptocurrenciesIsError } =
-    useCryptocurrenciesQuery('24h', 1, 'marketCap', 'desc', 50, 1);
+    useCryptocurrenciesQuery('24h', 1, 'marketCap', 'desc', 50, 0);
 
   const { data: cryptocurrencyByUuidData, isError: cryptocurrencyByUuidError } =
     useGetCryptocurrencyByUuidQuery(activeUuid, timePeriod);
@@ -114,22 +115,13 @@ export const Statistics = () => {
                 </p>
               </div>
               <p className="price-txt">
-                {cryptocurrencyByUuidData?.data &&
-                parseFloat(cryptocurrencyByUuidData?.data?.price ?? '0') < 1
-                  ? `$${
-                      Math.round(
-                        parseFloat(
-                          cryptocurrencyByUuidData?.data?.price ?? '0',
-                        ) * 1000000,
-                      ) / 1000000
-                    }`
-                  : `$${
-                      Math.round(
-                        parseFloat(
-                          cryptocurrencyByUuidData?.data?.price ?? '0',
-                        ) * 100,
-                      ) / 100
-                    }`}
+                {cryptocurrencyByUuidData?.data ? (
+                  formatNumber(
+                    parseFloat(cryptocurrencyByUuidData?.data?.price ?? '0'),
+                  )
+                ) : (
+                  <Loader />
+                )}
               </p>
             </>
           ) : (
@@ -142,27 +134,18 @@ export const Statistics = () => {
             <p>Height 24h</p>
           </div>
 
-          {highestPrice ? (
-            <p className="height24h-value">
-              {highestPrice &&
-                `$${Math.round(highestPrice * 1000000) / 1000000}`}
-            </p>
-          ) : (
-            <Loader />
-          )}
+          <p className="height24h-value">
+            {highestPrice ? formatNumber(highestPrice) : <Loader />}
+          </p>
         </div>
         <div className="low24h">
           <div className="low24h-header">
             <MdArrowDropDown />
             <p>Low 24h</p>
           </div>
-          {lowestPrice ? (
-            <p className="low24h-value">
-              {lowestPrice && `$${Math.round(lowestPrice * 1000000) / 1000000}`}
-            </p>
-          ) : (
-            <Loader />
-          )}
+          <p className="low24h-value">
+            {lowestPrice ? formatNumber(lowestPrice) : <Loader />}
+          </p>
         </div>
         <div className="rank">
           <div className="rank-header">
@@ -217,20 +200,16 @@ export const Statistics = () => {
                   ))}
                 </select>
               </div>
-              {cryptocurrencyByUuidData?.data?.change ? (
-                <p className="percent-change-value">
-                  {cryptocurrencyByUuidData &&
-                    `${
-                      Math.round(
-                        parseFloat(
-                          cryptocurrencyByUuidData?.data?.change ?? '0',
-                        ) * 100,
-                      ) / 100
-                    }%`}
-                </p>
-              ) : (
-                <Loader />
-              )}
+              <p className="percent-change-value">
+                {cryptocurrencyByUuidData ? (
+                  formatNumber(
+                    parseFloat(cryptocurrencyByUuidData?.data?.change ?? '0'),
+                    true,
+                  )
+                ) : (
+                  <Loader />
+                )}
+              </p>
             </div>
           </div>
         </div>

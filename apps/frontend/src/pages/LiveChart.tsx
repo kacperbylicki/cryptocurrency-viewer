@@ -24,7 +24,7 @@ export const LiveChart = () => {
     data: cryptocurrenciesData,
     isLoading: cryptocurrenciesIsLoading,
     isError: cryptocurrenciesIsError,
-  } = useCryptocurrenciesQuery('24h', 1, 'marketCap', 'desc', 50, 1);
+  } = useCryptocurrenciesQuery('24h', 1, 'marketCap', 'desc', 50, 0);
 
   const {
     data: cryptocurrencyByUuidData,
