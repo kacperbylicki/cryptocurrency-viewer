@@ -37,10 +37,12 @@ export const NewsDashboard = () => {
   }, [cryptocurrenciesIsError, newsIsError]);
 
   return (
-    <div className="crypto-news-dashboard">
+    <div className="crypto-news-dashboard" role="crypto-news-dashboard">
       <div className="crypto-news-header-and-select">
-        <h2>Crypto News</h2>
-        <select onChange={(e) => [handleSelectCryptocurrency(e.target.value)]}>
+        <h2 role="crypto-news-header">Crypto News</h2>
+        <select
+          onChange={(e) => [handleSelectCryptocurrency(e.target.value)]}
+          role="crypto-news-select">
           {cryptocurrenciesData?.data?.map(
             (currency: Cryptocurrency, i: number) =>
               currency?.uuid === activeUuid ? (
@@ -61,7 +63,10 @@ export const NewsDashboard = () => {
 
       <div className="news-dashboard-element-wrapper">
         {newsData?.data?.map((news: CryptocurrencyNews, i: number) => (
-          <div className="news-dashboard-element" key={i}>
+          <div
+            className="news-dashboard-element"
+            key={i}
+            role="news-dashboard-element">
             <a href={news.url} target="_blank" rel="noreferrer">
               <img
                 className="news-dashboard-element-img"
@@ -89,7 +94,9 @@ export const NewsDashboard = () => {
           )}
         {!newsIsLoading && (
           <Link to="/news">
-            <button className="news-dashboard-button">Show all</button>
+            <button className="news-dashboard-button" role="show-all-button">
+              Show all
+            </button>
           </Link>
         )}
       </div>

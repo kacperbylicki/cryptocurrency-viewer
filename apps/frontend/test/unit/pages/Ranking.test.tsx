@@ -1,8 +1,7 @@
 import { AuthContext } from '../../../src/context/AuthContext';
 import { Loader } from '../../../src/components/Loader';
-import { LoaderContext } from '../../../src/context/LoaderContext';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { Ranking } from '../../../src/components/Ranking';
+import { Ranking } from '../../../src/pages/Ranking';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { SelectedCryptocurrencyContext } from '../../../src/context/SelectedCryptocurrencyContext';
 import { ToastNotificationContext } from '../../../src/context/ToastNotificationContext';
@@ -46,10 +45,7 @@ const renderWithProviders = (component: React.ReactNode) => {
         value={mockToastNotificationContextValue}>
         <AuthContext.Provider value={mockAuthContextValue}>
           <SelectedCryptocurrencyContext.Provider value={mockContextValue}>
-            <LoaderContext.Provider
-              value={{ activeLoader: true, setActiveLoader: vi.fn() }}>
-              <Router>{component}</Router>,
-            </LoaderContext.Provider>
+            <Router>{component}</Router>,
           </SelectedCryptocurrencyContext.Provider>
         </AuthContext.Provider>
       </ToastNotificationContext.Provider>
@@ -86,7 +82,7 @@ describe('Ranking', () => {
     });
 
     expect(mockHandleSelectCryptocurrency).toHaveBeenCalledWith(
-      'Ethereum//razxDUgYGNAdQ',
+      'Bitcoin//Qwsogvtv82FCd',
     );
   });
 
@@ -108,8 +104,8 @@ describe('Ranking', () => {
 
     await waitFor(() => {
       expect(mockShowToastNotification).toHaveBeenCalledWith(
-        'this option is only available to logged in users!',
-        'warning',
+        'This option is available for logged in users',
+        'error',
       );
     });
   });

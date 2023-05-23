@@ -57,7 +57,7 @@ export const Menu = ({ width }: MenuProps) => {
 
   return (
     <div className="menu-wrapper" role="menu">
-      <div className="menu-icon">
+      <div className="menu-icon" role="menu-icon">
         {activeMenu ? (
           <input
             checked
@@ -114,14 +114,16 @@ export const Menu = ({ width }: MenuProps) => {
               <AiOutlinePoweroff /> Sign out
             </button>
           ) : (
-            <button onClick={() => handleSignInButton()}>
+            <button onClick={() => handleSignInButton()} role="sign-in-button">
               <GoSignIn /> Sign in
             </button>
           )}
           {!user && (
             <p>
               Not registered yet?{' '}
-              <span onClick={() => handleSignUpButton()}>
+              <span
+                onClick={() => handleSignUpButton()}
+                role="create-an-account-button">
                 Create an Account
               </span>
             </p>
