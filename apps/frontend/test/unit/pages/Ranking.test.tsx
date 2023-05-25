@@ -1,4 +1,6 @@
+import * as axiosInstance from '../../../src/api/axiosInstance';
 import { AuthContext } from '../../../src/context/AuthContext';
+import { AxiosInstance } from 'axios';
 import { Loader } from '../../../src/components/Loader';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Ranking } from '../../../src/pages/Ranking';
@@ -10,12 +12,10 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 const queryClient = new QueryClient();
 
-const mockHandleSelectCryptocurrency = vi.fn();
 const mockShowToastNotification = vi.fn();
-const mockToggleFavoriteCryptocurrencyMutation = vi.fn();
 
 const mockContextValue = {
-  handleSelectCryptocurrency: mockHandleSelectCryptocurrency,
+  handleSelectCryptocurrency: vi.fn(),
   activeUuid: 'exampleActiveUuid',
   newsCategory: 'exampleNewsCategory',
 };
@@ -53,9 +53,25 @@ const renderWithProviders = (component: React.ReactNode) => {
   );
 };
 
+vi.mock('../../../src/api/cryptocurrencies/cryptocurrencies.service', () => {
+  return {
+    useCryptocurrenciesQuery: () => ({
+      data: {
+        data: [
+          {
+            uuid: 'Qwsogvtv82FCd',
+            isFavorite: true,
+            name: 'Bitcoin',
+          },
+        ],
+      },
+    }),
+  };
+});
+
 describe('Ranking', () => {
-  beforeEach(() => {
-    mockToggleFavoriteCryptocurrencyMutation.mockClear();
+  afterEach(() => {
+    vi.clearAllMocks();
   });
 
   it('renders the loading state correctly', () => {
@@ -77,19 +93,29 @@ describe('Ranking', () => {
     renderWithProviders(<Ranking />);
     await waitFor(() => {
       expect(screen.getByRole('ranking-list')).toBeInTheDocument();
-      const firstRankingItem = screen.getAllByRole('ranking-list-element')[0];
+      const firstRankingItem = screen.getByRole('ranking-list-element');
       fireEvent.click(firstRankingItem);
     });
 
-    expect(mockHandleSelectCryptocurrency).toHaveBeenCalledWith(
+    expect(mockContextValue.handleSelectCryptocurrency).toHaveBeenCalledWith(
       'Bitcoin//Qwsogvtv82FCd',
     );
   });
 
   it('handles error when toggling favorite cryptocurrency', async () => {
-    mockToggleFavoriteCryptocurrencyMutation.mockImplementation(() => {
-      throw new Error('Error toggling favorite cryptocurrency');
-    });
+    vi.spyOn(axiosInstance, 'createAxiosInstance').mockImplementation(
+      () =>
+        ({
+          put: vi.fn().mockRejectedValue({
+            response: {
+              data: {
+                error: 'unauthorized',
+              },
+            },
+          }),
+        } as unknown as AxiosInstance),
+    );
+
     renderWithProviders(<Ranking />);
     await waitFor(() => {
       expect(screen.getByRole('ranking-list')).toBeInTheDocument();
@@ -103,6 +129,7 @@ describe('Ranking', () => {
     fireEvent.click(favoriteIcon);
 
     await waitFor(() => {
+      expect(mockShowToastNotification).toHaveBeenCalledTimes(1);
       expect(mockShowToastNotification).toHaveBeenCalledWith(
         'This option is available for logged in users',
         'error',

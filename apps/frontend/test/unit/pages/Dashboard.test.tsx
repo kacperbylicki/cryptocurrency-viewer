@@ -1,6 +1,12 @@
+import * as cryptocurrenciesDataHook from '../../../src/api/cryptocurrencies/cryptocurrencies.service';
 import { AuthContext } from '../../../src/context/AuthContext';
+import {
+  CryptocurrenciesResponse,
+  Cryptocurrency,
+} from '../../../src/types/cryptocurrencies/cryptocurrencies.types';
 import { Dashboard } from '../../../src/pages/Dashboard';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { ErrorResponse } from 'src/types/accounts/error.types';
+import { QueryClient, QueryClientProvider, UseQueryResult } from 'react-query';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { describe, it, vi } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
@@ -43,6 +49,10 @@ const mockNotLoggedInUser = {
 };
 
 describe('Dashboard', () => {
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
   it('renders welcome text for a logged-in user', async () => {
     render(
       <Router>
@@ -62,6 +72,26 @@ describe('Dashboard', () => {
   });
 
   it('renders AbbreviatedStatistics', async () => {
+    vi.spyOn(
+      cryptocurrenciesDataHook,
+      'useCryptocurrenciesQuery',
+    ).mockImplementation(
+      () =>
+        ({
+          data: {
+            status: 200,
+            data: [
+              {
+                uuid: 'Qwsogvtv82FCd',
+              } as unknown as Cryptocurrency,
+            ],
+          },
+        } as unknown as UseQueryResult<
+          CryptocurrenciesResponse,
+          ErrorResponse
+        >),
+    );
+
     render(
       <Router>
         <AuthContext.Provider value={mockNotLoggedInUser}>
@@ -77,7 +107,7 @@ describe('Dashboard', () => {
       const abbreviatedStatisticsElements = screen.getAllByRole(
         'abbreviated-statistics',
       );
-      expect(abbreviatedStatisticsElements).toHaveLength(10);
+      expect(abbreviatedStatisticsElements).toHaveLength(1);
 
       abbreviatedStatisticsElements.forEach((element) => {
         expect(element).toBeInTheDocument();

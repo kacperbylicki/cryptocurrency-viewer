@@ -39,6 +39,22 @@ const renderWithProviders = (component: React.ReactNode) => {
   );
 };
 
+vi.mock('../../../src/api/cryptocurrencies/cryptocurrencies.service', () => {
+  return {
+    useCryptocurrenciesQuery: () => ({
+      data: {
+        data: [
+          {
+            uuid: 'Qwsogvtv82FCd',
+            isFavorite: true,
+            name: 'Bitcoin',
+          },
+        ],
+      },
+    }),
+  };
+});
+
 describe('News', () => {
   it('renders the loading state correctly', () => {
     renderWithProviders(<Loader />);
