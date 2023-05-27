@@ -37,34 +37,39 @@ export const News = () => {
 
   return (
     <section className="news">
-      <div className="search-and-header-wrapper">
+      <div
+        className="search-and-header-wrapper"
+        role="search-and-header-wrapper">
         <div className="news-header">
           <h2>Cryptocurrency news</h2>
         </div>
         <select
           className="search-cryptocurrency"
+          role="search-cryptocurrency"
           onChange={(e) => [handleSelectCryptocurrency(e.target.value)]}>
           {cryptocurrenciesData?.data?.map((currency: Cryptocurrency) =>
             currency?.uuid === activeUuid ? (
               <option
                 key={currency?.uuid}
                 value={currency?.name + '//' + currency?.uuid}
+                role="search-cryptocurrency-option"
                 selected>
                 {currency?.name}
               </option>
             ) : (
               <option
                 key={currency?.uuid}
-                value={currency?.name + '//' + currency?.uuid}>
+                value={currency?.name + '//' + currency?.uuid}
+                role="search-cryptocurrency-option">
                 {currency?.name}
               </option>
             ),
           )}
         </select>
       </div>
-      <div className="news-element-wrapper">
+      <div className="news-element-wrapper" role="news-element-wrapper">
         {newsData?.data?.map((news: CryptocurrencyNews, i: number) => (
-          <div className="news-element" key={i}>
+          <div className="news-element" key={i} role="news-element">
             <a href={news.url} target="_blank" rel="noreferrer">
               <img
                 className="news-element-img"

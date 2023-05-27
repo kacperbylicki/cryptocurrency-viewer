@@ -66,7 +66,7 @@ export const Dashboard = () => {
                 ) : null,
               )
             : cryptocurrenciesData?.data
-                ?.slice(0, 9)
+                ?.slice(0, 10)
                 .map((data: Cryptocurrency) => (
                   <AbbreviatedStatistics
                     name={data?.name}

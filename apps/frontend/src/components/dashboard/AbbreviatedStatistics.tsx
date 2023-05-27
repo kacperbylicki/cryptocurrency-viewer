@@ -1,5 +1,7 @@
 import '../../assets/styles/dashboard/AbbreviatedStatistics.scss';
+import { Loader } from '../Loader';
 import { MdArrowDropDown, MdArrowDropUp } from 'react-icons/md';
+import { formatNumber } from '../../helpers/formatUtils';
 
 type AbbreviatedStatisticsProps = {
   name: string;
@@ -19,7 +21,7 @@ export const AbbreviatedStatistics = ({
   rank,
 }: AbbreviatedStatisticsProps) => {
   return (
-    <div className="abbreviated-statistics">
+    <div className="abbreviated-statistics" role="abbreviated-statistics">
       <div className="abbreviated-statistics-container">
         <div className="cryptocurrency-name-and-icon">
           <img src={iconUrl} alt="" />
@@ -28,19 +30,22 @@ export const AbbreviatedStatistics = ({
           </p>
         </div>
         <div className="cryptocurrency-price">
-          <p>${Math.round(parseFloat(price) * 100000) / 100000}</p>
+          <p>{price ? formatNumber(parseFloat(price ?? '0')) : <Loader />}</p>
         </div>
         <div className="other-statistics">
           <div className="volume-24h">
             <p>24h%</p>
             {parseFloat(change) < 0 ? (
               <div>
-                <MdArrowDropDown style={{ color: '#ff3572' }} />
+                <MdArrowDropDown
+                  style={{ color: '#ff3572' }}
+                  role="arrow-down"
+                />
                 <p style={{ color: '#ff3572' }}>{change}%</p>
               </div>
             ) : (
               <div>
-                <MdArrowDropUp style={{ color: '#1fc2a0' }} />
+                <MdArrowDropUp style={{ color: '#1fc2a0' }} role="arrow-up" />
                 <p style={{ color: '#1fc2a0' }}>{change}%</p>
               </div>
             )}

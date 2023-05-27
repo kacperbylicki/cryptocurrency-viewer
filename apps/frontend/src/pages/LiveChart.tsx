@@ -78,12 +78,13 @@ export const LiveChart = () => {
   return (
     <section className="live-chart">
       <div className="search-and-header-container-chart">
-        <div className="live-chart-header">
+        <div className="live-chart-header" role="live-chart-header">
           <h2>Live Chart</h2>
         </div>
         <select
           className="search-chart-cryptocurrency"
-          onChange={(e) => [handleSelectCryptocurrency(e.target.value)]}>
+          role="search-chart-cryptocurrency"
+          onChange={(e) => handleSelectCryptocurrency(e.target.value)}>
           {cryptocurrenciesData?.data?.map((crypto: Cryptocurrency) =>
             crypto?.uuid === activeUuid ? (
               <option
@@ -106,7 +107,8 @@ export const LiveChart = () => {
         <div className="select-and-current-price-container">
           <select
             className="time-period-select"
-            onChange={(e) => [setTimePeriod(e.target.value)]}>
+            role="time-period-select"
+            onChange={(e) => setTimePeriod(e.target.value)}>
             {timePeriodsArr?.map((data: string) => (
               <option key={data} value={data}>
                 {data}

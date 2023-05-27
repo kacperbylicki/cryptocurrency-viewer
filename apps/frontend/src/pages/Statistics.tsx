@@ -101,7 +101,7 @@ export const Statistics = () => {
       </div>
 
       <main className="statistics-main-container">
-        <div className="price">
+        <div className="price" role="price">
           {cryptocurrencyByUuidData?.data ? (
             <>
               <div>
@@ -128,7 +128,7 @@ export const Statistics = () => {
             <Loader />
           )}
         </div>
-        <div className="height24h">
+        <div className="height24h" role="height24h">
           <div className="height24h-header">
             <MdArrowDropUp />
             <p>Height 24h</p>
@@ -138,7 +138,7 @@ export const Statistics = () => {
             {highestPrice ? formatNumber(highestPrice) : <Loader />}
           </p>
         </div>
-        <div className="low24h">
+        <div className="low24h" role="low24h">
           <div className="low24h-header">
             <MdArrowDropDown />
             <p>Low 24h</p>
@@ -147,7 +147,7 @@ export const Statistics = () => {
             {lowestPrice ? formatNumber(lowestPrice) : <Loader />}
           </p>
         </div>
-        <div className="rank">
+        <div className="rank" role="rank">
           <div className="rank-header">
             <RiMedalFill />
             <p>Rank</p>
@@ -159,7 +159,9 @@ export const Statistics = () => {
           )}
         </div>
         <div className="bottom-area-container">
-          <div className="live-chart-statistics-container">
+          <div
+            className="live-chart-statistics-container"
+            role="live-chart-statistics-container">
             <div className="live-chart-statistics-header">
               <p>Live chart last 24h</p>
               <Link to="/live-chart">
@@ -175,7 +177,7 @@ export const Statistics = () => {
             </div>
           </div>
           <div className="market-cap-and-percent-change">
-            <div className="market-cap">
+            <div className="market-cap" role="market-cap">
               <div>
                 <p className="market-cap-header">Market cap</p>
               </div>
@@ -187,11 +189,12 @@ export const Statistics = () => {
                 <Loader />
               )}
             </div>
-            <div className="percent-change">
+            <div className="percent-change" role="percent-change">
               <div>
                 <p className="percent-change-header">Percent change</p>
                 <select
                   className="select-percent-change"
+                  role="select-percent-change"
                   onChange={(e) => setTimePeriod(e.target.value)}>
                   {timePeriodOptions.map((option: string, i: number) => (
                     <option key={i} value={option}>
