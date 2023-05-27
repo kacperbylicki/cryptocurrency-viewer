@@ -28,7 +28,7 @@
   }
 
   .ranking-table {
-    height: calc(100% - 137px - 39px);
+    height: calc(100% - 233px - 40px);
     width: 100%;
 
     .ranking-table-header {
@@ -209,6 +209,7 @@
       }
     }
     .ranking-table {
+      height: calc(100% - 137px - 40px);
       .ranking-table-header {
         p {
           font-size: 1.6rem;

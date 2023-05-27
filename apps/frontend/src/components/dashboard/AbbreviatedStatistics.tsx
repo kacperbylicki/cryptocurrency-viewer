@@ -30,7 +30,7 @@ export const AbbreviatedStatistics = ({
           </p>
         </div>
         <div className="cryptocurrency-price">
-          <p>{price ? formatNumber(parseFloat(price ?? '0')) : <Loader />}</p>
+          {price ? <p>{formatNumber(parseFloat(price ?? '0'))}</p> : <Loader />}
         </div>
         <div className="other-statistics">
           <div className="volume-24h">
