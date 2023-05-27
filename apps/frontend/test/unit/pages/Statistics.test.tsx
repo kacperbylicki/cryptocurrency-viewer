@@ -4,7 +4,7 @@ import { SelectedCryptocurrencyContext } from '../../../src/context/SelectedCryp
 import { Statistics } from '../../../src/pages/Statistics';
 import { ToastNotificationContext } from '../../../src/context/ToastNotificationContext';
 import { describe, it, vi } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react/pure';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 const queryClient = new QueryClient();
 
@@ -36,6 +36,22 @@ const renderWithProviders = (component: React.ReactNode) => {
     </QueryClientProvider>,
   );
 };
+
+vi.mock('../../../src/api/cryptocurrencies/cryptocurrencies.service', () => {
+  return {
+    useCryptocurrenciesQuery: () => ({
+      data: {
+        data: [
+          {
+            uuid: 'Qwsogvtv82FCd',
+            isFavorite: true,
+            name: 'Bitcoin',
+          },
+        ],
+      },
+    }),
+  };
+});
 describe('Statistics', () => {
   beforeEach(async () => {
     renderWithProviders(<Statistics />);
@@ -104,21 +120,21 @@ describe('Statistics', () => {
     });
   });
 
-  // it('selects a cryptocurrency', async () => {
-  //   await waitFor(() => {
-  //     const selectElement = screen.getByRole('select-cryptocurrency', {
-  //       name: 'Select cryptocurrency',
-  //     });
-  //     fireEvent.change(selectElement, { target: { value: 'Bitcoin' } });
-  //     expect(selectElement).toHaveValue('Bitcoin');
-  //   });
-  // });
+  it('selects a cryptocurrency', async () => {
+    await waitFor(() => {
+      const selectElement = screen.getByRole('select-cryptocurrency');
+      fireEvent.change(selectElement, {
+        target: { value: 'Bitcoin//Qwsogvtv82FCd' },
+      });
+      expect(selectElement).toHaveValue('Bitcoin//Qwsogvtv82FCd');
+    });
+  });
 
-  // it('changes the time period', async () => {
-  //   await waitFor(() => {
-  //     const selectElement = screen.getByRole('select-cryptocurrency');
-  //     fireEvent.change(selectElement, { target: { value: '7d' } });
-  //     expect(selectElement).toHaveValue('7d');
-  //   });
-  // });
+  it('changes the time period', async () => {
+    await waitFor(() => {
+      const selectElement = screen.getByRole('select-percent-change');
+      fireEvent.change(selectElement, { target: { value: '7d' } });
+      expect(selectElement).toHaveValue('7d');
+    });
+  });
 });

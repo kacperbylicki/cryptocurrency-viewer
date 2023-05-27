@@ -9,7 +9,7 @@ export function createAxiosInstance(handleRefreshToken: () => Promise<void>) {
   });
 
   let isRefreshing = false;
-  let failedQueue: Array<{
+  const failedQueue: Array<{
     resolve: (value?: any) => void;
     reject: (reason?: any) => void;
   }> = [];

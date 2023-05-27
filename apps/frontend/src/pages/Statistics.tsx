@@ -194,6 +194,7 @@ export const Statistics = () => {
                 <p className="percent-change-header">Percent change</p>
                 <select
                   className="select-percent-change"
+                  role="select-percent-change"
                   onChange={(e) => setTimePeriod(e.target.value)}>
                   {timePeriodOptions.map((option: string, i: number) => (
                     <option key={i} value={option}>
