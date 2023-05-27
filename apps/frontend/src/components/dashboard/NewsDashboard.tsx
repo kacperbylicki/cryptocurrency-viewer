@@ -1,6 +1,7 @@
 import '../../assets/styles/dashboard/NewsDashboard.scss';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import noImage from '../../assets/images/no_photo.png';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { Cryptocurrency } from '../../types/cryptocurrencies/cryptocurrencies.types';
 import { CryptocurrencyNews } from '../../types/cryptocurrencies/news.types';
 import { Link } from 'react-router-dom';
@@ -16,6 +17,8 @@ export const NewsDashboard = () => {
     SelectedCryptocurrencyContext,
   );
   const { showToastNotification } = useContext(ToastNotificationContext);
+
+  dayjs.extend(relativeTime);
 
   //Fetching data
   const {
@@ -80,7 +83,7 @@ export const NewsDashboard = () => {
                     : news?.description ?? ''}
                 </p>
                 <p className="publication-time">
-                  {moment(news.datePublished).startOf('seconds').fromNow()}
+                  {dayjs(news.datePublished).fromNow()}
                 </p>
               </div>
             </a>

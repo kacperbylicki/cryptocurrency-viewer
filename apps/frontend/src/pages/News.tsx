@@ -1,6 +1,7 @@
 import '../assets/styles/News.scss';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import noImage from '../assets/images/no_photo.png';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { Cryptocurrency } from '../types/cryptocurrencies/cryptocurrencies.types';
 import { CryptocurrencyNews } from '../types/cryptocurrencies/news.types';
 import { Loader } from '../components/Loader';
@@ -15,6 +16,8 @@ export const News = () => {
     SelectedCryptocurrencyContext,
   );
   const { showToastNotification } = useContext(ToastNotificationContext);
+
+  dayjs.extend(relativeTime);
 
   //Fetching data
   const {
@@ -84,7 +87,7 @@ export const News = () => {
                 </p>
 
                 <p className="publication-time">
-                  {moment(news.datePublished).startOf('seconds').fromNow()}
+                  {dayjs(news.datePublished).fromNow()}
                 </p>
               </div>
             </a>
