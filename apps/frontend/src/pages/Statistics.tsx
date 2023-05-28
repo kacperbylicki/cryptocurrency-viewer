@@ -115,13 +115,11 @@ export const Statistics = () => {
                 </p>
               </div>
               <p className="price-txt">
-                {cryptocurrencyByUuidData?.data ? (
-                  formatNumber(
-                    parseFloat(cryptocurrencyByUuidData?.data?.price ?? '0'),
-                  )
-                ) : (
-                  <Loader />
-                )}
+                {cryptocurrencyByUuidData?.data
+                  ? formatNumber(
+                      parseFloat(cryptocurrencyByUuidData?.data?.price ?? '0'),
+                    )
+                  : null}
               </p>
             </>
           ) : (
@@ -133,19 +131,22 @@ export const Statistics = () => {
             <MdArrowDropUp />
             <p>Height 24h</p>
           </div>
-
-          <p className="height24h-value">
-            {highestPrice ? formatNumber(highestPrice) : <Loader />}
-          </p>
+          {highestPrice ? (
+            <p className="height24h-value">{formatNumber(highestPrice)}</p>
+          ) : (
+            <Loader />
+          )}
         </div>
         <div className="low24h" role="low24h">
           <div className="low24h-header">
             <MdArrowDropDown />
             <p>Low 24h</p>
           </div>
-          <p className="low24h-value">
-            {lowestPrice ? formatNumber(lowestPrice) : <Loader />}
-          </p>
+          {lowestPrice ? (
+            <p className="low24h-value">{formatNumber(lowestPrice)}</p>
+          ) : (
+            <Loader />
+          )}
         </div>
         <div className="rank" role="rank">
           <div className="rank-header">
@@ -203,16 +204,16 @@ export const Statistics = () => {
                   ))}
                 </select>
               </div>
-              <p className="percent-change-value">
-                {cryptocurrencyByUuidData ? (
-                  formatNumber(
+              {cryptocurrencyByUuidData ? (
+                <p className="percent-change-value">
+                  {formatNumber(
                     parseFloat(cryptocurrencyByUuidData?.data?.change ?? '0'),
                     true,
-                  )
-                ) : (
-                  <Loader />
-                )}
-              </p>
+                  )}
+                </p>
+              ) : (
+                <Loader />
+              )}
             </div>
           </div>
         </div>
