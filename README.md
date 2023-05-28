@@ -6,26 +6,35 @@ Cryptocurrency app is an application that allows tracking cryptocurrency data an
 
 ### Key Features
 
-1.  **Registration and login** <br /> 
+1.  **Registration and login**
+
     The app enables users to register and log in to their accounts. After logging in, they have access to personalized features and data.
-2.	**Favorite cryptocurrencies** <br />
+
+2.  **Favorite cryptocurrencies**
+
     After logging in, users can add their favorite cryptocurrencies to a favorites list. These selected cryptocurrencies will be displayed on the main dashboard, allowing for quick and easy tracking of their prices and statistics.
-3.	**Price charts** <br />
+
+3.  **Price charts**
+
     The app provides interactive price charts for the selected cryptocurrency. Users can view price history over different time periods, analyze market trends, and make informed investment decisions.
-4.	**Cryptocurrency rankings** <br />
+
+4.  **Cryptocurrency rankings**
+
     The app provides cryptocurrency rankings based on their market positions. Users can see which cryptocurrencies have the highest market capitalization and are most significant in the world of cryptocurrencies.
-5.	**Cryptocurrency news** <br />
+
+5.  **Cryptocurrency news**
+
     The app gathers the latest news and information from the world of cryptocurrencies. Users can browse various articles, market analyses, and updates related to their favorite cryptocurrencies. This allows them to stay up to date and make informed investment decisions.
 
 ## App Layout
 
 The application is fully responsive. It was designed and programmed in accordance with the mobile first principle. Below are screenshots of the desktop version:
 
-
 ## Technologies
 
-**Frontend:** React, TypeScript, Vite, SCSS, React Query, Context API <br />
-**Backend:** 
+**Frontend:** React, TypeScript, Vite, SCSS, React Query, Context API
+
+**Backend:** Nest.js, Typescript, MongoDB, Mongoose, JWT for authentication, GRPC for communication between microservices
 
 ## Prerequisites
 
