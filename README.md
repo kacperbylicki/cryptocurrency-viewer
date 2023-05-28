@@ -30,6 +30,16 @@ Cryptocurrency app is an application that allows tracking cryptocurrency data an
 
 The application is fully responsive. It was designed and programmed in accordance with the mobile first principle. Below are screenshots of the desktop version:
 
+<img width="1512" alt="Screenshot 2023-05-26 at 21 06 02" src="https://github.com/kacperbylicki/cryptocurrency-viewer/assets/81325472/b11ef245-a477-44e6-95f0-d47f09c12dab">
+<img width="1512" alt="Screenshot 2023-05-26 at 21 26 57" src="https://github.com/kacperbylicki/cryptocurrency-viewer/assets/81325472/93acd4dc-3924-4906-9d6c-3b22ddd50789">
+
+<img width="1512" alt="Screenshot 2023-05-26 at 21 27 04" src="https://github.com/kacperbylicki/cryptocurrency-viewer/assets/81325472/89901fea-ef20-4f8d-b022-236e44c5334f">
+<img width="1512" alt="Screenshot 2023-05-26 at 21 28 07" src="https://github.com/kacperbylicki/cryptocurrency-viewer/assets/81325472/ae987202-50bc-4c22-a974-e32406baa5fb">
+
+<img width="1512" alt="Screenshot 2023-05-26 at 21 27 21" src="https://github.com/kacperbylicki/cryptocurrency-viewer/assets/81325472/6c9f328c-2504-4618-b465-8b526fd7e043">
+<img width="1512" alt="Screenshot 2023-05-26 at 21 27 34" src="https://github.com/kacperbylicki/cryptocurrency-viewer/assets/81325472/7788a7f2-68c0-435e-88e4-e171a12223ca">
+<img width="1512" alt="Screenshot 2023-05-26 at 21 27 42" src="https://github.com/kacperbylicki/cryptocurrency-viewer/assets/81325472/990414fc-7694-4f1e-9c0b-8699ccafbe5e">
+
 ## Technologies
 
 **Frontend:** React, TypeScript, Vite, SCSS, React Query, Context API
