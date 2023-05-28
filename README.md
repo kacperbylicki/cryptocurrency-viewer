@@ -34,7 +34,6 @@ The application is fully responsive. It was designed and programmed in accordanc
 <img width="1512" alt="Screenshot 2023-05-26 at 21 26 57" src="https://github.com/kacperbylicki/cryptocurrency-viewer/assets/81325472/93acd4dc-3924-4906-9d6c-3b22ddd50789">
 
 <img width="1512" alt="Screenshot 2023-05-26 at 21 27 04" src="https://github.com/kacperbylicki/cryptocurrency-viewer/assets/81325472/89901fea-ef20-4f8d-b022-236e44c5334f">
-![Screenshot 2023-05-26 at 21 27 5](https://github.com/kacperbylicki/cryptocurrency-viewer/assets/81325472/d95089de-d3c9-4ce4-94aa-e3b1d52f9238)
 <img width="1512" alt="Screenshot 2023-05-26 at 21 28 07" src="https://github.com/kacperbylicki/cryptocurrency-viewer/assets/81325472/ae987202-50bc-4c22-a974-e32406baa5fb">
 
 <img width="1512" alt="Screenshot 2023-05-26 at 21 27 21" src="https://github.com/kacperbylicki/cryptocurrency-viewer/assets/81325472/6c9f328c-2504-4618-b465-8b526fd7e043">
